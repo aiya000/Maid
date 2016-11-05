@@ -6,7 +6,8 @@
 - - - - -
 
 # このスライドについて
-- 開発者として推したい、開発用Vimプラグインの紹介
+- 開発者として推したい  
+  開発用Vimプラグインの紹介
 
 - - - - -
 
@@ -17,7 +18,11 @@
     - **aiya000**
 - Twitter
     - pubilc\_ai000ya
-+ **Vim歴3年くらい**
+
+- - - - -
+
+# 僕
+- **Vim歴3年くらい**
     - いつVimを使い始めたのか覚えてない
     - 学生時代、知らないうちにVimを使い始めていた
 
@@ -34,18 +39,19 @@
 
 # 僕
 - 最近**Haskell**ばっかり書いてる
-+ 好きな言語
+- 好きな言語
     - **Haskell**
     - C#
     - Scala
 - ただいま**NEET**
-    - どっかバイトでコード書けるところないですか？ ＞＜
+    - どっかバイトでコード書けるところ  
+      ないですか？ ＞＜
 
 
 - - - - -
 
-# 紹介するやつ
-+ Vimプラグイン
+# 紹介するモノ
+- Vimプラグイン
     - vim-alignta
     - undotree
     - vim-textobj-indent
@@ -54,9 +60,9 @@
 
 - - - - -
 
-# 紹介するやつ
-+ Vimプラグイン
-    + unite.vim
+# 紹介するモノ
+- Vimプラグイン
+    - unite.vim
         - unite-outline
         - unite-session
 
@@ -125,7 +131,7 @@ Haskellのコーディング時に
 
 - - - - -
 
-# unite.vim + unite-outline
+# unite-outline
 **編集中のコードの目次を表示してくれる**
 
 - ソース内の関数を一覧表示できる
@@ -137,9 +143,9 @@ Haskellのコーディング時に
 
 - - - - -
 
-# unite.vim + unite-session
-- **開いている状態(開いているウィンドウ,タブ等)を保存**できる
-- 保存したセッションを再度開ける
+# unite-session
+- **開いている状態(開いているウィンドウ,タブ等)を**  
+  **保存,再開**できる
 
 `:UniteSessionSave {session-name}`  
 `:UniteSessionLoad {session-name}`
