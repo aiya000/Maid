@@ -1,0 +1,19 @@
+.reveal h1 {
+    text-transform: none;
+}
+
+.reveal h2 {
+    text-transform: none;
+}
+
+.reveal h3 {
+    text-transform: none;
+}
+
+.reveal strong {
+    color: #00FF00;
+}
+
+.reveal ul {
+    padding-left: 24px;
+}
