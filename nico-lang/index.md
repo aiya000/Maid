@@ -99,7 +99,6 @@ Haskellなら簡単に出来るね！
 ## 評価器
 
 （130行くらい）
-<!-- {{{ -->
 
 ```haskell
 -- | Evaluate and execute NicoLangProgram with the virtual machine state
@@ -235,8 +234,6 @@ executeOperation NicoLoopEnd = do
     loggingForLoopFinish :: Int -> NicoState ()
     loggingForLoopFinish lbP = tell ["Pop " ++ show lbP ++ " from the pointer stack, and leave from the one of loop"]
 ```
-
-<!-- }}} -->
 
 - - - - -
 
