@@ -49,29 +49,36 @@
 ## パーサー
 
 ```haskell
+-- Parse a code to [NicoOperation]
 codeParser :: Parser (Maybe [NicoOperation])
 codeParser = do
-  tokens <- P.many' tokenParser
+  tokens <- tokensParser
   let mayOperations = mapM (flip M.lookup operationMap) tokens
   return mayOperations
 
+-- Parse a code to tokens
+tokensParser :: Parser [Text]
+tokensParser = do
+  blocks <- P.many tokenBlockParser
+  let tokens = concat blocks
+  return tokens
+
+-- Parse a block
+tokenBlockParser :: Parser [Text]
+tokenBlockParser = do
+  skipNonToken
+  P.many tokenParser
+
+-- Match any token
 tokenParser :: Parser Text
-tokenParser = nextTokenParser [ nicoForwardText
-                              , nicoBackwordText
-                              , nicoIncrText
-                              , nicoDecrText
-                              , nicoOutputText
-                              , nicoInputText
-                              , nicoLoopBeginText
-                              , nicoLoopEndText
-                              ]
-  where
-    nextTokenParser :: [Text] -> Parser Text
-    nextTokenParser tokens = do
-      let heads       = map T.head tokens
-          matchTokens = foldl1' (<|>) . map (P.try . P.string) $ tokens
-      P.skipWhile (`notElem` heads)
-      matchTokens <|> (P.anyChar >> nextTokenParser tokens)
+tokenParser = foldl1' (<|>) . map (P.try . P.string) $ tokenTexts
+
+-- Skip other than the token
+skipNonToken :: Parser ()
+skipNonToken = do
+  let heads = map T.head tokenTexts
+  P.skipWhile (`notElem` heads)
+  (void $ P.lookAhead tokenParser) <|> (P.anyChar >> skipNonToken)
 ```
 
 - - - - -
