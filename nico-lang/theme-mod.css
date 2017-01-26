@@ -1,3 +1,7 @@
+body {
+    background-image: url("background.png")
+}
+
 .reveal h1 {
     text-transform: none;
 }
