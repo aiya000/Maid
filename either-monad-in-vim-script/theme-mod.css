@@ -1,0 +1,20 @@
+.reveal {
+    color: black;
+}
+
+.reveal h1 {
+    text-transform: none;
+    color: black;
+}
+
+.reveal strong {
+    color: #00FF00;
+}
+
+.reveal ul {
+    padding-left: 24px;
+}
+
+body {
+    background-color: lavender;
+}
