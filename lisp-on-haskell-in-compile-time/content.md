@@ -3,19 +3,39 @@
 ## インラインlisp
 ## 🤘😋🤘
 
+- aiya000
 - https://github.com/aiya000/hs-zuramaru
+
+- - - - -
+
+## 僕
+![profile-image](profile.png)
+
+- 名前: aiya000 (あいや・public_ai000ya)
+- Twitter: [pubilc\_ai000ya](https://twitter.com/public_ai000ya)
+- GitHub: [aiya000](https://github.com/aiya000)
+
+- - - - -
+
+## 技術書典5 か74
+
+当選しました、よろしくお願いします 🤘🙄🤘
+
+[![サークルカット](circle-cut.png)](https://techbookfest.org/event/tbf05/circle/43260001)
+
+- [サークルページ](https://techbookfest.org/event/tbf05/circle/43260001)
 
 - - - - -
 
 ## 今日の内容
 
-Haskellでの依存型のすごいところ  
+__Haskellでの依存型のすごいところ__  
 （一例の紹介）
 
 1. 自作Lisp処理系
 1. Haskellの依存型の概要
 1. Haskellの依存型 + 自作Lisp処理系
-    - = コンパイル時インラインLisp
+    - = __コンパイル時インラインLisp__
 
 - - - - -
 
@@ -25,27 +45,10 @@ Haskellでの依存型のすごいところ
 
 コンパイル時に…
 
-- Lispコードの実行 &  
+- __Lispコードの実行__ &  
   コンパイルエラー化
 - その実行結果を  
-  Haskellコードに埋め込み
-
-- - - - -
-
-## 僕
-![profile-image](profile.png)
-
-- 名前: aiya000
-- Twitter: [pubilc\_ai000ya](https://twitter.com/public_ai000ya)
-- GitHub: [aiya000](https://github.com/aiya000)
-
-- - - - -
-
-## 技術書典5
-
-当選しました、よろしくお願いします 🤘🙄🤘
-
-![サークルカット](circle-cut.png)
+  __Haskellコードに埋め込み__
 
 - - - - -
 
@@ -109,10 +112,11 @@ zuramaru> (id 72)
 
 再帰以外ひと通りできる
 
-↑
-無限再帰しないから多分  
-コンパイルが停止するし  
-ちょうどいいね🤔
+# 🤔
+
+- - - - -
+
+# __便利__
 
 - - - - -
 
@@ -122,7 +126,7 @@ zuramaru> (id 72)
 
 ## Haskellの依存型
 
-`DataKinds` + singleton-types
+`DataKinds`
 
 ```haskell
 print $ natVal (Proxy :: Proxy 10)
@@ -149,6 +153,50 @@ symbolVal (Proxy :: Proxy "poi")
 
 - - - - -
 
+# __便利__
+
+- - - - -
+
+## Haskellの依存型
+
+`DataKinds` * singleton types
+
+```haskell
+x :: Sing (BarT 10)
+x = sing
+
+y :: Sing (BazT "sugar")
+y = sing
+```
+
+- - - - -
+
+## Haskellの依存型
+
+`DataKinds` * singleton types
+
+```haskell
+data FooK = BarT Nat
+          | BazT Symbol
+
+newtype instance Sing (BarT n) = Bar Integer
+newtype instance Sing (BazT s) = Baz String
+
+instance KnownNat n => SingI (BarT n) where
+  sing :: (Sing (BarT n) :: *)
+  sing = Bar $ natVal (Proxy :: Proxy n)
+
+instance KnownSymbol s => SingI (BazT s) where
+  sing :: (Sing (BazT s) :: *)
+  sing = Baz $ symbolVal (Proxy :: Proxy s)
+```
+
+- - - - -
+
+# __便利__
+
+- - - - -
+
 # Haskellの依存型
 # +
 # 自作Lisp処理系
@@ -157,11 +205,23 @@ symbolVal (Proxy :: Proxy "poi")
 
 ## Haskellの依存型 + 自作Lisp処理系
 
-- レベル1: parse
+再帰を実装してない → 自作Lisp処理系
+
+↑
+無限再帰しないから  
+__多分__コンパイルが停止するし  
+__便利__🤔
+
+- - - - -
+
+## Haskellの依存型 + 自作Lisp処理系
+
+- レベル1:  
+  __コンパイル時Lispコードパーサー__
     - コンパイル時にASTを展開
 
 - コードを（依存）型に解釈する
-- コードが異常ならコンパイルエラー
+- コードが異常なら__コンパイルエラー__
 
 - - - - -
 
@@ -201,11 +261,13 @@ Cons (AtomInt 1)
 
 ## Haskellの依存型 + 自作Lisp処理系
 
-- レベルn: zura
+- レベルn:  
+  __コンパイル時Lisp処理__
     - コンパイル時にコードを実行
 
 - コンパイル時IO
 - 実行の結果を（依存）型に解釈する
+- 実行が失敗したら__コンパイルエラー__
 
 - - - - -
 
@@ -245,14 +307,15 @@ error:
 
 Haskellでの依存型すごくないですか？
 
-- コンパイル時にLispコードの実行 &  
-  妥当性チェック
-- Lispコードの実行結果をHaskellコードに  
-  埋め込み
+- コンパイル時に__Lispコードの実行__ &  
+  異常のチェック
+- Lispコードの実行結果を  
+  __Haskellコードに埋め込み__
 
 - - - - -
 
 ## おわり
-技術書典5よろしく！
+技術書典5 か74よろしく！
+🤘🙄🤘
 
-![サークルカット](circle-cut.png)
+[![サークルカット](circle-cut.png)](https://techbookfest.org/event/tbf05/circle/43260001)
