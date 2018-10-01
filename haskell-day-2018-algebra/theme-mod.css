@@ -1,5 +1,5 @@
 body {
-    background-image: url("background.png")
+    background-image: url("background.png");
 }
 
 .reveal h1 {
@@ -18,6 +18,18 @@ body {
     color: #00FF00;
 }
 
+.reveal ol {
+    padding-left: 24px;
+}
+
 .reveal ul {
     padding-left: 24px;
+}
+
+.reveal {
+    font-size: 280%;
+}
+
+.reveal code {
+    font-size: 160%;
 }
