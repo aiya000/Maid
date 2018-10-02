@@ -355,6 +355,7 @@
 
 				var notes = section.querySelector( 'aside.notes' );
 				var markdown = getMarkdownFromSlide( section );
+        markdown = markdown.replace(/:([A-Za-z].+?):/g, '<i class="em em-$1" style="font-size: 1em"></i>')
 
 				section.innerHTML = marked( markdown );
 				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
