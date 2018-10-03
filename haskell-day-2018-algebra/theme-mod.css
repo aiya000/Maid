@@ -12,6 +12,9 @@ body {
 
 .reveal h3 {
     text-transform: none;
+    font-size: 80%;
+    margin-bottom: 10%;
+    text-decoration: underline;
 }
 
 .reveal strong {
@@ -32,4 +35,6 @@ body {
 
 .reveal code {
     font-size: 160%;
+    line-height: 160%;
+    border: solid 2px silver;
 }
