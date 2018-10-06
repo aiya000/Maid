@@ -1,2 +1,2 @@
-# Maid - gh-pages
-Directories can be show on the under aiya000.github.io :D
+# :diamond_shape_with_a_dot_inside: Maid :diamond_shape_with_a_dot_inside:
+A slide collection made by aiya000 :eyes:
