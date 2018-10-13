@@ -1,8 +1,18 @@
+<!--
+
+```haskell
+{-# LANGUAGE StandaloneDeriving #-}
+
+module HaskellDay where
+```
+
+-->
+
 　
-# Semigroupとは？ Monoid？ 環？
+# **Semigroupとは？ Monoid？ 環？**
 　
-## Haskell Day 2018
-## 🤟🙄🤟 aiya000
+### Haskell Day 2018 🤟🙄🤟 aiya000
+### https://aiya000.github.io/Maid/haskell-day-2018-algebra
 
 - - - - -
 
@@ -12,6 +22,8 @@
 - 名前: aiya000 (あいや)
 - Twitter: [pubilc\_ai000ya](https://twitter.com/public_ai000ya)
 - GitHub: [aiya000](https://github.com/aiya000)
+
+### 声が変ですみません :joy:
 
 - - - - -
 
@@ -28,8 +40,7 @@
 
 - - - - -
 
-# ちょっとした
-# 前提知識
+# ここから本編 :point_right:
 
 - - - - -
 
@@ -44,17 +55,44 @@
 
 ### 代数の素朴な定義 - マグマ
 
-定義
+**足し算**（あるいは**掛け算**）  
+ができる構造
+
+```
+x <> y <> z
+```
+
+`<>` ← 足し算（あるいは掛け算）
 
 - - - - -
 
 ### 代数の素朴な定義 - マグマ
 
-足し算ができる！  
-（あるいは掛け算ができる）
+```haskell
+class Magma a where
+    (<>) :: a -> a -> a
 
-……
-ということを表している
+instance Magma Int where
+    (<>) = (+)
+
+instance Magma [a] where
+    (<>) = (++)
+```
+
+- - - - -
+
+### 代数の素朴な定義 - マグマ
+
+```haskell
+instance Num a => Magma a where
+    (<>) = (+)
+
+newtype Product a = Product
+    { unProduct :: a
+    } derving (Show, Eq)
+
+derving instance Num a => Num (Product a)
+```
 
 - - - - -
 
