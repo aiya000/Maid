@@ -13,7 +13,7 @@ body {
 .reveal h3 {
     text-transform: none;
     font-size: 80%;
-    margin-bottom: 10%;
+    margin-bottom: 3%;
     text-decoration: underline;
 }
 
@@ -53,4 +53,12 @@ body {
     border: solid 2px silver;
     padding: 10px;
     margin: 10px;
+}
+
+p.left {
+    text-align: left;
+}
+
+p.right {
+    text-align: right;
 }

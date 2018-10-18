@@ -16,9 +16,139 @@
 
 - - - - -
 
-# Chiel92/vim-autoformat
+# Chiel92/
+# vim-autoformat
+
+- - - - -
+
+### Chiel92/vim-autoformat
+
+ファイル保存時に  
+コードを**整形**して保存してくれる。
+
+<aside class="notes">
+こんなコードがあったときに  
+（ここで次へ） ->
+</aside>
+
+- - - - -
+
+### Chiel92/vim-autoformat
+
+(with elm-format)  
+**before**
+
+![](autoformat-before.png)
+
+<aside class="notes">
+こんな感じに整形してくれます  
+（ここで次へ） ->
+</aside>
+
+- - - - -
+
+### Chiel92/vim-autoformat
+
+(with elm-format)  
+**after**
+
+![](autoformat-after.png)
+
+- - - - -
+
+### Chiel92/vim-autoformat
+
+**コードフォーマット**に  
+気を使いたくない人の必需品。
+
+- - - - -
+
 # LeafCage/foldCC
-# aiya000/aho-bakaup.vim
+
+- - - - -
+
+### LeafCage/foldCC
+
+Vimの**畳み込み**をしたときの  
+表示をわかりやすくしてくれる
+
+<aside class="notes">
+こんな感じ（ここで次へ） ->
+</aside>
+
+- - - - -
+
+### LeafCage/foldCC
+
+<p class="left">
+before :point_down:
+</p>
+
+![before](foldCC-before.png)
+![after](foldCC-after.png)
+
+<p class="right">
+:point_up: after
+</p>
+
+<aside class="notes">
+見ての通り素晴らしい。  
+Vim初心者にこそ使ってみて欲しい。
+</aside>
+
+- - - - -
+
+# aiya000/
+# aho-bakaup.vim
+
+- - - - -
+
+### aiya000/aho-bakaup.vim
+
+ファイル保存時に  
+その**バックアップ**として  
+別の場所にも保存しておいてくれる。
+
+- - - - -
+
+### aiya000/aho-bakaup.vim
+
+<p class="left">
+日別 :point_down:
+</p>
+
+![](bakaup-directories.png)
+![](bakaup-files.png)
+
+<p class="right">
+:point_up: 分別
+</p>
+
+<aside class="notes">
+こんな感じに保管してくれる。
+</aside>
+
+- - - - -
+
+### aiya000/aho-bakaup.vim
+
+まだgit-commitしてないファイルを  
+**ふっ飛ばしちゃうアレ**に有効。
+
+```shell-session
+$ git status
+ M foo.md
+ M bar.css
+$ git reset --hard HEAD  # 手が勝手に打つ
+< foo.mdとbar.cssへの変更が吹っ飛ぶ >
+
+< 数秒後に意識が戻って後の祭り >
+```
+
+<aside class="notes">
+僕も何度もお世話になった。  
+あの絶望を回避したい人は是非に。
+</aside>
 
 - - - - -
 
@@ -38,8 +168,14 @@ FNoreMap k 「
 FNoreMap K 『
 ```
 
+<aside class="notes">
 `df｛IME切り替え｝,｛IME切り替え｝`  
-とか押したくなかったので作った :point_right:
+みたいに、  
+横移動だけのためにキーを  
+いっぱい押すのはめんどかったので  
+作った。  
+こんな感じ（ここで次へ） ->
+</aside>
 
 - - - - -
 
@@ -49,11 +185,13 @@ FNoreMap K 『
 
 ### aiya000/vim-fmap
 
-例えば`[f'su`とかすると「す」のところに、  
-IME切り替えなしでf移動できる！！
+`[f'su`とかすると「す」のところに  
+IME切り替えなしでf移動できる🙄
 
+<aside class="notes">
 日本語ドキュメント作成や  
-日本語本の執筆に便利🙄
+日本語本の執筆に便利。
+</aside>
 
 - - - - -
 
@@ -63,50 +201,6 @@ IME切り替えなしでf移動できる！！
 # lambdalisue/gina.vim
 # lambdalisue/vim-manpager
 # lambdalisue/vim-pager
-
-- - - - -
-
-# 閑話休題
-
-- - - - -
-
-## 皆さん普段
-## Vim scriptをどんな感じに
-## 書いてますか？
-
-- - - - -
-
-## Procedural?
-
-![](procedural-code.png)
-
-- - - - -
-
-## Functional?
-
-![](functional-code.png)
-
-- - - - -
-
-## vital.vimが貴方の
-## Functional Programmingを
-## :tada: サポートします :tada:
-
-- - - - -
-
-### Data.Optional
-
-- - - - -
-
-### Data.Either
-
-- - - - -
-
-### Data.List
-
-- - - - -
-
-# 本題再開🙄
 
 - - - - -
 
