@@ -16,6 +16,165 @@
 
 - - - - -
 
+# 今日の内容
+
+- - - - -
+
+### 今日の内容
+
+Vimプラグインの紹介
+
+<aside class="notes">
+僕がお世話になっているVimプラグインの紹介。
+</aside>
+
+- - - - -
+
+### 今日の内容
+
+- 見た目編
+- 編集編
+- 独自機能編
+- 自作プラグイン
+
+<aside class="notes">
+## 見た目系  
+Vimの見た目を格好良く、
+または通常見えないものを可視化するようなプラグインについて。  
+　  
+## 編集編  
+Vimの操作を拡張するようなプラグイン。  
+Vimmerの皆さんが一番大好きそう。  
+　  
+## 独自機能編  
+例えばVim上でgit操作をできるようにしたり、
+従来できなかった、やりにくかったことを容易にできるようにするもの。  
+　  
+## 自作プラグイン  
+なぜ作ったのか、
+どこらへんに拘ったのかなど。
+</aside>
+
+- - - - -
+
+# 見た目編
+
+<aside class="notes">
+ここから本編。  
+まずは見た目についてのプラグイン。
+</aside>
+
+- - - - -
+
+# LeafCage/foldCC
+
+- - - - -
+
+### LeafCage/foldCC
+
+Vimの**畳み込み**をしたときの  
+表示をわかりやすくしてくれる
+
+```
+# 畳み込みとは🙄
+{{{
+　ここらへんがサマリー1行で
+表示される機能（マーカー折りたたみ）。
+　その他region設定済みの言語では
+メソッドをサマリー1行で表示したり……などなど、
+色んな方法で折りたたみできる！
+}}}
+```
+
+<aside class="notes">
+もしかしたら知らない方もいるかもしれないですが、
+Vimには畳み込みという機能が付いていて……  
+
+こんな感じ（ここで次へ） ->
+</aside>
+
+- - - - -
+
+### LeafCage/foldCC
+
+<p class="left">
+before :point_down:
+</p>
+
+![before](foldCC-before.png)
+![after](foldCC-after.png)
+
+<p class="right">
+:point_up: after
+</p>
+
+<aside class="notes">
+従来の表示が左、
+foldCCでの表示が右。  
+見ての通り素晴らしい。  
+　  
+例えばScalaやC#などの構文でメソッドごとの折りたたみを設定すると、  
+見やすすぎて「「最強」」になる。  
+　  
+Vim初心者にこそ使ってみて欲しい。
+</aside>
+
+- - - - -
+
+# andymass/
+# vim-matchup
+
+- - - - -
+
+### andymass/vim-matchup
+
+matchpair（括弧の対応付け）を  
+**括弧やワードの対応付け**に  
+拡張してくれる。
+
+```vim
+function s:f() abort
+" ↑
+" 例えば 'function' の上にカーソルを置いて
+" % キーを押すと 'endfunction' の上に瞬間移動できる
+" ↓
+endfunction
+```
+
+- - - - -
+
+### andymass/vim-matchup
+
+![](matchup.png)
+
+- - - - -
+
+# deris/vim-shot-f
+
+- - - - -
+
+### deris/vim-shot-f
+
+![](shot-f.gif)
+
+- - - - -
+
+# machakann/vim-highlightedyank
+# nathanaelkane/vim-indent-guides
+# ryanoasis/vim-devicons
+
+- - - - -
+
+# 編集編
+
+- - - - -
+
+# cohama/lexima.vim
+# rhysd/vim-operator-surround
+# thinca/vim-textobj-between
+
+- - - - -
+
 # Chiel92/
 # vim-autoformat
 
@@ -63,37 +222,25 @@
 
 - - - - -
 
-# LeafCage/foldCC
-
-- - - - -
-
-### LeafCage/foldCC
-
-Vimの**畳み込み**をしたときの  
-表示をわかりやすくしてくれる
+# 独自機能編
 
 <aside class="notes">
-こんな感じ（ここで次へ） ->
+まさにVimを拡張するようなプラグインです。
 </aside>
 
 - - - - -
 
-### LeafCage/foldCC
+# lambdalisue/gina.vim
+# lambdalisue/vim-manpager
+# lambdalisue/vim-pager
+# rbtnn/vimconsole.vim
 
-<p class="left">
-before :point_down:
-</p>
+- - - - -
 
-![before](foldCC-before.png)
-![after](foldCC-after.png)
-
-<p class="right">
-:point_up: after
-</p>
+# 自作Vimプラグイン
 
 <aside class="notes">
-見ての通り素晴らしい。  
-Vim初心者にこそ使ってみて欲しい。
+最後に自作Vimプラグインを紹介させてください。
 </aside>
 
 - - - - -
@@ -193,20 +340,3 @@ IME切り替えなしでf移動できる🙄
 日本語本の執筆に便利。
 </aside>
 
-- - - - -
-
-# andymass/vim-matchup
-# cohama/lexima.vim
-# deris/vim-shot-f
-# lambdalisue/gina.vim
-# lambdalisue/vim-manpager
-# lambdalisue/vim-pager
-
-- - - - -
-
-# machakann/vim-highlightedyank
-# nathanaelkane/vim-indent-guides
-# rbtnn/vimconsole.vim
-# rhysd/vim-operator-surround
-# ryanoasis/vim-devicons
-# thinca/vim-textobj-between
