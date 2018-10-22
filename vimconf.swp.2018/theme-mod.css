@@ -62,3 +62,8 @@ p.left {
 p.right {
     text-align: right;
 }
+
+p.minimumize > img {
+    width: 40%;
+    object-fit: contain;
+}

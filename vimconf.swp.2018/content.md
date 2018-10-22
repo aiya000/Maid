@@ -34,7 +34,7 @@ Vimプラグインの紹介
 
 - 見た目編
 - 編集編
-- 独自機能編
+- ツール編
 - 自作プラグイン
 
 <aside class="notes">
@@ -46,8 +46,8 @@ Vimの見た目を格好良く、
 Vimの操作を拡張するようなプラグイン。  
 Vimmerの皆さんが一番大好きそう。  
 　  
-## 独自機能編  
-例えばVim上でgit操作をできるようにしたり、
+## ツール編  
+例えばVim上でgit操作をできるようにするなど……
 従来できなかった、やりにくかったことを容易にできるようにするもの。  
 　  
 ## 自作プラグイン  
@@ -159,9 +159,80 @@ endfunction
 
 - - - - -
 
-# machakann/vim-highlightedyank
-# nathanaelkane/vim-indent-guides
-# ryanoasis/vim-devicons
+# machakann/
+# vim-highlightedyank
+
+- - - - -
+
+### machakann/vim-highlightedyank
+
+yankした箇所が「チカッ」って光る。
+
+![](highlightedyank.gif)
+
+<aside class="notes">
+シンプルだけどすっごい便利で、
+これを導入してから
+「んっ、今ちゃんとヤンクできた？？」
+ってなることがめっちゃ減った。
+</aside>
+
+- - - - -
+
+# nathanaelkane/
+# vim-indent-guides
+
+- - - - -
+
+### nathanaelkane/vim-indent-guides
+
+:point_down: :point_down: :point_down:
+
+![](indent-guides.png)
+
+<aside class="notes">
+これ！
+（多分このプラグインはこの画像を見れば伝わるので、
+これくらいの説明で次いっていいと思う）
+</aside>
+
+- - - - -
+
+### nathanaelkane/vim-indent-guides
+
+インデントを可視化してくれる。  
+トグルで有効/無効を切り替えられる。
+
+<p class="minimumize">
+![](indent-guides.png)
+</p>
+
+<aside class="notes">
+スペースでインデントを取る派には必須。  
+僕はもうこれ無しではテンション上がらなくて
+コーディングできないくらい。
+</aside>
+- - - - -
+
+# ryanoasis/
+# vim-devicons
+
+- - - - -
+
+### ryanoasis/vim-devicons
+
+対応プラグインにアイコンを表示してくれる。
+
+![](devicons.png)
+
+:point_up: `:Denite file_mru` の例
+
+<aside class="notes">
+またテンション上げる系ですね。  
+Vimはエディタなので格好いい必要があります。  
+その他NERDTree, airline, powerline, vimfiler
+などなどに対応しています。
+</aside>
 
 - - - - -
 
@@ -170,8 +241,124 @@ endfunction
 - - - - -
 
 # cohama/lexima.vim
-# rhysd/vim-operator-surround
-# thinca/vim-textobj-between
+
+- - - - -
+
+### cohama/lexima.vim
+
+対応する文字を自動入力してくれる。
+
+<aside class="notes">
+（このページは軽く飛ばす） ->
+</aside>
+
+- - - - -
+
+### cohama/lexima.vim
+
+`(`, `{`, `"`に対して`)`, `}`, `"`など。
+
+![](lexima.gif)
+
+<aside class="notes">
+例えば括弧開きに対して括弧閉じ、  
+波括弧開きにも波括弧閉じ、  
+ダブルクオーテーションに対しては  
+もう一つダブルクオーテーションを……
+といった感じ。  
+これがどう便利かというと……
+->
+</aside>
+
+- - - - -
+
+### cohama/lexima.vim
+
+＞＞＞ 🤟🙄🤟 ＜＜＜  
+＞＞＞ テンション上がる ＜＜＜
+
+<aside class="notes">
+テンションが上がります。  
+これ大事ですね。
+あと指が楽になる。
+</aside>
+
+- - - - -
+
+# rhysd/vim-
+# operator-surround
+
+- - - - -
+
+### rhysd/vim-operator-surround :dog2:
+
+「選択している範囲の囲み文字を**付加**」  
+（選択している範囲の囲み文字を**削除**）  
+＜選択している範囲の囲み文字を**変更**＞
+
+<aside class="notes">
+あとは選択している範囲の囲み文字を
+「別のものに」変更する。
+どんな感じかっていうと……
+->
+</aside>
+
+- - - - -
+
+### rhysd/vim-operator-surround :dog2:
+
+![](operator-surround.gif)
+
+<aside class="notes">
+`Sap`で半角括弧を付加。  
+範囲選択をした後に`Sd`で、
+各囲みを削除。  
+範囲選択をした後に`Csjk`で、
+全角括弧から全角角括弧に変更。
+</aside>
+
+- - - - -
+
+### rhysd/vim-operator-surround :dog2:
+
+Java, Kotlin, C#, Scala等々の  
+**色んな種類の括弧が登場**する言語に  
+特におすすめ。
+
+<aside class="notes">
+もちろん慣れると、
+Haskellだとかそういう言語でも多用するようになります。
+便利。
+</aside>
+
+- - - - -
+
+# thinca/vim-
+# textobj-between
+
+- - - - -
+
+### thinca/vim-textobj-between :fish:
+
+\***ある文字とある文字の間**\*  
+\_を指定（選択）できる\_。
+
+- - - - -
+
+### thinca/vim-textobj-between :fish:
+
+![](textobj-between.gif)
+
+- - - - -
+
+### thinca/vim-textobj-between :fish:
+
+textobjなので  
+**全てのキーマッピングの力**が**倍増**する。
+
+！！！！！  
+:bomb: :smiling_imp: :bomb:  
+！！！！！
 
 - - - - -
 
@@ -183,10 +370,10 @@ endfunction
 ### Chiel92/vim-autoformat
 
 ファイル保存時に  
-コードを**整形**して保存してくれる。
+コードを自動で**整形**して保存してくれる。
 
 <aside class="notes">
-こんなコードがあったときに  
+コードフォーマッターとVimを連携させてくれるプラグインです。  
 （ここで次へ） ->
 </aside>
 
@@ -200,7 +387,8 @@ endfunction
 ![](autoformat-before.png)
 
 <aside class="notes">
-こんな感じに整形してくれます  
+こういうコードがあったときに、
+ファイルを保存すると……  
 （ここで次へ） ->
 </aside>
 
@@ -213,6 +401,10 @@ endfunction
 
 ![](autoformat-after.png)
 
+<aside class="notes">
+勝手に整形して保存してくれます！
+</aside>
+
 - - - - -
 
 ### Chiel92/vim-autoformat
@@ -220,9 +412,20 @@ endfunction
 **コードフォーマット**に  
 気を使いたくない人の必需品。
 
+<p class="minimumize">
+![](autoformat-before.png)
+![](autoformat-after.png)
+</p>
+
+<aside class="notes">
+例えば最高にテキトーで
+最悪なコーディングスタイルを書き荒らしたとしても、
+保存すると綺麗なコードが返ってくる。
+</aside>
+
 - - - - -
 
-# 独自機能編
+# ツール編
 
 <aside class="notes">
 まさにVimを拡張するようなプラグインです。
@@ -230,7 +433,95 @@ endfunction
 
 - - - - -
 
-# lambdalisue/gina.vim
+# lambdalisue/
+# gina.vim
+
+- - - - -
+
+### lambdalisue/gina.vim
+
+gitコマンドをVim上で実行して、  
+いい感じの表示とキーマッピングを  
+提供してくれる。
+
+`:Gina log`
+`:Gina status`
+`:Gina commit`
+
+- - - - -
+
+### lambdalisue/gina.vim
+
+`:Gina log`
+
+![](gina-log.png)
+
+<aside class="notes">
+…  
+（説明した後にこれを言う）  
+…  
+こうやって
+「だんだんだるくなってコミットメッセージがテキトーになっていってる」
+のもよくわかる！
+</aside>
+
+- - - - -
+
+### lambdalisue/gina.vim
+
+`:Gina status`
+
+![](gina-status.png)
+
+<aside class="notes">
+ここで `<<` キーや `>>` キーを押すと、
+`git-add`ができる。  
+…  
+（説明した後にこれ言う）  
+…  
+ここで `:Gina commit` または
+キーマッピングの `cc` キーを押すと、
+`git-commit` がVim上で呼び出される。
+</aside>
+
+- - - - -
+
+### lambdalisue/gina.vim
+
+`:Gina commit`
+
+![](gina-commit.png)
+
+<aside class="notes">
+この「Emojis」っていうのは`git config commit.template`
+で設定できるものなんですが、
+もちろんそれを読み込んでくれます。
+</aside>
+
+- - - - -
+
+### lambdalisue/gina.vim
+
+GUIのgitクライアントいらず！？💪🤔
+
+<p class="minimumize">
+![](gina-log.png)  
+![](gina-status.png)
+![](gina-commit.png)
+</p>
+
+<aside class="notes">
+僕は
+「一発で済みそうなgitコマンド」
+をGinaに任せて、
+操作が長くなりそうなら
+`:terminal`に任せてます。  
+個人的にはGUIのgitクライアント使わなくても、
+これで満足。
+</aside>
+
+- - - - -
+
 # lambdalisue/vim-manpager
 # lambdalisue/vim-pager
 # rbtnn/vimconsole.vim
