@@ -4,6 +4,11 @@
 #### .vimconf.swp.2018 🤟🙄🤟 aiya000
 ### https://aiya000.github.io/Maid/vimconf.swp.2018
 
+<!-- TODO
+- 最後に「終わり」みたいな一言ページを入れる
+- 編の区切りになにか「ここまでで半分」「あともう少し」「最後」とか入れる
+-->
+
 - - - - -
 
 ## 僕
@@ -522,9 +527,47 @@ GUIのgitクライアントいらず！？💪🤔
 
 - - - - -
 
-# lambdalisue/vim-manpager
-# lambdalisue/vim-pager
-# rbtnn/vimconsole.vim
+## lambdalisue/vim-manpager
+
+- - - - -
+
+### lambdalisue/vim-manpager :sunglasses:
+
+manコマンドをVimで**開く**&**表示**する。
+
+- - - - -
+
+### lambdalisue/vim-manpager :sunglasses:
+
+`:Man vim`
+
+`$ MANPAGER='vim -c MANPAGER -' man vim`
+
+![](manpager.png)
+
+<aside class="notes">
+これのイケメンなところは、ちゃんと
+</aside>
+
+- - - - -
+
+# rbtnn/
+# vimconsole.vim
+
+- - - - -
+
+### rbtnn/vimconsole.vim :rabbit2:
+
+Vim script向けImmediate Window
+
+![](vim-console.png)
+
+<aside class="notes">
+Vim scriptに埋め込んだ:VimConsoleLogコマンドとその引数の文字列を、
+Immediate Windowに表示。  
+皆さん.vimrcをいじる機会は多いかもしれませんので、
+.vimrcのデバッグにどうぞ。
+</aside>
 
 - - - - -
 
