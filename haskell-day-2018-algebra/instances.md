@@ -92,15 +92,58 @@ IntやFloatの新しいインスタンスで ->
 ### 代数の素朴な定義
 
 ```haskell
-instance Magma (Sum Bool) where
-    (<>) = (||)
+newtype And = And
+    { unAnd :: Bool
+    } deriving (Show, Eq)
 
-instance Magma (Product Bool) where
-    (<>) = (&&)
+instance Magma And where
+    And x <> And y = And $ x && y
 ```
 
 <aside class="notes">
-Boolはこんな感じです。  
+Boolについても各々のnewtypeを追加していきます。  
+Andはこんな感じで、
+Orはというと ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義
+
+```haskell
+newtype Or = Or
+    { unOr :: Bool
+    } deriving (Show, Eq)
+
+instance Magma Or where
+    Or x <> Or y = Or $ x || y
+```
+
+<aside class="notes">
+同様にこんな感じ。
+Xorも同じく ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義
+
+```haskell
+newtype Xor = Xor
+    { unXor :: Bool
+    } deriving (Show, Eq)
+
+instance Magma Xor where
+    Xor True  <> Xor False = Xor True
+    Xor False <> Xor True  = Xor True
+    _ <> _ = Xor False
+```
+
+<aside class="notes">
+こうですね。  
 Unitについてはインスタンスが唯一つなので、
-新しく定義はしません。
+新しく定義はしません。  
+……
+ってとこで、まず代数の入りは終了です。  
+次は ->
 </aside>

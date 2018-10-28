@@ -9,6 +9,7 @@
 module HaskellDay where
 
 import Prelude hiding (Semigroup(..))
+import Data.Ratio (Rational, (%), numerator, denominator)
 ```
 
 -->
@@ -40,7 +41,7 @@ Haskellでの、
 
 - - - - -
 
-!INCLUDE "omake.md"
+!INCLUDE "instances.md"
 
 - - - - -
 
