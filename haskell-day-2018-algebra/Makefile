@@ -4,7 +4,7 @@ content:
 	markdown-pp content.md -o content-preprocessed.md
 
 code:
-	cat content.md \
+	cat content-preprocessed.md \
 		| awk '/^```haskell$$/,/^```$$/' \
 		| grep -Ev '```(haskell)?' \
 		> HaskellDay.hs
