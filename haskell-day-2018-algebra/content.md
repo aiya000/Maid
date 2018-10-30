@@ -8,7 +8,7 @@
 
 module HaskellDay where
 
-import Prelude hiding (Semigroup(..))
+import Prelude hiding (Semigroup(..), Monoid(..))
 import Data.Ratio (Rational, (%), numerator, denominator)
 ```
 
