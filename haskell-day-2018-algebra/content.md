@@ -1,6 +1,7 @@
 <!--
 
 ```haskell
+
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE StandaloneDeriving #-}
@@ -8,8 +9,11 @@
 
 module HaskellDay where
 
-import Prelude hiding (Semigroup(..), Monoid(..))
+import Control.Monad (MonadPlus(..), guard)
+import Data.Numbers.Primes (primes)
 import Data.Ratio (Rational, (%), numerator, denominator)
+import Prelude hiding (Semigroup(..), Monoid(..))
+
 ```
 
 -->

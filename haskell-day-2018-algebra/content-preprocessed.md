@@ -1,6 +1,7 @@
 <!--
 
 ```haskell
+
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE StandaloneDeriving #-}
@@ -8,8 +9,11 @@
 
 module HaskellDay where
 
-import Prelude hiding (Semigroup(..), Monoid(..))
+import Control.Monad (MonadPlus(..), guard)
+import Data.Numbers.Primes (primes)
 import Data.Ratio (Rational, (%), numerator, denominator)
+import Prelude hiding (Semigroup(..), Monoid(..))
+
 ```
 
 -->
@@ -58,29 +62,48 @@ TwitterとGitHubやらやらで活動をしています。
     - 擬環・**環**・**体**
 
 <aside class="notes">
-この発表では代数の素朴な定義を紹介、
-説明していきます。
-またこれらの定義はHaskellで記述していきます。  
-ここで詳しくは述べませんが、
-通常の代数とは集合に乗せて考えるものです。  
-ただし型に乗せても、集合に乗せても、
-同様に考えられます。  
-今回はHaskellとその型で説明します。  
+代数の素朴な定義を紹介していきます。  
+代数の定義は、
+Haskellの型とロジックで記述していきます。  
 　  
-まず前半は
-「マグマ・半群・モノイド・群」
-という4つの代数を、
-後半は
-「擬環・環・体」
-という3つの代数を説明します。  
+まず前半はこれらについて、
+後半はこれらについて話します。
+->
+</aside>
+
+- - - - -
+
+### このスライドで学べること
+
+初心者フレンドリーな表現 :relaxed:
+
+<aside class="notes">
+今回は精密さ・厳密さよりも、
+代数の初心者がわかりやすいような表現を用います。
+　  
 ここで応用例等の紹介は重視しませんが、
 軽く紹介します。  
-というのも代数って非常に広く応用されているので、
-わざわざ紹介するよりも自身で調べて頂いた方が面白いかな〜
-と思いますので……
-ってところですね。
-じゃあ…… ->
+代数って非常に広く応用されているので、
+わざわざ紹介するよりも自身で調べて頂いた方が面白いかな〜と。
+->
 </aside>
+
+- - - - -
+
+# 本編を始める前に一言
+
+<aside class="notes">
+本編を始める前に、最後に一言
+</aside>
+
+- - - - -
+
+# 皆さん、安心してください
+# この発表中のコードは……
+
+- - - - -
+
+# well-compiledです :sunglasses:
 
 - - - - -
 
@@ -479,6 +502,18 @@ instance Semigroup (Sum Rational)
 instance Semigroup (Product Rational)
 ```
 
+<!--
+
+```haskell
+instance Semigroup [a]
+instance Semigroup And
+instance Semigroup Or
+instance Semigroup Xor
+instance Semigroup ()
+```
+
+-->
+
 <aside class="notes">
 残念ながらFloatやDoubleは丸め誤差によってインスタンスにならないので、
 ここでIntegerとRationalに限定にしておきます。
@@ -515,9 +550,9 @@ concatLとRが同じものになります。
 
 ### 代数の素朴な定義 - 半群
 
-- マグマであって半群でない例
+- マグマであって半群**でない**例
     - Double, Float（浮動小数点数）
-    - 丸め誤差による制約
+    - :point_up: 丸め誤差による制約
 
 <aside class="notes">
 コンピューター上の実数の近似である浮動小数点数は半群ではありませんが、
@@ -577,10 +612,6 @@ instance Monoid And where
     - `0 + _5` = `_5` = `_5 + 0`
     - `0 + _7` = `_7` = `_7 + 0`
     - `0 + 11` = `11` = `11 + 0`
-- Product Integer
-    - `1 * __5` = `__5` = `__5 * 1`
-    - `1 * _38` = `_38` = `_38 * 1`
-    - `1 * 113` = `113` = `113 * 1`
 
 - - - - -
 
@@ -597,14 +628,14 @@ instance Monoid And where
 
 ### 代数の素朴な定義 - モノイド
 
-:point_down: 今回の応用例
+:new: 今回の応用例 :point_down:
 
 ```haskell
 mconcat :: Monoid a => [a] -> a
-mconcat = foldl (<>) mempty
+mconcat = foldl (<>) empty
 ```
 
-:point_down: さっきまでのやつ
+さっきまでのやつ :point_down:
 
 ```
 concat :: Semigroup a => a -> [a] -> a
@@ -618,7 +649,7 @@ concat = foldl (<>)
 例えば
 
 ```haskell
-sum :: [Integer] -> Integer
+sum :: [Sum Integer] -> Sum Integer
 sum = mconcat
 ```
 
@@ -626,20 +657,74 @@ sum = mconcat
 
 ### 代数の素朴な定義 - モノイド
 
-つまり
+例えば
+
+```haskell
+all :: [And] -> And
+all = mconcat
+```
 
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
 
-応用例
+つまりモノイドは……  
+**自明な初期値が定まった構造**
+
+- empty = 自明な初期値
 
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
 
-- 半群であってモノイドでない例
-    - ''
+その他インスタンス
+
+```haskell
+instance Monoid (Product Integer) where
+  empty = Product 1
+
+instance Monoid (Product Rational) where
+  empty = Product $ 1 % 1
+
+instance Monoid [a] where
+  empty = []
+```
+
+- - - - -
+
+### 代数の素朴な定義 - モノイド
+
+その他インスタンス
+
+```haskell
+instance Monoid (Sum Rational) where
+  empty = Sum $ 0 % 1
+
+instance Monoid Or where
+  empty = Or False
+
+instance Monoid Xor where
+  empty = Xor False
+```
+
+- - - - -
+
+### 代数の素朴な定義 - モノイド
+
+その他インスタンス
+
+```haskell
+instance Monoid () where
+  empty = ()
+```
+
+- - - - -
+
+### 代数の素朴な定義 - モノイド
+
+- 半群であってモノイド**でない**例
+    - `NonEmpty a`
+    - :point_up: 空リストのような単位元がない
 
 - - - - -
 
@@ -654,7 +739,8 @@ sum = mconcat
 
 - - - - -
 
-# Monadはお好きですか？
+# Monadは
+# お好きですか？
 
 - - - - -
 
@@ -662,7 +748,7 @@ sum = mconcat
 
 - - - - -
 
-### 余談 - MonadPlus
+### 閑話休題 - MonadPlus
 
 MonadPlus = Monad + **Monoid**
 
@@ -670,13 +756,120 @@ MonadPlus = Monad + **Monoid**
 
 - - - - -
 
-### 余談 - MonadPlus
+### 閑話休題 - MonadPlus
 
-TODO: なんかリスト内包記とか (guardとか) の例
+```
+class Monad m => MonadPlus m where
+    mzero :: m a
+    mplus :: m a -> m a -> m a
+```
 
 - - - - -
 
-### 余談 - MonadPlus
+### 閑話休題 - MonadPlus
+
+リスト内包記
+
+```haskell
+twinPrimes :: [(Int, Int)]
+twinPrimes =
+    [ (x, y) | (x, y) <- zip primes (tail primes)
+             , y - x == 2 ]
+-- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
+```
+
+:point_up: 双子素数
+
+<aside class="notes">
+MonadPlusが何かって言うと、
+わかりやすいのがこれですね。
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+リスト内包記
+
+```
+[ 略 | 略, y - x == 2 ]
+           ^^^^^^^^^^
+```
+ここ :point_up: めっちゃMonadPlus
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+- `MonadPlus (m :: * -> *)`
+    - :point_up: 高階なモノイド (`* -> *`)
+- `mzero`
+    - :point_up: mに由来するempty
+- `mplus`
+    - :point_up: mに由来する<>
+
+<aside class="notes">
+mzeroも高階なemptyで、
+mに由来しているものです。
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+MonadPlusのモノイドしぐさ
+
+```haskell
+listMonadPlus :: [Int]
+listMonadPlus = [10, 20] `mplus` mzero `mplus` [30]
+-- [10,20,30]
+```
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+リスト内包記
+
+```
+twinPrimes :: [(Int, Int)]
+twinPrimes =
+    [ (x, y) | (x, y) <- zip primes (tail primes)
+             , y - x == 2 ]
+-- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
+```
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+リスト内包記と**同値なdo式**
+
+```haskell
+twinPrimes' :: [(Int, Int)]
+twinPrimes' = do
+    (x, y) <- zip primes (tail primes)
+    guard $ y - x == 2
+    return (x, y)
+```
+
+<aside class="notes">
+同値についての出典: すごいHaskell楽しく学ぼう！（モナドがいっぱい・リストモナドの章）
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+```
+guard :: Alternative f => Bool -> f ()
+guard :: MonadPlus m => Bool -> m ()
+```
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+# こんなところにもモノイドが！！
 
 - - - - -
 

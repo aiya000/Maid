@@ -11,6 +11,7 @@ code:
 
 install-deps:
 	pip install MarkdownPP
+	stack install primes
 
 watch:
 	watchexec --restart \

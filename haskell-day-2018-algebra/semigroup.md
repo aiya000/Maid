@@ -47,6 +47,18 @@ instance Semigroup (Sum Rational)
 instance Semigroup (Product Rational)
 ```
 
+<!--
+
+```haskell
+instance Semigroup [a]
+instance Semigroup And
+instance Semigroup Or
+instance Semigroup Xor
+instance Semigroup ()
+```
+
+-->
+
 <aside class="notes">
 残念ながらFloatやDoubleは丸め誤差によってインスタンスにならないので、
 ここでIntegerとRationalに限定にしておきます。
@@ -83,9 +95,9 @@ concatLとRが同じものになります。
 
 ### 代数の素朴な定義 - 半群
 
-- マグマであって半群でない例
+- マグマであって半群**でない**例
     - Double, Float（浮動小数点数）
-    - 丸め誤差による制約
+    - :point_up: 丸め誤差による制約
 
 <aside class="notes">
 コンピューター上の実数の近似である浮動小数点数は半群ではありませんが、
