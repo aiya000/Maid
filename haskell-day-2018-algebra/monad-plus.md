@@ -24,9 +24,39 @@ TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確�
 
 ### 閑話休題 - MonadPlus
 
-MonadPlus = Monad + **Monoid**
+MonadPlus = **Monad** + **Monoid**
 
-（ Alternative = Applicative + **Monoid** ）
+（ Alternative = **Applicative** + **Monoid** ）
+
+:arrow_down:
+
+MonadPlusは**高階**な**モノイド**
+
+<aside class="notes">
+MonadPlusは実は、高階なモノイドです。  
+MonadPlusってなんだっけ……？ っていうと ->
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+リスト内包記（双子素数）
+
+```haskell
+twinPrimes :: [(Int, Int)]
+twinPrimes = do
+    (x, y) <- zip primes (tail primes)
+    guard $ y - x == 2
+    return (x, y)
+-- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
+```
+
+<aside class="notes">
+こんな感じのものでした。  
+じゃあ「MonadPlusは高階なMonoid」っていうのはどういうことかというと……
+まずは定義を見てみましょう ->
+</aside>
 
 - - - - -
 
@@ -38,41 +68,8 @@ class Monad m => MonadPlus m where
     mplus :: m a -> m a -> m a
 ```
 
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```haskell
-twinPrimes :: [(Int, Int)]
-twinPrimes =
-    [ (x, y) | (x, y) <- zip primes (tail primes)
-             , y - x == 2 ]
--- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
-```
-
-:point_up: 双子素数
-
 <aside class="notes">
-MonadPlusが何かって言うと、
-わかりやすいのがこれですね。
-</aside>
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```
-[ 略 | 略, y - x == 2 ]
-           ^^^^^^^^^^
-```
-ここ :point_up: めっちゃMonadPlus
-
-<aside class="notes">
-実はここ、めっちゃMonadPlusなんです。
+これがどのような意味かというと ->
 </aside>
 
 - - - - -
@@ -80,15 +77,16 @@ MonadPlusが何かって言うと、
 ### 閑話休題 - MonadPlus
 
 - `MonadPlus (m :: * -> *)`
-    - :point_up: 高階なモノイド (`* -> *`)
+    - :point_up: 高階 (<code class='no-border'>\* -> \*</code>)
 - `mzero`
-    - :point_up: mに由来するempty
+    - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'>empty</code>
 - `mplus`
-    - :point_up: mに由来する<>
+    - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'><></code>
 
 <aside class="notes">
-mzeroも高階なemptyで、
-mに由来しているものです。
+まずmはこのように高階です。  
+次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。  
+例えばMaybeインスタンスなら ->
 </aside>
 
 - - - - -
@@ -98,89 +96,29 @@ mに由来しているものです。
 擬似的に書くなら……
 
 - `Monoid (m :: * -> *)`
-    - :point_up: `instance Monoid Maybe`
+    - :arrow_right: <code class='no-border'>instance Monoid Maybe</code>
 - `mzero :: m`
-    - :point_up: `Nothing :: Maybe`
+    - :arrow_right: <code class='no-border'>Nothing :: Maybe</code>
 - `mplus :: m -> m -> m`
-    - :point_up: `Nothing mplus Just = Nothing`
-    - :point_up: `Just mplus Just = Just`
+    - :arrow_right: <code class='no-border'>Nothing mplus Just = Nothing</code>
+    - :arrow_right: <code class='no-border'>Just mplus Just = Just</code>
 
 <aside class="notes">
+Type -> Typeへの擬似記法として、このように書けます。
 mの任意の型引数aに対してのモノイドという感じ。
 </aside>
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
-
-例: MonadPlusのモノイドしぐさ
-
-```haskell
-listMonadPlus :: [Int]
-listMonadPlus = [10, 20] `mplus` mzero `mplus` [30]
--- [10,20,30]
-```
-
-<aside class="notes">
-これを見ても、なんだかモノイドな感じがしますよね。
-</aside>
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```
-twinPrimes :: [(Int, Int)]
-twinPrimes =
-    [ (x, y) | (x, y) <- zip primes (tail primes)
-             , y - x == 2 ]
--- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
-```
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記と**同値なdo式**
-
-```haskell
-twinPrimes' :: [(Int, Int)]
-twinPrimes' = do
-    (x, y) <- zip primes (tail primes)
-    guard $ y - x == 2
-    return (x, y)
-```
-
-- - -
-
-#### 同値についての出典:
-#### すごいHaskell楽しく学ぼう！（モナドがいっぱい・リストモナドの章）
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-```
-guard :: Alternative f => Bool -> f ()
-guard :: MonadPlus m => Bool -> m ()
-```
-
-もし引数が真なら、（高階な）単位元を返す。
-
-```
-guard False >> pure 10  =  mzero >> pure 10
-                        =  [] >> pure 10
-                        =  []
-```
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-## つまりMonadPlusは高階なモノイド
+## MonadPlusは高階なモノイド
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
 # こんなところにもモノイドが！！
+
+<aside class="notes">
+こんなところにもモノイドは応用されているんだよ、
+という例でした。
+</aside>
