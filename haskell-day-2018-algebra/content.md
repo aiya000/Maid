@@ -65,6 +65,10 @@ Haskellでの、
 
 - - - - -
 
+!INCLUDE "abelian.md"
+
+- - - - -
+
 !INCLUDE "summary-first-half.md"
 
 - - - - -

@@ -731,6 +731,10 @@ instance Monoid () where
 <!-- NOTE: 閑話休題のときは高橋メソッドに切り替えてる。 -->
 <!-- （そっちのが皆さん、使う頭が変わって休めるかなと思うので） -->
 
+<!--
+TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確認してもらう。
+-->
+
 # 閑話休題
 
 - - - - -
@@ -750,9 +754,39 @@ instance Monoid () where
 
 ### 閑話休題 - MonadPlus
 
-MonadPlus = Monad + **Monoid**
+MonadPlus = **Monad** + **Monoid**
 
-（ Alternative = Applicative + **Monoid** ）
+（ Alternative = **Applicative** + **Monoid** ）
+
+:arrow_down:
+
+MonadPlusは**高階**な**モノイド**
+
+<aside class="notes">
+MonadPlusは実は、高階なモノイドです。  
+MonadPlusってなんだっけ……？ っていうと ->
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+リスト内包記（双子素数）
+
+```haskell
+twinPrimes :: [(Int, Int)]
+twinPrimes = do
+    (x, y) <- zip primes (tail primes)
+    guard $ y - x == 2
+    return (x, y)
+-- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
+```
+
+<aside class="notes">
+こんな感じのものでした。  
+じゃあ「MonadPlusは高階なMonoid」っていうのはどういうことかというと……
+まずは定義を見てみましょう ->
+</aside>
 
 - - - - -
 
@@ -764,112 +798,60 @@ class Monad m => MonadPlus m where
     mplus :: m a -> m a -> m a
 ```
 
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```haskell
-twinPrimes :: [(Int, Int)]
-twinPrimes =
-    [ (x, y) | (x, y) <- zip primes (tail primes)
-             , y - x == 2 ]
--- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
-```
-
-:point_up: 双子素数
-
 <aside class="notes">
-MonadPlusが何かって言うと、
-わかりやすいのがこれですね。
+これがどのような意味かというと ->
 </aside>
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```
-[ 略 | 略, y - x == 2 ]
-           ^^^^^^^^^^
-```
-ここ :point_up: めっちゃMonadPlus
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
 
 - `MonadPlus (m :: * -> *)`
-    - :point_up: 高階なモノイド (`* -> *`)
+    - :point_up: 高階 (<code class='no-border'>\* -> \*</code>)
 - `mzero`
-    - :point_up: mに由来するempty
+    - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'>empty</code>
 - `mplus`
-    - :point_up: mに由来する<>
+    - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'><></code>
 
 <aside class="notes">
-mzeroも高階なemptyで、
-mに由来しているものです。
+まずmはこのように高階です。  
+次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。  
+例えばMaybeインスタンスなら ->
 </aside>
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
 
-MonadPlusのモノイドしぐさ
+擬似的に書くなら……
 
-```haskell
-listMonadPlus :: [Int]
-listMonadPlus = [10, 20] `mplus` mzero `mplus` [30]
--- [10,20,30]
-```
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記
-
-```
-twinPrimes :: [(Int, Int)]
-twinPrimes =
-    [ (x, y) | (x, y) <- zip primes (tail primes)
-             , y - x == 2 ]
--- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43), ...]
-```
-
-- - - - -
-
-### 閑話休題 - MonadPlus
-
-リスト内包記と**同値なdo式**
-
-```haskell
-twinPrimes' :: [(Int, Int)]
-twinPrimes' = do
-    (x, y) <- zip primes (tail primes)
-    guard $ y - x == 2
-    return (x, y)
-```
+- `Monoid (m :: * -> *)`
+    - :arrow_right: <code class='no-border'>instance Monoid Maybe</code>
+- `mzero :: m`
+    - :arrow_right: <code class='no-border'>Nothing :: Maybe</code>
+- `mplus :: m -> m -> m`
+    - :arrow_right: <code class='no-border'>Nothing mplus Just = Nothing</code>
+    - :arrow_right: <code class='no-border'>Just mplus Just = Just</code>
 
 <aside class="notes">
-同値についての出典: すごいHaskell楽しく学ぼう！（モナドがいっぱい・リストモナドの章）
+Type -> Typeへの擬似記法として、このように書けます。
+mの任意の型引数aに対してのモノイドという感じ。
 </aside>
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
-
-```
-guard :: Alternative f => Bool -> f ()
-guard :: MonadPlus m => Bool -> m ()
-```
+## MonadPlusは高階なモノイド
 
 - - - - -
 
 ### 閑話休題 - MonadPlus
 # こんなところにもモノイドが！！
+
+<aside class="notes">
+こんなところにもモノイドは応用されているんだよ、
+という例でした。
+</aside>
 
 - - - - -
 
@@ -880,13 +862,103 @@ guard :: MonadPlus m => Bool -> m ()
 
 ### 代数の素朴な定義 - 群
 
-定義
+モノイド + **任意の元に対する逆元** `x^-1`
+
+`x^-1 <> x` = `e` = `x <> x^-1`
 
 - - - - -
 
 ### 代数の素朴な定義 - 群
 
-つまり
+モノイド + **任意の元に対する逆元** `inverse x`
+
+```haskell
+inverseLaw :: (Group a, Eq a) => a -> Bool
+inverseLaw x =
+  (x <> inverse x == empty) && (empty == inverse x <> x)
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+```haskell
+class Monoid a => Group a where
+  inverse :: a -> a
+
+instance Group (Sum Integer) where
+  inverse = negate
+
+instance Group Xor where
+  inverse = id
+```
+
+- - - - -
+
+## ん、Xor……？
+## さっきまでいた
+## Andはどこいった……？
+
+- - - - -
+
+# Andはねぇ
+# シンじゃったヨォ
+# …… 🤓
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+- モノイドであって群**でない**例
+    - `And`
+    - `Or`
+    - `Product Integer`
+    - `Product Rational`
+    - `[a]`
+
+<aside class="notes">
+ってことで。
+群の要請する「逆元の存在」っていうのは結構厳しい制約で、
+これを満たせない構造は多いです。  
+これらが群になれない原因を見てみましょう ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+これらは以下がないので群になれない
+
+- `And`: `False && inverse False == True`な  
+  　　　:point_right: `inverse False`
+
+　
+
+- `Or`: `True || inverse True == False`な  
+  　　　:point_right: `inverse True`
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+これは以下がないので群になれない
+
+- `[a]`: `[x, y] ++ inverse [x, y] == []`な  
+  　　　:point_right: `inverse [x, y]`
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+- `Product Integer`:   
+  　　例えば`10 * 1/10 == 1`だけど  
+  　　:point_right: `1/10`はIntegerではない
+
+　
+
+- `Product Rational`:   
+  　　一般に`x/y * y/x == 1/1`っぽいけど  
+  　　:point_right: `0/10 * 10/0`がゼロ除算
 
 - - - - -
 
@@ -894,19 +966,69 @@ guard :: MonadPlus m => Bool -> m ()
 
 応用例
 
+- [ElGamal暗号](https://ja.wikipedia.org/wiki/ElGamal%E6%9A%97%E5%8F%B7)
+- [楕円曲線暗号](https://ja.wikipedia.org/wiki/%E6%A5%95%E5%86%86%E6%9B%B2%E7%B7%9A%E6%9A%97%E5%8F%B7)
+
 - - - - -
 
 ### 代数の素朴な定義 - 群
 
-- モノイドであって群でない例
-    - ''
+その他インスタンス
+
+```haskell
+instance Group (Sum Rational) where
+  inverse = negate
+
+instance Group () where
+  inverse () = ()
+```
+
+- - - - -
+
+# ちょっと寄り道
+
+- - - - -
+
+### 代数の素朴な定義
+# 可換な代数
+## (Abelian)
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+`x <> y` = `y <> x`
+
+<aside class="notes">
+この性質を満たすことを「交換法則を満たす」と言います。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+- 可換半群
 
 - - - - -
 
 ### 代数の素朴な定義
 # ここまでのまとめ
 
-マグマ・半群・モノイド・群のわかりやすい図
+- - - - -
+
+### 代数の素朴な定義
+
+| マグマ   | 半群　　　　　 | モノイド | 群　　　　　 |
+|----------|----------------|----------|--------------|
+| 　`<>`　 | `x <> y <> z`  | `e`　    | `x <> inv x` |
+
+- - - - -
+
+### 代数の素朴な定義
+
+これまでの形 :point_down:
+
+より強い代数 = より弱い代数 + 何か
 
 - - - - -
 

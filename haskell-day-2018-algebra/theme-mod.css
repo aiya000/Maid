@@ -55,6 +55,10 @@ body {
     margin: 10px;
 }
 
+code.no-border {
+    border: none;
+}
+
 p.left {
     text-align: left;
 }
