@@ -1,6 +1,10 @@
 <!-- NOTE: 閑話休題のときは高橋メソッドに切り替えてる。 -->
 <!-- （そっちのが皆さん、使う頭が変わって休めるかなと思うので） -->
 
+<!--
+TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確認してもらう。
+-->
+
 # 閑話休題
 
 - - - - -
@@ -67,6 +71,10 @@ MonadPlusが何かって言うと、
 ```
 ここ :point_up: めっちゃMonadPlus
 
+<aside class="notes">
+実はここ、めっちゃMonadPlusなんです。
+</aside>
+
 - - - - -
 
 ### 閑話休題 - MonadPlus
@@ -87,13 +95,35 @@ mに由来しているものです。
 
 ### 閑話休題 - MonadPlus
 
-MonadPlusのモノイドしぐさ
+擬似的に書くなら……
+
+- `Monoid (m :: * -> *)`
+    - :point_up: `instance Monoid Maybe`
+- `mzero :: m`
+    - :point_up: `Nothing :: Maybe`
+- `mplus :: m -> m -> m`
+    - :point_up: `Nothing mplus Just = Nothing`
+    - :point_up: `Just mplus Just = Just`
+
+<aside class="notes">
+mの任意の型引数aに対してのモノイドという感じ。
+</aside>
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+
+例: MonadPlusのモノイドしぐさ
 
 ```haskell
 listMonadPlus :: [Int]
 listMonadPlus = [10, 20] `mplus` mzero `mplus` [30]
 -- [10,20,30]
 ```
+
+<aside class="notes">
+これを見ても、なんだかモノイドな感じがしますよね。
+</aside>
 
 - - - - -
 
@@ -123,9 +153,10 @@ twinPrimes' = do
     return (x, y)
 ```
 
-<aside class="notes">
-同値についての出典: すごいHaskell楽しく学ぼう！（モナドがいっぱい・リストモナドの章）
-</aside>
+- - -
+
+#### 同値についての出典:
+#### すごいHaskell楽しく学ぼう！（モナドがいっぱい・リストモナドの章）
 
 - - - - -
 
@@ -135,6 +166,19 @@ twinPrimes' = do
 guard :: Alternative f => Bool -> f ()
 guard :: MonadPlus m => Bool -> m ()
 ```
+
+もし引数が真なら、（高階な）単位元を返す。
+
+```
+guard False >> pure 10  =  mzero >> pure 10
+                        =  [] >> pure 10
+                        =  []
+```
+
+- - - - -
+
+### 閑話休題 - MonadPlus
+## つまりMonadPlusは高階なモノイド
 
 - - - - -
 
