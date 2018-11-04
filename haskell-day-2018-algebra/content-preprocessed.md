@@ -1,23 +1,3 @@
-<!--
-
-```haskell
-
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE UndecidableInstances #-}
-
-module HaskellDay where
-
-import Control.Monad (MonadPlus(..), guard)
-import Data.Numbers.Primes (primes)
-import Data.Ratio (Rational, (%), numerator, denominator)
-import Prelude hiding (Semigroup(..), Monoid(..))
-
-```
-
--->
-
 　
 # **Semigroupとは？ Monoid？ 環？**
 　
@@ -114,6 +94,26 @@ Haskellの型とロジックで記述していきます。
 # 代数の素朴な定義
 
 - - - - -
+
+<!--
+
+```haskell
+
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE UndecidableInstances #-}
+
+module FirstHalf where
+
+import Control.Monad (MonadPlus(..), guard)
+import Data.Numbers.Primes (primes)
+import Data.Ratio (Rational, (%), numerator, denominator)
+import Prelude hiding (Semigroup(..), Monoid(..))
+
+```
+
+-->
 
 ### 代数の素朴な定義
 # マグマ
@@ -494,12 +494,12 @@ associativeLaw x y z =
 ```haskell
 class Magma a => Semigroup a
 
--- 10 + 20   ,   10 * 20
-instance Semigroup (Sum Integer)
-instance Semigroup (Product Integer)
--- (10%20) + (30%40)   ,   (10%20) * (30%40)
+instance Semigroup (Sum Integer)     -- 10 + 20
+instance Semigroup (Product Integer) -- 10 * 20
 instance Semigroup (Sum Rational)
 instance Semigroup (Product Rational)
+ -- (10%20) + (30%40)
+ -- (10%20) * (30%40)
 ```
 
 <!--
@@ -568,6 +568,7 @@ concatLとRが同じものになります。
 
 ### 代数の素朴な定義
 # モノイド
+## (Monoid)
 
 - - - - -
 
@@ -857,6 +858,7 @@ mの任意の型引数aに対してのモノイドという感じ。
 
 ### 代数の素朴な定義
 # 群
+## (Group)
 
 - - - - -
 
@@ -985,7 +987,7 @@ instance Group () where
 
 - - - - -
 
-# ちょっと寄り道
+# ちょっと寄り道 :eyes:
 
 - - - - -
 
@@ -997,17 +999,79 @@ instance Group () where
 
 ### 代数の素朴な定義 - 可換な代数
 
+交換法則  
+**可換**半群・**可換**モノイド・**可換**群
+
 `x <> y` = `y <> x`
 
 <aside class="notes">
-この性質を満たすことを「交換法則を満たす」と言います。
+この交換法則を満たす代数を……  
+可換半群、あるいはAbelian Semigroup。  
+可換モノイド、あるいはAbelian Monoid。  
+可換群、あるいはAbelian Groupと言います。
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 可換な代数
 
-- 可換半群
+```haskell
+commutativeLaw :: (Abelian a, Eq a) =>
+                  a -> a -> Bool
+commutativeLaw x y =
+  x <> y == y <> x
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+```haskell
+class Semigroup a => Abelian a
+
+instance Abelian (Sum Integer)
+instance Abelian (Product Integer)
+instance Abelian (Sum Rational)
+instance Abelian (Product Rational)
+instance Abelian And
+instance Abelian Or
+instance Abelian Xor
+instance Abelian ()
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+応用例
+
+- ユニフィケーションの解法として
+
+```
+-- この型付けは妥当か？
+1 : ['a', 'b', 'c']
+```
+
+出典: [ユニフィケーション - Wikipedia](https://ja.wikipedia.org/wiki/%E3%83%A6%E3%83%8B%E3%83%95%E3%82%A3%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3)
+
+<aside class="notes">
+ユニフィケーションの解法として使われていたのを見たことがあります。
+ここでユニフィケーションについて語るとまた時間が必要なので、
+割愛させていただきますが、
+例えばこんな項の型推論の補助に使われたりします。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+- 半群であって可換半群**でない**例
+    - `[a]`
+    - :point_up: `[x, y] ++ [z]`等は可換ではないね :eyes:
+
+- - - - -
+
+# ここで前半戦終わり！
 
 - - - - -
 
@@ -1018,9 +1082,10 @@ instance Group () where
 
 ### 代数の素朴な定義
 
-| マグマ   | 半群　　　　　 | モノイド | 群　　　　　 |
-|----------|----------------|----------|--------------|
-| 　`<>`　 | `x <> y <> z`  | `e`　    | `x <> inv x` |
+| マグマ   | 半群　　　　　　 | モノイド | 群　　　　　 |
+|----------|------------------|----------|--------------|
+| 　`<>`　 | `(x <> y) <> z`  | `e`　    | `x <> inv x` |
+|          | `x <> (y <> z)`  |          | `inv x <> x` |
 
 - - - - -
 
@@ -1028,30 +1093,175 @@ instance Group () where
 
 これまでの形 :point_down:
 
-より強い代数 = より弱い代数 + 何か
+- より強い代数 = より弱い代数 + 何か  
+    - e.g. モノイド = 半群 + 単位元
 
 - - - - -
 
 ### 代数の素朴な定義
+
+これからの形 :point_down:
+
+- より強い代数 =
+    - より弱い代数 + より弱い代数 + 何か
+
+- - - - -
+
+# というところで
+# 早速…… :point_right:
+
+- - - - -
+
+<!--
+
+```haskell
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE StandaloneDeriving #-}
+
+module LastHalf where
+
+import Data.Ratio (Rational, (%), numerator, denominator)
+import Prelude hiding (Semigroup(..))
+
+newtype Sum a = Sum
+    { unSum :: a
+    } deriving (Show, Eq)
+
+newtype Product a = Product
+    { unProduct :: a
+    } deriving (Show, Eq)
+
+deriving instance Num a => Num (Sum a)
+deriving instance Num a => Num (Product a)
+
+newtype And = And
+    { unAnd :: Bool
+    } deriving (Show, Eq)
+
+newtype Or = Or
+    { unOr :: Bool
+    } deriving (Show, Eq)
+
+newtype Xor = Xor
+    { unXor :: Bool
+    } deriving (Show, Eq)
+```
+
+-->
+
+### 代数の素朴な定義
 # 擬環
+## (Rng)
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-定義
+（加法）**可換群** + （乗法）**可換半群**
+
+`x (y <> z)` = `xy <> xz`  
+`(x <> y) z` = `xz <> yz`
+
+<aside class="notes">
+このような法則を分配法則っていいます。
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-つまり
+```haskell
+distributiveLaw :: (Rng a, Eq a) => a -> a -> a -> Bool
+distributiveLaw x y z =
+  x >< (y <> z) == x >< y <> x >< z
+    &&
+  (y <> z) >< x == y >< x <> z >< x
+```
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-応用例
+```haskell
+class Rng a where
+    (<>)     :: a -> a -> a
+    emptyA   :: a
+    inverseA :: a -> a
+    (><)     :: a -> a -> a
+
+infixl 6 <>
+infixl 7 ><
+```
+
+- 加法 :point_right: `<>, emptyA, inverseA`  
+- 乗法 :point_right: `><`
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+```haskell
+-- 10 * (20 + 30)  =  (10*20) + (10*30)
+--                 =  500
+instance Rng Integer where
+    (<>)     = (+)
+    emptyA   = 0
+    inverseA = negate
+    (><)     = (*)
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+```haskell
+instance Rng Rational where
+    (<>)       = (+)
+    emptyA     = 0 % 1
+    inverseA x = denominator x % numerator x
+    (><)       = (*)
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+```haskell
+-- True && (False `xor` True)
+--      = (True&&False) `xor` (True&&True)
+--      = True
+instance Rng Bool where
+    (<>)     = xor
+    emptyA   = False
+    inverseA = id
+    (><)     = (&&)
+```
+
+<!--
+
+```haskell
+xor :: Bool -> Bool -> Bool
+xor True False = True
+xor False True = True
+xor _ _ = False
+```
+
+-->
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+い　つ　も　の
+
+```haskell
+instance Rng () where
+    () <> ()    = ()
+    emptyA      = ()
+    inverseA () = ()
+    () >< ()    = ()
+```
 
 - - - - -
 
@@ -1127,6 +1337,7 @@ instance Group () where
 
 ### 代数の素朴な定義
 # 環
+## (Ring)
 
 - - - - -
 
@@ -1157,6 +1368,7 @@ instance Group () where
 
 ### 代数の素朴な定義
 # 体
+## (Field)
 
 - - - - -
 

@@ -1,23 +1,3 @@
-<!--
-
-```haskell
-
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE UndecidableInstances #-}
-
-module HaskellDay where
-
-import Control.Monad (MonadPlus(..), guard)
-import Data.Numbers.Primes (primes)
-import Data.Ratio (Rational, (%), numerator, denominator)
-import Prelude hiding (Semigroup(..), Monoid(..))
-
-```
-
--->
-
 　
 # **Semigroupとは？ Monoid？ 環？**
 　
@@ -41,55 +21,11 @@ Haskellでの、
 
 - - - - -
 
-!INCLUDE "magma.md"
+!INCLUDE "first-half-preprocessed.md"
 
 - - - - -
 
-!INCLUDE "instances.md"
-
-- - - - -
-
-!INCLUDE "semigroup.md"
-
-- - - - -
-
-!INCLUDE "monoid.md"
-
-- - - - -
-
-!INCLUDE "monad-plus.md"
-
-- - - - -
-
-!INCLUDE "group.md"
-
-- - - - -
-
-!INCLUDE "abelian.md"
-
-- - - - -
-
-!INCLUDE "summary-first-half.md"
-
-- - - - -
-
-!INCLUDE "rng.md"
-
-- - - - -
-
-!INCLUDE "morphism-monoid.md"
-
-- - - - -
-
-!INCLUDE "ring.md"
-
-- - - - -
-
-!INCLUDE "field.md"
-
-- - - - -
-
-!INCLUDE "conclusion.md"
+!INCLUDE "last-half-preprocessed.md"
 
 - - - - -
 

@@ -1,3 +1,5 @@
 HaskellDay.hs
 # This cannot be ignored, because github-pages needs
 #content-preprocessed.md
+first-half-preprocessed.md
+last-half-preprocessed.md

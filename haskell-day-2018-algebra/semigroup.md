@@ -39,12 +39,12 @@ associativeLaw x y z =
 ```haskell
 class Magma a => Semigroup a
 
--- 10 + 20   ,   10 * 20
-instance Semigroup (Sum Integer)
-instance Semigroup (Product Integer)
--- (10%20) + (30%40)   ,   (10%20) * (30%40)
+instance Semigroup (Sum Integer)     -- 10 + 20
+instance Semigroup (Product Integer) -- 10 * 20
 instance Semigroup (Sum Rational)
 instance Semigroup (Product Rational)
+ -- (10%20) + (30%40)
+ -- (10%20) * (30%40)
 ```
 
 <!--

@@ -1,37 +1,39 @@
-### 代数の素朴な定義
-# 擬環
-## (Rng)
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE StandaloneDeriving #-}
 
-- - - - -
+module LastHalf where
 
-### 代数の素朴な定義 - 擬環
+import Data.Ratio (Rational, (%), numerator, denominator)
+import Prelude hiding (Semigroup(..))
 
-（加法）**可換群** + （乗法）**可換半群**
+newtype Sum a = Sum
+    { unSum :: a
+    } deriving (Show, Eq)
 
-`x (y <> z)` = `xy <> xz`  
-`(x <> y) z` = `xz <> yz`
+newtype Product a = Product
+    { unProduct :: a
+    } deriving (Show, Eq)
 
-<aside class="notes">
-このような法則を分配法則っていいます。
-</aside>
+deriving instance Num a => Num (Sum a)
+deriving instance Num a => Num (Product a)
 
-- - - - -
+newtype And = And
+    { unAnd :: Bool
+    } deriving (Show, Eq)
 
-### 代数の素朴な定義 - 擬環
+newtype Or = Or
+    { unOr :: Bool
+    } deriving (Show, Eq)
 
-```haskell
+newtype Xor = Xor
+    { unXor :: Bool
+    } deriving (Show, Eq)
 distributiveLaw :: (Rng a, Eq a) => a -> a -> a -> Bool
 distributiveLaw x y z =
   x >< (y <> z) == x >< y <> x >< z
     &&
   (y <> z) >< x == y >< x <> z >< x
-```
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-```haskell
 class Rng a where
     (<>)     :: a -> a -> a
     emptyA   :: a
@@ -40,16 +42,6 @@ class Rng a where
 
 infixl 6 <>
 infixl 7 ><
-```
-
-- 加法 :point_right: `<>, emptyA, inverseA`  
-- 乗法 :point_right: `><`
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-```haskell
 -- 10 * (20 + 30)  =  (10*20) + (10*30)
 --                 =  500
 instance Rng Integer where
@@ -57,25 +49,11 @@ instance Rng Integer where
     emptyA   = 0
     inverseA = negate
     (><)     = (*)
-```
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-```haskell
 instance Rng Rational where
     (<>)       = (+)
     emptyA     = 0 % 1
     inverseA x = denominator x % numerator x
     (><)       = (*)
-```
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-```haskell
 -- True && (False `xor` True)
 --      = (True&&False) `xor` (True&&True)
 --      = True
@@ -84,36 +62,12 @@ instance Rng Bool where
     emptyA   = False
     inverseA = id
     (><)     = (&&)
-```
-
-<!--
-
-```haskell
 xor :: Bool -> Bool -> Bool
 xor True False = True
 xor False True = True
 xor _ _ = False
-```
-
--->
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-い　つ　も　の
-
-```haskell
 instance Rng () where
     () <> ()    = ()
     emptyA      = ()
     inverseA () = ()
     () >< ()    = ()
-```
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-- 擬環でない例
-    - ''
