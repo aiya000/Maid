@@ -12,7 +12,9 @@
 `(x <> y) z` = `xz <> yz`
 
 <aside class="notes">
-このような法則を分配法則っていいます。
+擬環は可換群と可換半群の組み合わせです。
+この2つの式は「分配法則」っていいます。
+分配法則をHaskellのコードで表すと ->
 </aside>
 
 - - - - -
@@ -20,16 +22,27 @@
 ### 代数の素朴な定義 - 擬環
 
 ```haskell
-distributiveLaw :: (Rng a, Eq a) => a -> a -> a -> Bool
+distributiveLaw :: (Rng a, Eq a) =>
+                   a -> a -> a -> Bool
 distributiveLaw x y z =
   x >< (y <> z) == x >< y <> x >< z
     &&
-  (y <> z) >< x == y >< x <> z >< x
+  (x <> y) >< z == x >< z <> y >< z
 ```
+
+<aside class="notes">
+こんな感じです。
+この先っぽが内側に向いている方の二項演算子大なり小なりは、
+小なり大なりよりも結合優先度が高いことに注意です。  
+改めて擬環の定義をしてみましょう ->
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
+
+- 加法 :point_right: 群　`(a, <>, emptyA, inverseA)`
+- 乗法 :point_right: 半群`(a, ><)`
 
 ```haskell
 class Rng a where
@@ -42,22 +55,60 @@ infixl 6 <>
 infixl 7 ><
 ```
 
-- 加法 :point_right: `<>, emptyA, inverseA`  
-- 乗法 :point_right: `><`
+<aside class="notes">
+ここで「二項演算><・emptyA・inverseA」の組み合わせを加法、
+二項演算<>を乗法って言います。
+あとは ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+- 加法単位元（**零元**）
+
+```
+emptyA :: a
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+つまるところ擬環は……
+
+**分配**をするために  
+必要なものを定めたプロトコル🤓
+
+```
+2(5 + 2) = 2*5 + 2*2
+```
+
+<aside class="notes">
+にこにー　にこににー、
+になる。
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
 ```haskell
--- 10 * (20 + 30)  =  (10*20) + (10*30)
---                 =  500
+-- 2 * (5 + 2)  =  2*5 + 2*2
+--              =  10 + 4
+--              =  14
 instance Rng Integer where
     (<>)     = (+)
     emptyA   = 0
     inverseA = negate
     (><)     = (*)
 ```
+
+<aside class="notes">
+足し算についての群が加法、
+掛け算についての半群が乗法なので、
+加法・乗法という言い回しがストンとくるんじゃないでしょうか。
+</aside>
 
 - - - - -
 
@@ -70,6 +121,11 @@ instance Rng Rational where
     inverseA x = denominator x % numerator x
     (><)       = (*)
 ```
+
+<aside class="notes">
+Integerと同じように、
+Rationalの定義ができます。
+</aside>
 
 - - - - -
 
@@ -110,10 +166,3 @@ instance Rng () where
     inverseA () = ()
     () >< ()    = ()
 ```
-
-- - - - -
-
-### 代数の素朴な定義 - 擬環
-
-- 擬環でない例
-    - ''
