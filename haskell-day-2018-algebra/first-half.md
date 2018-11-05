@@ -46,4 +46,4 @@ import Prelude hiding (Semigroup(..), Monoid(..))
 
 - - - - -
 
-!INCLUDE "summary-first-half.md"
+!INCLUDE "half-summary.md"
