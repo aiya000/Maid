@@ -40,11 +40,11 @@ newtype Xor = Xor
 
 - - - - -
 
-!INCLUDE "morphism-monoid.md"
+!INCLUDE "ring.md"
 
 - - - - -
 
-!INCLUDE "ring.md"
+!INCLUDE "morphism-monoid.md"
 
 - - - - -
 
