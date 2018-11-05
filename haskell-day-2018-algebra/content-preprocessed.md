@@ -897,18 +897,6 @@ instance Group Xor where
 
 - - - - -
 
-## ん、Xor……？
-## さっきまでいた
-## Andはどこいった……？
-
-- - - - -
-
-# Andはねぇ
-# シンじゃったヨォ
-# …… 🤓
-
-- - - - -
-
 ### 代数の素朴な定義 - 群
 
 - モノイドであって群**でない**例
@@ -919,7 +907,6 @@ instance Group Xor where
     - `[a]`
 
 <aside class="notes">
-ってことで。
 群の要請する「逆元の存在」っていうのは結構厳しい制約で、
 これを満たせない構造は多いです。  
 これらが群になれない原因を見てみましょう ->
@@ -1071,7 +1058,8 @@ instance Abelian ()
 
 - - - - -
 
-# ここで前半戦終わり！
+# ここで前半戦
+# 終わり！
 
 - - - - -
 
@@ -1093,8 +1081,8 @@ instance Abelian ()
 
 これまでの形 :point_down:
 
-- より強い代数 = より弱い代数 + 何か  
-    - e.g. モノイド = 半群 + 単位元
+- より強い代数　　=　　**より弱い代数** + **何か**
+    - e.g. モノイド　=　　半群 + 単位元
 
 - - - - -
 
@@ -1103,7 +1091,14 @@ instance Abelian ()
 これからの形 :point_down:
 
 - より強い代数 =
-    - より弱い代数 + より弱い代数 + 何か
+    - **より弱い代数** + **より弱い代数** + 何か
+
+- e.g. 擬環 =
+    - **群** + **半群** + 分配法則
+
+<aside class="notes">
+これからはこの形が多くなります。
+</aside>
 
 - - - - -
 
@@ -1164,7 +1159,9 @@ newtype Xor = Xor
 `(x <> y) z` = `xz <> yz`
 
 <aside class="notes">
-このような法則を分配法則っていいます。
+擬環は可換群と可換半群の組み合わせです。
+この2つの式は「分配法則」っていいます。
+分配法則をHaskellのコードで表すと ->
 </aside>
 
 - - - - -
@@ -1172,16 +1169,27 @@ newtype Xor = Xor
 ### 代数の素朴な定義 - 擬環
 
 ```haskell
-distributiveLaw :: (Rng a, Eq a) => a -> a -> a -> Bool
+distributiveLaw :: (Rng a, Eq a) =>
+                   a -> a -> a -> Bool
 distributiveLaw x y z =
   x >< (y <> z) == x >< y <> x >< z
     &&
-  (y <> z) >< x == y >< x <> z >< x
+  (x <> y) >< z == x >< z <> y >< z
 ```
+
+<aside class="notes">
+こんな感じです。
+この先っぽが内側に向いている方の二項演算子大なり小なりは、
+小なり大なりよりも結合優先度が高いことに注意です。  
+改めて擬環の定義をしてみましょう ->
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
+
+- 加法 :point_right: 群　`(a, <>, emptyA, inverseA)`
+- 乗法 :point_right: 半群`(a, ><)`
 
 ```haskell
 class Rng a where
@@ -1194,22 +1202,60 @@ infixl 6 <>
 infixl 7 ><
 ```
 
-- 加法 :point_right: `<>, emptyA, inverseA`  
-- 乗法 :point_right: `><`
+<aside class="notes">
+ここで「二項演算><・emptyA・inverseA」の組み合わせを加法、
+二項演算<>を乗法って言います。
+あとは ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+- 加法単位元（**零元**）
+
+```
+emptyA :: a
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+つまるところ擬環は……
+
+**分配**をするために  
+必要なものを定めたプロトコル🤓
+
+```
+2(5 + 2) = 2*5 + 2*2
+```
+
+<aside class="notes">
+にこにー　にこににー、
+になる。
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
 ```haskell
--- 10 * (20 + 30)  =  (10*20) + (10*30)
---                 =  500
+-- 2 * (5 + 2)  =  2*5 + 2*2
+--              =  10 + 4
+--              =  14
 instance Rng Integer where
     (<>)     = (+)
     emptyA   = 0
     inverseA = negate
     (><)     = (*)
 ```
+
+<aside class="notes">
+足し算についての群が加法、
+掛け算についての半群が乗法なので、
+加法・乗法という言い回しがストンとくるんじゃないでしょうか。
+</aside>
 
 - - - - -
 
@@ -1222,6 +1268,11 @@ instance Rng Rational where
     inverseA x = denominator x % numerator x
     (><)       = (*)
 ```
+
+<aside class="notes">
+Integerと同じように、
+Rationalの定義ができます。
+</aside>
 
 - - - - -
 
@@ -1265,16 +1316,73 @@ instance Rng () where
 
 - - - - -
 
-### 代数の素朴な定義 - 擬環
+### 代数の素朴な定義
+# 環
+## (Ring)
 
-- 擬環でない例
-    - ''
+<aside class="notes">
+擬環に少しの概念を加えた代数として、
+環っていうのもあります。
+</aside>
 
 - - - - -
 
-<!-- 高橋メソッドで -->
+### 代数の素朴な定義 - 環
 
-# 閑話休題
+環 + 乗法**単位元** 1
+
+`1 (x <> y) z` = `(x <> y) z`  
+`x (y <> z) 1` = `x (y <> z)`
+
+- - - - -
+
+### 代数の素朴な定義 - 環
+
+環 + 乗法**単位元** emptyM
+
+```haskell
+emptyLawForMulti :: (Ring a, Eq a) => a -> Bool
+emptyLawForMulti x =
+  (x >< emptyM == x) && (x == emptyM >< x)
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 環
+
+```haskell
+class Rng a => Ring a where
+    emptyM :: a
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 環
+
+```haskell
+instance Ring Integer where
+    emptyM = 1
+
+instance Ring Rational where
+    emptyM = 1 % 1
+```
+
+- - - - -
+
+### 代数の素朴な定義 - 環
+
+```haskell
+instance Ring Bool where
+    emptyM = True
+
+instance Ring () where -- 🤓
+    emptyM = ()
+```
+
+- - - - -
+
+# またちょっと
+# 休憩 :sleeping:
 
 - - - - -
 
@@ -1282,7 +1390,8 @@ instance Rng () where
 
 - - - - -
 
-# 写像は好きですか？
+# 写像は
+# 好きですか？
 
 - - - - -
 
@@ -1290,13 +1399,15 @@ instance Rng () where
 
 - - - - -
 
-# A. こういうの
+## A. こういうの
 
-<!-- TODO: 集合の写像のイメージを簡単なもので -->
+![](morphism.png)
 
 - - - - -
 
-# 半群準同型写像
+## 半群準同型写像
+
+![](semigroup-homomorphism.png)
 
 - - - - -
 
@@ -1332,37 +1443,6 @@ instance Rng () where
 # 自己準同型写像と合成はモノイドになる
 
 再びモノイドへ……
-
-- - - - -
-
-### 代数の素朴な定義
-# 環
-## (Ring)
-
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-定義
-
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-つまり
-
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-応用例
-
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-- 擬環であって環でない例
-    - ''
 
 - - - - -
 
