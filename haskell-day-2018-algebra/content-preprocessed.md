@@ -1110,8 +1110,10 @@ instance Abelian ()
 <!--
 
 ```haskell
+{-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeApplications #-}
 
@@ -1582,7 +1584,7 @@ reverseHomo = Homo reverse
 -- [1,2,2,3,3,4,4,5]
 duplicateHomo :: Homo [a] [a]
 duplicateHomo = Homo $ \xs ->
-    zip xs (tail xs) >>= \(t, u) -> t : u : []
+    zip xs (tail xs) >>= \(t, u) -> [t, u]
 -- ... and more `Homo [a] [a]` values ...
 ```
 
