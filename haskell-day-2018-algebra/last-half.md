@@ -4,11 +4,13 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TypeApplications #-}
 
 module LastHalf where
 
 import Data.Ratio (Rational, (%), numerator, denominator)
-import Prelude hiding (Semigroup(..))
+import Prelude hiding (Semigroup(..), Monoid(..))
+import Test.SmallCheck (smallCheck)
 
 newtype Sum a = Sum
     { unSum :: a

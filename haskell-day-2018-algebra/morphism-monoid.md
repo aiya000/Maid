@@ -1,6 +1,5 @@
-<!-- 高橋メソッドで -->
-
-# 閑話休題
+# またちょっと
+# 休憩 :sleeping:
 
 - - - - -
 
@@ -8,7 +7,8 @@
 
 - - - - -
 
-# 写像は好きですか？
+# 写像は
+# 好きですか？
 
 - - - - -
 
@@ -16,45 +16,234 @@
 
 - - - - -
 
-# A. こういうの
+## A. こういうの
 
-<!-- TODO: 集合の写像のイメージを簡単なもので -->
-
-- - - - -
-
-# 半群準同型写像
+![](morphism.png)
 
 - - - - -
 
-# モノイド準同型写像
+## 半群準同型写像
+
+![](semigroup-homomorphism.png)
 
 - - - - -
 
-# 群準同型写像
+### 休憩 - 半群準同型写像
+
+**半群準同型**`f : a -> b`とは
+
+:arrow_down:
+
+`Semigroup a`, `<!> :: a -> a -> a`
+
+`Semigroup b`, `<?> :: b -> b -> b`
+
+があるときに
 
 - - - - -
 
-# ところで……
+### 休憩 - 半群準同型写像
+
+:arrow_down:
+
+`a`の全ての値 `x :: a`, `y :: a` を
+
+`f (x <!> y) :: b` = `f x <?> f y :: b`
+にする  
+`f` のことである :relieved:
 
 - - - - -
 
-# 自己準同型写像と合成はモノイドになる
+### 休憩 - 半群準同型写像
+
+<!--
+
+```haskell
+class Magma a where
+    (<+>) :: a -> a -> a
+
+class Magma a => Semigroup a
+
+instance Magma [a] where
+    (<+>) = (++)
+
+instance Semigroup [a]
+
+instance Magma Int where
+    (<+>) = (+)
+
+instance Semigroup Int
+
+(<!>) :: Semigroup b => b -> b -> b
+(<!>) = (<!>)
+
+(<?>) :: Semigroup b => b -> b -> b
+(<?>) = (<!>)
+```
+
+-->
+
+2つのSemigroup `a`, `b` の区別 :eyes:
+
+```
+(<!>) :: Semigroup a => a -> a -> a
+(<!>) = (<>)
+
+(<?>) :: Semigroup b => b -> b -> b
+(<?>) = (<>)
+```
 
 - - - - -
 
-# 自己準同型写像と合成はモノイドになる
+### 休憩 - 半群準同型写像
 
-- 半群A・モノイドA・群Aの準同型写像のうち
-- `A -> A` になるようなもの
+```haskell
+newtype Homo a b = Homo
+    { runHomo :: a -> b
+    }
+
+listAToInt :: Homo [a] Int
+listAToInt = Homo length
+```
+
+:point_up: `Semigroup [a]` と `Semigroup Int` は準同型
 
 - - - - -
 
-# 自己準同型写像と合成はモノイドになる
+### 休憩 - 半群準同型写像
 
-<!-- TODO: 自己準同型写像の簡単なイメージ -->
+```haskell
+homoLaw :: ( Semigroup a, Eq a
+           , Semigroup b, Eq b
+           ) => Homo a b -> a -> a -> Bool
+homoLaw (Homo f) x y =
+    f (x <!> y) == f x <?> f y
+```
+
+<!--
+
+```haskell
+checkListAToInt :: IO ()
+checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
+```
+
+-->
 
 - - - - -
 
-# 自己準同型写像と合成はモノイドになる
+## モノイド準同型写像
 
-再びモノイドへ……
+![](monoid-homomorphism.png)
+
+- - - - -
+
+## 群準同型写像
+
+![](group-homomorphism.png)
+
+- - - - -
+
+# 実は……
+
+- - - - -
+
+# 自己準同型写像と
+# その合成は
+# **モノイドになる**
+
+- - - - -
+
+### 休憩 - 自己準同型写像と合成はモノイドになる
+
+<!--
+
+```haskell
+class Semigroup a => Monoid a where
+  empty :: a
+
+instance Magma (Homo a a) where
+    (Homo f) <+> (Homo g) = Homo $ f . g
+
+instance Semigroup (Homo a a)
+
+instance Monoid (Homo a a) where
+    empty = Homo id
+```
+
+-->
+
+```
+instance Magma (Homo a a) where
+    (Homo f) <> (Homo g) = Homo $ f . g
+
+instance Semigroup (Homo a a)
+
+instance Monoid (Homo a a) where
+    empty = Homo id
+```
+
+- - - - -
+
+### 休憩 - 自己準同型写像と合成はモノイドになる
+
+```haskell
+reverseHomo :: Homo [a] [a]
+reverseHomo = Homo reverse
+-- >>> runHomo listATolistA' [1..5]
+-- [1,2,2,3,3,4,4,5]
+duplicateHomo :: Homo [a] [a]
+duplicateHomo = Homo $ \xs ->
+    zip xs (tail xs) >>= \(t, u) -> t : u : []
+-- ... and more `Homo [a] [a]` values ...
+```
+
+<aside class="notes">
+この内容は理解しないで大丈夫です。
+これらが準同型写像として型付けられてることに注視してください。
+</aside>
+
+- - - - -
+
+### 休憩 - 自己準同型写像と合成はモノイドになる
+
+<!--
+
+```haskell
+reverseHomo' :: Homo [a] [a]
+reverseHomo' = empty <+> reverseHomo
+
+reverseHomo'' :: Homo [a] [a]
+reverseHomo'' = reverseHomo <+> empty
+
+alsoHomo :: Homo [a] [a]
+alsoHomo = reverseHomo <+> duplicateHomo
+```
+
+-->
+
+```
+reverseHomo' :: Homo [a] [a]
+reverseHomo' = empty <> reverseHomo
+reverseHomo'' :: Homo [a] [a]
+reverseHomo'' = reverseHomo <> empty
+
+alsoHomo :: Homo [a] [a]
+alsoHomo = reverseHomo <> duplicateHomo
+-- ... and forall `Homo [a] [a]` ...
+```
+
+- - - - -
+
+### 休憩 - 自己準同型写像と合成はモノイドになる
+
+![](homomorphism-monoid.png)
+
+- - - - -
+
+# **全ての道は**
+# **モノイドに通ず**
+
+<aside class="notes">
+皆さん是非、
+この言葉をおみやげに持ち帰ってください。
+</aside>
