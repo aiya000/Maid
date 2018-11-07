@@ -31,11 +31,9 @@ Haskellでの、
 
 # おわり
 
-- - - - -
+![](Where_Dreams_Are_Born_by_titiavanbeugen.jpg)
 
-## 宣伝
-
-「今回話したこと + もうちょっとわかりやすい説明」を教えてくれる本
-🤟🙄🤟
-
-<!-- TODO: ここにURL -->
+<aside class="notes">
+以上で発表を終わります。
+ご清聴ありがとうございました。
+</aside>
