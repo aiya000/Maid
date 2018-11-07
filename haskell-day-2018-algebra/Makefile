@@ -17,7 +17,7 @@ code:
 
 install-deps:
 	pip install MarkdownPP
-	stack install primes
+	stack install primes smallcheck
 
 watch:
 	watchexec --restart \
