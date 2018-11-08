@@ -87,9 +87,16 @@ concatLとRが同じものになります。
 
 - 応用例:
     - 末尾再帰最適化
-    - プログラミング (`Data.Semigroup`)
+    - プログラミング
+        - `(++) :: [a] -> [a] -> [a]`
+        - `(&&) :: Bool -> Bool -> Bool`
+        - `first :: NonEmpty (First a) -> First a`
+        - `max :: NonEmpty (Max a) -> Max a`
+        - ...etc
 
-<!-- TODO: 末尾最適化について詳しく？ -->
+<aside class="notes">
+結合法則の存在が大きい
+</aside>
 
 - - - - -
 

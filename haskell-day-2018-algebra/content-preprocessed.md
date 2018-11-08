@@ -55,39 +55,33 @@ Haskellの型とロジックで記述していきます。
 
 ### このスライドで学べること
 
-初心者フレンドリーな表現 :relaxed:
+初心者フレンドリーな表現
+
+<ul class='no-signs'>
+    <li>~~精密さ・厳密さ~~</li>
+    <li>**わかりやすい表現** :point_left: :relaxed:</li>
+</ul>
 
 <aside class="notes">
-今回は精密さ・厳密さよりも、
-代数の初心者がわかりやすいような表現を用います。
-　  
 ここで応用例等の紹介は重視しませんが、
-軽く紹介します。  
-代数って非常に広く応用されているので、
-わざわざ紹介するよりも自身で調べて頂いた方が面白いかな〜と。
-->
+軽く紹介はします ->
 </aside>
 
 - - - - -
 
-# 本編を始める前に一言
+### このスライドで学べること
+
+今回の話で登場する**型クラス等**  
+　  
+:point_up: は :point_down: に則ってない  
+　  
+実在する**標準ライブラリ**
 
 <aside class="notes">
-本編を始める前に、最後に一言
+今回の話で登場する型クラス等は、
+断りがない限り標準ライブラリにあるとは限りません。
+多くは独自のものになります。
 </aside>
-
-- - - - -
-
-# 皆さん、安心してください
-# この発表中のコードは……
-
-- - - - -
-
-# well-compiledです :sunglasses:
-
-- - - - -
-
-# ここから本編 :point_right:
 
 - - - - -
 
@@ -203,7 +197,7 @@ aに閉じた（aの上の）演算とは:
 - `a`の値だけを受け取って
 - `a`の値を返す
 
-```
+```hs
 (+) :: Int -> Int -> Int
 id  :: Rational -> Rational
 ```
@@ -223,7 +217,7 @@ Rationalの上の演算idですね。
 
 二項演算とは: **2引数の演算**
 
-```
+```hs
 (+)       :: Int -> Int -> Int
 (:)       :: a -> [a] -> [a]
 fromMaybe :: a -> Maybe a -> a
@@ -244,7 +238,7 @@ fromMaybe :: a -> Maybe a -> a
 Int上の二項演算
 :ok_woman:
 
-```
+```hs
 (+) :: Int -> Int -> Int
 ```
 
@@ -254,7 +248,7 @@ Int上の二項演算
 二項演算ではない
 :ng:
 
-```
+```hs
 id :: Rational -> Rational
 ```
 
@@ -262,7 +256,7 @@ id :: Rational -> Rational
 aにも[a]にも閉じていない
 :ng:
 
-```
+```hs
 (:) :: a -> [a] -> [a]
 ```
 
@@ -315,7 +309,7 @@ Boolなら「全てがTrueであるか否か」を求めます。
 
 - - - - -
 
-```
+```hs
 instance Magma Int where
     (<>) = (+)
 
@@ -333,7 +327,7 @@ Intの足し算も掛け算はどちらもIntについて閉じており、
 
 - - - - -
 
-```
+```hs
 instance Magma Bool where
     (<>) = (||)
 
@@ -542,9 +536,16 @@ concatLとRが同じものになります。
 
 - 応用例:
     - 末尾再帰最適化
-    - プログラミング (`Data.Semigroup`)
+    - プログラミング
+        - `(++) :: [a] -> [a] -> [a]`
+        - `(&&) :: Bool -> Bool -> Bool`
+        - `first :: NonEmpty (First a) -> First a`
+        - `max :: NonEmpty (Max a) -> Max a`
+        - ...etc
 
-<!-- TODO: 末尾最適化について詳しく？ -->
+<aside class="notes">
+結合法則の存在が大きい
+</aside>
 
 - - - - -
 
@@ -610,9 +611,9 @@ instance Monoid And where
 ### 代数の素朴な定義 - モノイド
 
 - Sum Integer
-    - `0 + _5` = `_5` = `_5 + 0`
-    - `0 + _7` = `_7` = `_7 + 0`
-    - `0 + 11` = `11` = `11 + 0`
+    - `0 + 3` = `3` = `3 + 0`
+    - `0 + 5` = `5` = `5 + 0`
+    - `0 + 7` = `7` = `7 + 0`
 
 - - - - -
 
@@ -638,7 +639,7 @@ mconcat = foldl (<>) empty
 
 さっきまでのやつ :point_down:
 
-```
+```hs
 concat :: Semigroup a => a -> [a] -> a
 concat = foldl (<>)
 ```
@@ -763,6 +764,10 @@ MonadPlus = **Monad** + **Monoid**
 
 MonadPlusは**高階**な**モノイド**
 
+- - -
+
+`MonadPlus m`が全ての`a`に対して`Monoid (m a)`
+
 <aside class="notes">
 MonadPlusは実は、高階なモノイドです。  
 MonadPlusってなんだっけ……？ っていうと ->
@@ -793,7 +798,7 @@ twinPrimes = do
 
 ### 閑話休題 - MonadPlus
 
-```
+```hs
 class Monad m => MonadPlus m where
     mzero :: m a
     mplus :: m a -> m a -> m a
@@ -824,15 +829,13 @@ class Monad m => MonadPlus m where
 
 ### 閑話休題 - MonadPlus
 
-擬似的に書くなら……
-
-- `Monoid (m :: * -> *)`
-    - :arrow_right: <code class='no-border'>instance Monoid Maybe</code>
-- `mzero :: m`
-    - :arrow_right: <code class='no-border'>Nothing :: Maybe</code>
-- `mplus :: m -> m -> m`
-    - :arrow_right: <code class='no-border'>Nothing mplus Just = Nothing</code>
-    - :arrow_right: <code class='no-border'>Just mplus Just = Just</code>
+- `Monoid (m a)`
+    - :arrow_right: <code class='no-border'>Monoid (Maybe a)</code>
+- `empty :: m a`
+    - :arrow_right: <code class='no-border'>Nothing :: Maybe a</code>
+- `(<>) :: m a -> m a -> m a`
+    - :arrow_right: <code class='no-border'>Nothing <> Just y = Nothing</code>
+    - :arrow_right: <code class='no-border'>Just x <> Just y = Just x</code>
 
 <aside class="notes">
 Type -> Typeへの擬似記法として、このように書けます。
@@ -841,12 +844,12 @@ mの任意の型引数aに対してのモノイドという感じ。
 
 - - - - -
 
-### 閑話休題 - MonadPlus
 ## MonadPlusは高階なモノイド
+
+#### (`MonadPlus m`が全ての`a`に対して`Monoid (m a)`)
 
 - - - - -
 
-### 閑話休題 - MonadPlus
 # こんなところにもモノイドが！！
 
 <aside class="notes">
@@ -1034,7 +1037,7 @@ instance Abelian ()
 
 - ユニフィケーションの解法として
 
-```
+```hs
 -- この型付けは妥当か？
 1 : ['a', 'b', 'c']
 ```
@@ -1218,7 +1221,7 @@ infixl 7 ><
 
 - 加法単位元（**零元**）
 
-```
+```hs
 emptyA :: a
 ```
 
@@ -1476,7 +1479,7 @@ instance Semigroup Int
 
 2つのSemigroup `a`, `b` の区別 :eyes:
 
-```
+```hs
 (<!>) :: Semigroup a => a -> a -> a
 (<!>) = (<>)
 
@@ -1563,7 +1566,7 @@ instance Monoid (Homo a a) where
 
 -->
 
-```
+```hs
 instance Magma (Homo a a) where
     (Homo f) <> (Homo g) = Homo $ f . g
 
@@ -1612,7 +1615,7 @@ alsoHomo = reverseHomo <+> duplicateHomo
 
 -->
 
-```
+```hs
 reverseHomo' :: Homo [a] [a]
 reverseHomo' = empty <> reverseHomo
 reverseHomo'' :: Homo [a] [a]
