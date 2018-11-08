@@ -32,6 +32,10 @@ MonadPlus = **Monad** + **Monoid**
 
 MonadPlusは**高階**な**モノイド**
 
+- - -
+
+`MonadPlus m`が全ての`a`に対して`Monoid (m a)`
+
 <aside class="notes">
 MonadPlusは実は、高階なモノイドです。  
 MonadPlusってなんだっけ……？ っていうと ->
@@ -93,15 +97,13 @@ class Monad m => MonadPlus m where
 
 ### 閑話休題 - MonadPlus
 
-擬似的に書くなら……
-
-- `Monoid (m :: * -> *)`
-    - :arrow_right: <code class='no-border'>instance Monoid Maybe</code>
-- `mzero :: m`
-    - :arrow_right: <code class='no-border'>Nothing :: Maybe</code>
-- `mplus :: m -> m -> m`
-    - :arrow_right: <code class='no-border'>Nothing mplus Just = Nothing</code>
-    - :arrow_right: <code class='no-border'>Just mplus Just = Just</code>
+- `Monoid (m a)`
+    - :arrow_right: <code class='no-border'>Monoid (Maybe a)</code>
+- `empty :: m a`
+    - :arrow_right: <code class='no-border'>Nothing :: Maybe a</code>
+- `(<>) :: m a -> m a -> m a`
+    - :arrow_right: <code class='no-border'>Nothing <> Just y = Nothing</code>
+    - :arrow_right: <code class='no-border'>Just x <> Just y = Just x</code>
 
 <aside class="notes">
 Type -> Typeへの擬似記法として、このように書けます。
@@ -110,12 +112,12 @@ mの任意の型引数aに対してのモノイドという感じ。
 
 - - - - -
 
-### 閑話休題 - MonadPlus
 ## MonadPlusは高階なモノイド
+
+#### (`MonadPlus m`が全ての`a`に対して`Monoid (m a)`)
 
 - - - - -
 
-### 閑話休題 - MonadPlus
 # こんなところにもモノイドが！！
 
 <aside class="notes">
