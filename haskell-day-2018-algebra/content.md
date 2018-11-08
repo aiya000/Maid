@@ -19,6 +19,10 @@ Haskellでの、
 
 # 代数の素朴な定義
 
+<aside class="notes">
+じゃあ、本編の方を、始めさせていただきます。
+</aside>
+
 - - - - -
 
 !INCLUDE "first-half-preprocessed.md"

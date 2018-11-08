@@ -24,7 +24,8 @@ instance Magma Int where
 
 <aside class="notes">
 Intの足し算も掛け算はどちらもIntについて閉じており、
-二項演算でもある。
+二項演算でもあります。
+どっちをインスタンスにすればいいか困りますね。
 また ->
 </aside>
 
