@@ -71,3 +71,7 @@ p.minimumize > img {
     width: 40%;
     object-fit: contain;
 }
+
+ul.no-signs {
+    list-style: none;
+}
