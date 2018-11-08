@@ -85,7 +85,7 @@ instance Semigroup Int
 
 2つのSemigroup `a`, `b` の区別 :eyes:
 
-```
+```hs
 (<!>) :: Semigroup a => a -> a -> a
 (<!>) = (<>)
 
@@ -172,7 +172,7 @@ instance Monoid (Homo a a) where
 
 -->
 
-```
+```hs
 instance Magma (Homo a a) where
     (Homo f) <> (Homo g) = Homo $ f . g
 
@@ -221,7 +221,7 @@ alsoHomo = reverseHomo <+> duplicateHomo
 
 -->
 
-```
+```hs
 reverseHomo' :: Homo [a] [a]
 reverseHomo' = empty <> reverseHomo
 reverseHomo'' :: Homo [a] [a]

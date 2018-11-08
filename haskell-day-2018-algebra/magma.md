@@ -86,7 +86,7 @@ aに閉じた（aの上の）演算とは:
 - `a`の値だけを受け取って
 - `a`の値を返す
 
-```
+```hs
 (+) :: Int -> Int -> Int
 id  :: Rational -> Rational
 ```
@@ -106,7 +106,7 @@ Rationalの上の演算idですね。
 
 二項演算とは: **2引数の演算**
 
-```
+```hs
 (+)       :: Int -> Int -> Int
 (:)       :: a -> [a] -> [a]
 fromMaybe :: a -> Maybe a -> a
@@ -127,7 +127,7 @@ fromMaybe :: a -> Maybe a -> a
 Int上の二項演算
 :ok_woman:
 
-```
+```hs
 (+) :: Int -> Int -> Int
 ```
 
@@ -137,7 +137,7 @@ Int上の二項演算
 二項演算ではない
 :ng:
 
-```
+```hs
 id :: Rational -> Rational
 ```
 
@@ -145,7 +145,7 @@ id :: Rational -> Rational
 aにも[a]にも閉じていない
 :ng:
 
-```
+```hs
 (:) :: a -> [a] -> [a]
 ```
 

@@ -12,7 +12,7 @@
 
 - - - - -
 
-```
+```hs
 instance Magma Int where
     (<>) = (+)
 
@@ -30,7 +30,7 @@ Intの足し算も掛け算はどちらもIntについて閉じており、
 
 - - - - -
 
-```
+```hs
 instance Magma Bool where
     (<>) = (||)
 

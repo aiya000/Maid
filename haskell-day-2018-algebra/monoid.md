@@ -70,7 +70,7 @@ mconcat = foldl (<>) empty
 
 さっきまでのやつ :point_down:
 
-```
+```hs
 concat :: Semigroup a => a -> [a] -> a
 concat = foldl (<>)
 ```
