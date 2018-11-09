@@ -39,6 +39,11 @@ body {
     padding-left: 24px;
 }
 
+.reveal li {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 .reveal {
     font-size: 280%;
 }
