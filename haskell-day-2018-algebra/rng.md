@@ -137,7 +137,7 @@ newtypeは使う必要もなくなりました。
 instance Rng Rational where
     (<>)       = (+)
     emptyA     = 0 % 1
-    inverseA x = denominator x % numerator x
+    inverseA x = negate
     (><)       = (*)
 ```
 
