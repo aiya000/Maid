@@ -56,11 +56,11 @@ Boolについても同様です。
 -- 和 ↓
 newtype Sum a = Sum
     { unSum :: a
-    } deriving (Show, Eq)
+    } deriving (Show, Eq, Enum)
 -- 積 ↓
 newtype Product a = Product
     { unProduct :: a
-    } deriving (Show, Eq)
+    } deriving (Show, Eq, Enum)
 ```
 
 <aside class="notes">
