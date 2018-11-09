@@ -29,7 +29,8 @@
 ```haskell
 emptyLawForMulti :: (Ring a, Eq a) => a -> Bool
 emptyLawForMulti x =
-  (x >< emptyM == x) && (x == emptyM >< x)
+  (x >< emptyM == x) &&
+  (emptyM >< x == x)
 ```
 
 - - - - -

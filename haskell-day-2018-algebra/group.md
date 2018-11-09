@@ -19,7 +19,8 @@
 ```haskell
 inverseLaw :: (Group a, Eq a) => a -> Bool
 inverseLaw x =
-  (x <> inverse x == empty) && (empty == inverse x <> x)
+  (x <> inverse x == empty) &&
+  (inverse x <> x == empty)
 ```
 
 - - - - -

@@ -60,7 +60,7 @@ Haskellの型とロジックで記述していきます。
 
 今回の話で登場する**型クラス等**  
 　  
-:point_up: は :point_down: に則ってない  
+:point_up: not equal :point_down:  
 　  
 実在する**標準ライブラリ**
 
