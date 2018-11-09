@@ -34,10 +34,6 @@ import Prelude hiding (Semigroup(..), Monoid(..))
 
 - - - - -
 
-!INCLUDE "monad-plus.md"
-
-- - - - -
-
 !INCLUDE "group.md"
 
 - - - - -
