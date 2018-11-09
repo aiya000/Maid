@@ -1,6 +1,10 @@
 # ちょっと
 # 脱線 :sleeping:
 
+<aside class="notes">
+ここでちょっとだけ脱線してみましょう。
+</aside>
+
 - - - - -
 
 # 皆さん
@@ -14,17 +18,31 @@
 
 # Q. 写像ってなに？
 
+<aside class="notes">
+写像が何かと言うと ->
+</aside>
+
 - - - - -
 
 ## A. こういうの
 
 ![](morphism.png)
 
+<aside class="notes">
+こういうのがあります。  
+ここでちょっと新しい概念として ->
+</aside>
+
 - - - - -
 
 ## 半群準同型写像
 
 ![](semigroup-homomorphism.png)
+
+<aside class="notes">
+半群準同型写像というものを導入します。
+半群準同型写像とは ->
+</aside>
 
 - - - - -
 
@@ -40,17 +58,30 @@
 
 があるときに
 
+<aside class="notes">
+まず2つの半群について考えるので、二項演算を!と?で区別します。  
+そして半群a,bがあったときに ->
+</aside>
+
 - - - - -
 
 ### 脱線 - 半群準同型写像
 
 :arrow_down:
 
-`a`の全ての値 `x :: a`, `y :: a` を
+<code class='no-border'>a</code>の全ての値
+<code class='no-border'>x :: a</code>,
+<code class='no-border'>y :: a</code>を
 
-`f (x <!> y) :: b` = `f x <?> f y :: b`
+`f (x <!> y)` = `f x <?> f y`
 にする  
-`f` のことである :relieved:
+<code class='no-border'>f</code> のことである :relieved:
+
+<aside class="notes">
+各値をこのように保存するfです。  
+なんのこっちゃって感じだと思うので、
+そういうときはHaskellで書いてみましょう。
+</aside>
 
 - - - - -
 
@@ -93,6 +124,11 @@ instance Semigroup Int
 (<?>) = (<>)
 ```
 
+<aside class="notes">
+まず前述の通り、
+ある半群aとbを区別して ->
+</aside>
+
 - - - - -
 
 ### 脱線 - 半群準同型写像
@@ -107,6 +143,13 @@ listAToInt = Homo length
 ```
 
 :point_up: `Semigroup [a]` と `Semigroup Int` は準同型
+
+<aside class="notes">
+半群準同型写像を表すnewtypeとしてHomoというものを定義します。  
+そしてリストの半群からIntの半群への準同型写像、
+listAToIntも定義します。  
+このlistAToIntは ->
+</aside>
 
 - - - - -
 
@@ -129,6 +172,14 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 
 -->
 
+<aside class="notes">
+この法則を満たします。
+……
+というのが半群準同型写像でした。  
+ここでこれをモノイドや群に拡張した準同型写像も存在します。
+->
+</aside>
+
 - - - - -
 
 ## モノイド準同型写像
@@ -141,6 +192,10 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 
 ![](group-homomorphism.png)
 
+<aside class="notes">
+というところで実は……
+</aside>
+
 - - - - -
 
 # 実は……
@@ -150,6 +205,11 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 # 自己準同型写像と
 # その合成は
 # **モノイドになる**
+
+<aside class="notes">
+自己準同型写像とその合成はまたモノイドになります。
+自己準同型写像とは ->
+</aside>
 
 - - - - -
 
@@ -182,6 +242,14 @@ instance Monoid (Homo a a) where
     empty = Homo id
 ```
 
+<aside class="notes">
+同一の半群、
+aからaへの準同型写像です。  
+そしてそれはMonoidのインスタンスになります。
+確認してみましょう。
+->
+</aside>
+
 - - - - -
 
 ### 脱線 - 自己準同型写像と合成はモノイドになる
@@ -198,8 +266,10 @@ duplicateHomo = Homo $ \xs ->
 ```
 
 <aside class="notes">
+リストの自己準同型写像を2つ定義してみます。  
 この内容は理解しないで大丈夫です。
-これらが準同型写像として型付けられてることに注視してください。
+これらが準同型写像として型付けられてることに注視してください。  
+そしてこれらは ->
 </aside>
 
 - - - - -
@@ -232,11 +302,26 @@ alsoHomo = reverseHomo <> duplicateHomo
 -- ... and forall `Homo [a] [a]` ...
 ```
 
+<aside class="notes">
+このように、
+結合法則と単位元の法則を満たした、
+新しい自己準同型写像を作ることができます。
+イメージは ->
+</aside>
+
 - - - - -
 
 ### 脱線 - 自己準同型写像と合成はモノイドになる
 
 ![](homomorphism-monoid.png)
+
+<aside class="notes">
+こんな感じです。  
+reverseはリストの自己準同型写像で、
+それはつまりリスト自己準同型写像モノイドの値ということです。  
+ここで大事な言葉意があります。
+->
+</aside>
 
 - - - - -
 

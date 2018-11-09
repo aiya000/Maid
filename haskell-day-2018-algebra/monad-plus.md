@@ -1,10 +1,3 @@
-<!-- NOTE: 閑話休題のときは高橋メソッドに切り替えてる。 -->
-<!-- （そっちのが皆さん、使う頭が変わって休めるかなと思うので） -->
-
-<!--
-TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確認してもらう。
--->
-
 # 閑話休題
 
 - - - - -
@@ -19,6 +12,7 @@ TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確�
 - - - - -
 
 # MonadPlus
+#### Control.Monad.MonadPlus
 
 - - - - -
 
@@ -37,7 +31,7 @@ MonadPlusは**高階**な**モノイド**
 `MonadPlus m`が全ての`a`に対して`Monoid (m a)`
 
 <aside class="notes">
-MonadPlusは実は、高階なモノイドです。  
+MonadPlusって実はモノイドです。  
 MonadPlusってなんだっけ……？ っていうと ->
 </aside>
 
@@ -58,7 +52,7 @@ twinPrimes = do
 
 <aside class="notes">
 こんな感じのものでした。  
-じゃあ「MonadPlusは高階なMonoid」っていうのはどういうことかというと……
+じゃあ「MonadPlusはMonoid」っていうのはどういうことかというと……
 まずは定義を見てみましょう ->
 </aside>
 
@@ -82,15 +76,16 @@ class Monad m => MonadPlus m where
 
 - `MonadPlus (m :: * -> *)`
     - :point_up: 高階 (<code class='no-border'>\* -> \*</code>)
-- `mzero`
+- `mzero :: m a`
     - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'>empty</code>
-- `mplus`
+- `mplus :: m a -> m a -> m a`
     - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'><></code>
 
 <aside class="notes">
 まずmはこのように高階です。  
-次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。  
-例えばMaybeインスタンスなら ->
+次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。
+mplusはちゃんとm aに閉じてますね。  
+例えばmの例としてMaybeを挙げると ->
 </aside>
 
 - - - - -
@@ -106,8 +101,10 @@ class Monad m => MonadPlus m where
     - :arrow_right: <code class='no-border'>Just x <> Just y = Just x</code>
 
 <aside class="notes">
-Type -> Typeへの擬似記法として、このように書けます。
-mの任意の型引数aに対してのモノイドという感じ。
+このように書けます。
+mの型引数がaであれbであれ、
+m aはモノイド……
+という感じ。
 </aside>
 
 - - - - -
@@ -122,5 +119,6 @@ mの任意の型引数aに対してのモノイドという感じ。
 
 <aside class="notes">
 こんなところにもモノイドは応用されているんだよ、
-という例でした。
+という話でした。
+では素朴な代数の話に戻りまして ->
 </aside>

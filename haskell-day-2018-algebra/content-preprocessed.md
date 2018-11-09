@@ -23,15 +23,18 @@ Haskellでの、
 <aside class="notes">
 まずは少しの自己紹介をさせていただきます。
 名前は「あいや」と申します。
-TwitterとGitHubやらやらで活動をしています。  
-じゃあ今日の発表の内容は……
-ということで ->
+TwitterとGitHubやらやらで活動をしています。
+->
 </aside>
 
 - - - - -
 
 # このスライドで
 # 学べること
+
+<aside class="notes">
+今日の発表の内容では ->
+</aside>
 
 - - - - -
 
@@ -50,7 +53,8 @@ Haskellの型とロジックで記述していきます。
 後半はこれらについて話します。  
 　  
 ここで応用例等の紹介は重視しませんが、
-軽く紹介はします ->
+軽く紹介はします。
+->
 </aside>
 
 - - - - -
@@ -66,7 +70,8 @@ Haskellの型とロジックで記述していきます。
 
 <aside class="notes">
 今回はわかりやすい表現のために、
-用語の厳密さや一般的な名称・用法を削っています ->
+用語の厳密さや一般的な名称・用法を削っています。
+->
 </aside>
 
 - - - - -
@@ -75,14 +80,18 @@ Haskellの型とロジックで記述していきます。
 
 今回の話で登場する**型クラス等**  
 　  
-:point_up: は :point_down: に則ってない  
+:point_up: not equal :point_down:  
 　  
 実在する**標準ライブラリ**
 
 <aside class="notes">
 今回の話で登場する型クラス等は、
-断りがない限り標準ライブラリにあるとは限らないことにご留意ください。
-多くは独自のものになります。
+断りがない限り標準ライブラリにあるものとは定義が異なっていたり、
+標準ライブラリに存在するとは限らないことにご留意ください。  
+　  
+あとはこのスライドに登場するコードの大部分は、
+実際にコンパイルが通ることを確認されています。
+ご安心ください。
 </aside>
 
 - - - - -
@@ -90,7 +99,8 @@ Haskellの型とロジックで記述していきます。
 # 代数の素朴な定義
 
 <aside class="notes">
-じゃあ、本編の方を、始めさせていただきます。
+では本編の方を、
+始めさせていただきます。
 </aside>
 
 - - - - -
@@ -120,8 +130,8 @@ import Prelude hiding (Semigroup(..), Monoid(..))
 ## (Magma)
 
 <aside class="notes">
-最初は一番制約が緩い、
-マグマという代数を紹介します。
+最初は代数って何？ というところから、
+一番制約が緩いマグマという代数までを説明します。
 </aside>
 
 - - - - -
@@ -139,8 +149,10 @@ x <> y <> z
 
 <aside class="notes">
 マグマは足し算あるいは掛け算のような、
-いわゆる「構造に閉じた」「二項演算」が行えるものです。  
-Haskellで書くと…… ->
+「構造に閉じた」「二項演算」というものが行えるものです。  
+その「閉じた二項演算」というものが何か、
+の前にHaskellでの定義を見てみましょう。
+->
 </aside>
 
 - - - - -
@@ -161,8 +173,12 @@ instance Magma [a] where
 `<>` ← aに閉じた（aの上の）二項演算
 
 <aside class="notes">
-こんな感じ。
-例えばIntやリストがマグマとして挙げられます。
+Magmaはこの形の関数を持ちます。  
+詳しい説明は後に回しますが、
+これが「aに閉じた二項演算」です。  
+　  
+例えばIntやリストはその型に合致する関数を持つので、
+マグマです。
 あとは ->
 </aside>
 
@@ -184,7 +200,7 @@ instance Magma () where
 `<>` ← aに閉じた（aの上の）二項演算
 
 <aside class="notes">
-BoolやFloat、Unitなどなど。
+BoolやFloat、Unitなどなどもマグマです。
 </aside>
 
 - - - - -
@@ -214,12 +230,13 @@ id  :: Rational -> Rational
 ```
 
 <aside class="notes">
+まずaに閉じた演算とは、このようなものです。  
+　  
 ここで誤解を恐れず言えば、
 Haskellで「演算」とは主に関数のことです。  
-なのでaに閉じた演算、aの上の演算とは、
-このような関数のことです。  
-Intの上の演算+、
-Rationalの上の演算idですね。
+　  
++はIntに閉じた演算、
+このidはRationalに閉じた演算です。
 </aside>
 
 - - - - -
@@ -235,10 +252,8 @@ fromMaybe :: a -> Maybe a -> a
 ```
 
 <aside class="notes">
-二項演算とは。
-これはまあ単純で、
-2引数の演算のことです。  
-これらは二項演算です。
+二項演算についてはまあ単純で、
+2引数の関数のことです。
 </aside>
 
 - - - - -
@@ -308,6 +323,10 @@ Boolなら「全てがTrueであるか否か」を求めます。
 
 # ところで……
 
+<aside class="notes">
+ところでですね ->
+</aside>
+
 - - - - -
 
 ## ある型に対してマグマの実装は必ずしも**唯一じゃない**
@@ -315,7 +334,7 @@ Boolなら「全てがTrueであるか否か」を求めます。
 <aside class="notes">
 「ある型に対してマグマの実装は必ずしも唯一じゃない」
 んですよね。
-例えば ->
+どういう意味かというと ->
 </aside>
 
 - - - - -
@@ -333,8 +352,8 @@ instance Magma Int where
 <aside class="notes">
 Intの足し算も掛け算はどちらもIntについて閉じており、
 二項演算でもあります。
-どっちをインスタンスにすればいいか困りますね。
-また ->
+これだとどっちをインスタンスにすればいいか困りますね。
+->
 </aside>
 
 - - - - -
@@ -351,9 +370,9 @@ instance Magma Bool where
 
 <aside class="notes">
 Boolについても同様です。  
-この「代数は必ずしも型に対して1つだけ定まるわけじゃない」
-っていうのは大事なことですね。
-ということで ->
+つまり「代数は必ずしも型に対して1つだけ定まるわけじゃない」
+ということです。
+というところで解決策として ->
 </aside>
 
 - - - - -
@@ -364,15 +383,18 @@ Boolについても同様です。
 -- 和 ↓
 newtype Sum a = Sum
     { unSum :: a
-    } deriving (Show, Eq)
+    } deriving (Show, Eq, Enum)
 -- 積 ↓
 newtype Product a = Product
     { unProduct :: a
-    } deriving (Show, Eq)
+    } deriving (Show, Eq, Enum)
 ```
 
 <aside class="notes">
-適宜newtypeを定義してあげて ->
+性質にそぐうnewtypeを定義してあげましょう。
+性質にそぐったnewtypeを定義してあげるっていうのは、
+Haskellでは時々やりますね。
+そして ->
 </aside>
 
 - - - - -
@@ -430,7 +452,8 @@ instance Magma Or where
 
 <aside class="notes">
 同様にこんな感じ。
-Xorも同じく ->
+Xorも同じく。
+->
 </aside>
 
 - - - - -
@@ -453,7 +476,9 @@ instance Magma Xor where
 Unitについてはインスタンスが唯一つなので、
 新しく定義はしません。  
 ……
-ってとこで、まず代数の入りは終了です。  
+というところで、
+まず代数とは何かというところは完了です。  
+次にいきましょう。
 次は ->
 </aside>
 
@@ -461,11 +486,11 @@ Unitについてはインスタンスが唯一つなので、
 
 ### 代数の素朴な定義
 # 半群
-## (Semigroup)
+## (Semigroup - Data.Semigroup)
 
 <aside class="notes">
 半群という、
-もう少し便利な代数に入りたいと思います。
+もう少し扱いやすくて便利な代数を導入します。
 </aside>
 
 - - - - -
@@ -477,7 +502,9 @@ Unitについてはインスタンスが唯一つなので、
 `(x <> y) <> z` = `x <> (y <> z)`
 
 <aside class="notes">
+半群はこの性質を満たします。
 この性質を満たすことを「結合法則を満たす」と言います。
+Haskellのコードで表すと ->
 </aside>
 
 - - - - -
@@ -492,6 +519,16 @@ associativeLaw :: (Semigroup a, Eq a) =>
 associativeLaw x y z =
   (x <> y) <> z == x <> (y <> z)
 ```
+
+- - -
+
+`(x <> y) <> z` = `x <> (y <> z)`
+
+<aside class="notes">
+こうなります。
+Eqは便宜上追加してますが、
+半群一般に求められるわけではありません。
+</aside>
 
 - - - - -
 
@@ -521,7 +558,15 @@ instance Semigroup ()
 -->
 
 <aside class="notes">
-残念ながらFloatやDoubleは丸め誤差によってインスタンスにならないので、
+半群自体の定義はこうなります。  
+標準ライブラリのData.Semigroupにあるものを、
+便宜上改変をしていますが、
+概念上は同じものです。  
+　  
+マグマと比べ、
+特に関数が追加されたりとはないですが、
+結合法則を満たすことのマーキングになります。  
+Numについては残念ながらFloatやDoubleは丸め誤差によってインスタンスにならないので、
 ここでIntegerとRationalに限定にしておきます。
 </aside>
 
@@ -540,6 +585,7 @@ concat = foldl (<>)
 結合法則を満たすということは、
 左右どちらから演算しても結果が同じということなので、
 concatLとRが同じものになります。
+このconcatとは…… ->
 </aside>
 
 - - - - -
@@ -547,7 +593,6 @@ concatLとRが同じものになります。
 ### 代数の素朴な定義 - 半群
 
 - 応用例:
-    - 末尾再帰最適化
     - プログラミング
         - `(++) :: [a] -> [a] -> [a]`
         - `(&&) :: Bool -> Bool -> Bool`
@@ -556,7 +601,10 @@ concatLとRが同じものになります。
         - ...etc
 
 <aside class="notes">
-結合法則の存在が大きい
+渡された空でないリストの中で一番大きい要素を見つけるmax関数などのことです。
+結合法則の存在はプログラミングで半群を使うにあたって、かなり大きいです。  
+　  
+それによって半群はプログラミング自体で扱いやすいインターフェースになっています。
 </aside>
 
 - - - - -
@@ -568,20 +616,23 @@ concatLとRが同じものになります。
     - :point_up: 丸め誤差による制約
 
 <aside class="notes">
-コンピューター上の実数の近似である浮動小数点数は半群ではありませんが、
-実数は半群になります。
-まあコンピューターには真の実数はないので、
-ここではインスタンスとして書けませんでした。
+コンピューター上の実数の近似である浮動小数点数は半群ではありません。
+本物の実数は半群になりますが、
+残念ながらコンピューターの浮動小数点数は実数ではないので……。  
+というところで、次の代数に移ります。
+->
 </aside>
-
-<!-- 結合法則の最適化 -->
-<!-- http://www.kmonos.net/wlog/121.html -->
 
 - - - - -
 
 ### 代数の素朴な定義
 # モノイド
-## (Monoid)
+## (Monoid - Data.Monoid)
+
+<aside class="notes">
+モノイドって皆さん結構聞いたことあるんじゃないでしょうか。
+というのも色んなところに表れる自然な構造だからですね。
+</aside>
 
 - - - - -
 
@@ -590,6 +641,12 @@ concatLとRが同じものになります。
 半群 + **単位元** e
 
 `e <> x` = `x` = `x <> e`
+
+<aside class="notes">
+モノイドというのは半群の概念に加えて、
+単位元というものを導入したものです。  
+この等式は単位元の法則と言って ->
+</aside>
 
 - - - - -
 
@@ -603,9 +660,22 @@ emptyLaw x =
   (empty <> x == x) && (x == x <> empty)
 ```
 
+- - -
+
+`e <> x` = `x` = `x <> e`
+
+<aside class="notes">
+Haskellで書くとこうなります。
+二項演算に単位元を左もしくは右から与えても、
+他方は変わらない、
+というものです。  
+また半群と同じくEq制約はモノイドに課されるものではありません。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
+
 
 ```haskell
 class Semigroup a => Monoid a where
@@ -618,6 +688,16 @@ instance Monoid And where
   empty = And True
 ```
 
+<aside class="notes">
+定義はこのようになります。  
+これも標準ライブラリのものとは便宜上改変をしていますが、
+概念上は同じものです。  
+　  
+Integerと足し算については0、
+BoolとAndについてはTrueです。  
+例えばこのIntegerについて ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
@@ -627,34 +707,34 @@ instance Monoid And where
     - `0 + 5` = `5` = `5 + 0`
     - `0 + 7` = `7` = `7 + 0`
 
-- - - - -
-
-### 代数の素朴な定義 - モノイド
-
-つまり……何？ 🤔
-
 <aside class="notes">
-って感じだけど、
-ちょっとだけ我慢して応用例を見てみましょう。
+単位元0はこのように、
+他方を変えません。
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
 
-:new: 今回の応用例 :point_down:
+:new: 応用例
 
 ```haskell
 mconcat :: Monoid a => [a] -> a
 mconcat = foldl (<>) empty
 ```
 
-さっきまでのやつ :point_down:
+:point_down: さっきまでのやつ
 
 ```hs
 concat :: Semigroup a => a -> [a] -> a
 concat = foldl (<>)
 ```
+
+<aside class="notes">
+モノイドはこのようにemptyを適用することで、
+自明な初期値を自動で適用します。
+例えば ->
+</aside>
 
 - - - - -
 
@@ -667,6 +747,20 @@ sum :: [Sum Integer] -> Sum Integer
 sum = mconcat
 ```
 
+```hs
+>>> sum  []
+Sum {unSum = 0}
+
+>>> sum [1..9]
+Sum {unSum = 45}
+```
+
+<aside class="notes">
+足し算の総和の初期値は1とか2とかだと異なるので、
+0です。
+もしくはAndでは ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
@@ -678,14 +772,36 @@ all :: [And] -> And
 all = mconcat
 ```
 
+```hs
+>>> all []
+And {unAnd = True}
+
+>>> all [And True, And True, And True]
+And {unAnd = True}
+>>> all [And True, And False, And True]
+And {unAnd = False}
+```
+
+<aside class="notes">
+全てがTrueであることを確認する関数allでは、
+初期値がFalseだと常にFalseを返すことになってしまうので、
+Trueです。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
 
-つまりモノイドは……  
-**自明な初期値が定まった構造**
+モノイドは……**自明な初期値**が定まった代数
 
 - empty = 自明な初期値
+
+<aside class="notes">
+つまりモノイドは明らかな初期値が定まった代数です。  
+……  
+では他のインスタンスも見てみましょう。
+->
+</aside>
 
 - - - - -
 
@@ -704,6 +820,11 @@ instance Monoid [a] where
   empty = []
 ```
 
+<aside class="notes">
+掛け算では初期値は1、
+リストの連結では空リスト。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
@@ -721,6 +842,12 @@ instance Monoid Xor where
   empty = Xor False
 ```
 
+<aside class="notes">
+Rationalの足し算では初期値は0、
+これは0/1とは0のことです。
+OrとXorではFalseです。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
@@ -732,22 +859,28 @@ instance Monoid () where
   empty = ()
 ```
 
+<aside class="notes">
+UnitではUnitです。
+というところで ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
 
 - 半群であってモノイド**でない**例
-    - `NonEmpty a`
+    - `Data.List.NonEmpty.NonEmpty a`
     - :point_up: 空リストのような単位元がない
+    - `Data.Monoid.First a`, `Data.Monoid.Last a`
+
+<aside class="notes">
+NonEmpty aはモノイドにはなれません。
+また、
+与えられた値のうち最初のものを返すFirstや、
+与えられた値のうち最後のものを返すLastも初期値がありません。
+</aside>
 
 - - - - -
-
-<!-- NOTE: 閑話休題のときは高橋メソッドに切り替えてる。 -->
-<!-- （そっちのが皆さん、使う頭が変わって休めるかなと思うので） -->
-
-<!--
-TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確認してもらう。
--->
 
 # 閑話休題
 
@@ -763,6 +896,7 @@ TODO: 「MonadPlusは高階なモノイド」という主張の妥当性を確�
 - - - - -
 
 # MonadPlus
+#### Control.Monad.MonadPlus
 
 - - - - -
 
@@ -781,7 +915,7 @@ MonadPlusは**高階**な**モノイド**
 `MonadPlus m`が全ての`a`に対して`Monoid (m a)`
 
 <aside class="notes">
-MonadPlusは実は、高階なモノイドです。  
+MonadPlusって実はモノイドです。  
 MonadPlusってなんだっけ……？ っていうと ->
 </aside>
 
@@ -802,7 +936,7 @@ twinPrimes = do
 
 <aside class="notes">
 こんな感じのものでした。  
-じゃあ「MonadPlusは高階なMonoid」っていうのはどういうことかというと……
+じゃあ「MonadPlusはMonoid」っていうのはどういうことかというと……
 まずは定義を見てみましょう ->
 </aside>
 
@@ -826,15 +960,16 @@ class Monad m => MonadPlus m where
 
 - `MonadPlus (m :: * -> *)`
     - :point_up: 高階 (<code class='no-border'>\* -> \*</code>)
-- `mzero`
+- `mzero :: m a`
     - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'>empty</code>
-- `mplus`
+- `mplus :: m a -> m a -> m a`
     - :point_up: <code class='no-border'>m</code>に由来する<code class='no-border'><></code>
 
 <aside class="notes">
 まずmはこのように高階です。  
-次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。  
-例えばMaybeインスタンスなら ->
+次にmzeroとmplusはMonoidのemptyとその二項演算に対応しています。
+mplusはちゃんとm aに閉じてますね。  
+例えばmの例としてMaybeを挙げると ->
 </aside>
 
 - - - - -
@@ -850,8 +985,10 @@ class Monad m => MonadPlus m where
     - :arrow_right: <code class='no-border'>Just x <> Just y = Just x</code>
 
 <aside class="notes">
-Type -> Typeへの擬似記法として、このように書けます。
-mの任意の型引数aに対してのモノイドという感じ。
+このように書けます。
+mの型引数がaであれbであれ、
+m aはモノイド……
+という感じ。
 </aside>
 
 - - - - -
@@ -866,7 +1003,8 @@ mの任意の型引数aに対してのモノイドという感じ。
 
 <aside class="notes">
 こんなところにもモノイドは応用されているんだよ、
-という例でした。
+という話でした。
+では素朴な代数の話に戻りまして ->
 </aside>
 
 - - - - -
@@ -875,6 +1013,12 @@ mの任意の型引数aに対してのモノイドという感じ。
 # 群
 ## (Group)
 
+<aside class="notes">
+群という、
+けっこう制約が強い代数があります。
+群では ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 群
@@ -882,6 +1026,12 @@ mの任意の型引数aに対してのモノイドという感じ。
 モノイド + **任意の元に対する逆元** `x^-1`
 
 `x^-1 <> x` = `e` = `x <> x^-1`
+
+<aside class="notes">
+その全ての値xについてその逆元、
+xのマイナスイチ乗という値が定まります。
+この逆元の法則をHaskellで書くと ->
+</aside>
 
 - - - - -
 
@@ -892,8 +1042,16 @@ mの任意の型引数aに対してのモノイドという感じ。
 ```haskell
 inverseLaw :: (Group a, Eq a) => a -> Bool
 inverseLaw x =
-  (x <> inverse x == empty) && (empty == inverse x <> x)
+  (x <> inverse x == empty) &&
+  (inverse x <> x == empty)
 ```
+
+<aside class="notes">
+こんな感じ。
+xとその逆元を合わせると、
+単位元になります。
+ということで群の定義は ->
+</aside>
 
 - - - - -
 
@@ -910,6 +1068,40 @@ instance Group Xor where
   inverse = id
 ```
 
+<aside class="notes">
+こうなります。
+Monoidにinverseという関数生えてます。  
+例えばこのIntegerの足し算は ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+- `3 + (-3)` = `0`
+- `5 + (-5)` = `0`
+- `7 + (-7)` = `0`
+
+<aside class="notes">
+このように逆元の法則を満たします。
+これはけっこう直感的で、
+群の性質を理解するのにいいんじゃないかと思います。
+Xorインスタンスは ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+- `True xor True` = `False`
+- `False xor False` = `False`
+
+<aside class="notes">
+単位元がFalseなので、
+このように法則を満たします。
+->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 群
@@ -924,7 +1116,8 @@ instance Group Xor where
 <aside class="notes">
 群の要請する「逆元の存在」っていうのは結構厳しい制約で、
 これを満たせない構造は多いです。  
-これらが群になれない原因を見てみましょう ->
+これらが群になれない原因を見てみます。
+->
 </aside>
 
 - - - - -
@@ -936,10 +1129,17 @@ instance Group Xor where
 - `And`: `False && inverse False == True`な  
   　　　:point_right: `inverse False`
 
-　
-
 - `Or`: `True || inverse True == False`な  
   　　　:point_right: `inverse True`
+
+<aside class="notes">
+Andの単位元はTrueですが、
+片方がFalseだとどうあがいてもFalseに写ってしまうので、
+Falseの逆元がありません。  
+Orも同様に、
+片方がTrueだとどうあがいてもTrueになってしまうので、
+Falseには写れません。
+</aside>
 
 - - - - -
 
@@ -949,6 +1149,11 @@ instance Group Xor where
 
 - `[a]`: `[x, y] ++ inverse [x, y] == []`な  
   　　　:point_right: `inverse [x, y]`
+
+<aside class="notes">
+リストには「逆」という概念が全くないので、
+まさに群でない例としてわかりやすいんじゃないかと思います。
+</aside>
 
 - - - - -
 
@@ -964,6 +1169,15 @@ instance Group Xor where
   　　一般に`x/y * y/x == 1/1`っぽいけど  
   　　:point_right: `0/10 * 10/0`がゼロ除算
 
+<aside class="notes">
+これらは一見、
+群になりそうなのですが、
+1/10がIntegerから溢れてしまったり、
+ゼロ除算が発生してしまったりします。  
+ゼロ除算、怖いですね。  
+というところで反例については以上です。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 群
@@ -972,6 +1186,11 @@ instance Group Xor where
 
 - [ElGamal暗号](https://ja.wikipedia.org/wiki/ElGamal%E6%9A%97%E5%8F%B7)
 - [楕円曲線暗号](https://ja.wikipedia.org/wiki/%E6%A5%95%E5%86%86%E6%9B%B2%E7%B7%9A%E6%9A%97%E5%8F%B7)
+
+<aside class="notes">
+群やそれ以降の代数は数学的分野で応用されています。  
+プログラミングで直に触れることは少ないんじゃないかと思います。
+</aside>
 
 - - - - -
 
@@ -987,15 +1206,30 @@ instance Group () where
   inverse () = ()
 ```
 
+<aside class="notes">
+その他インスタンスはこれらがあります。
+Unitはいつものやつですね。
+というところで…… ->
+</aside>
+
 - - - - -
 
 # ちょっと寄り道 :eyes:
+
+<aside class="notes">
+半群・モノイド・群の全部に関わる話をします。
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義
 # 可換な代数
 ## (Abelian)
+
+<aside class="notes">
+可換である代数とはなんぞや？
+というものです。
+</aside>
 
 - - - - -
 
@@ -1007,10 +1241,14 @@ instance Group () where
 `x <> y` = `y <> x`
 
 <aside class="notes">
-この交換法則を満たす代数を……  
-可換半群、あるいはAbelian Semigroup。  
-可換モノイド、あるいはAbelian Monoid。  
-可換群、あるいはAbelian Groupと言います。
+交換法則はこのように、
+二項演算の左右を入れ替えても同じ結果になるというものです。  
+この性質を「可換である」と言います。  
+　  
+これを満たす代数を  
+可換半群、もしくはAbelian Semigroup。  
+可換モノイド、もしくはAbelian Monoid。  
+可換群、もしくはAbelian Groupと言います。
 </aside>
 
 - - - - -
@@ -1023,6 +1261,13 @@ commutativeLaw :: (Abelian a, Eq a) =>
 commutativeLaw x y =
   x <> y == y <> x
 ```
+
+<aside class="notes">
+交換法則をHaskellで書くと、
+このようになります。  
+では可換半群の例を見てみます。
+->
+</aside>
 
 - - - - -
 
@@ -1041,13 +1286,19 @@ instance Abelian Xor
 instance Abelian ()
 ```
 
+<aside class="notes">
+足し算と掛け算。  
+各Bool演算。  
+そしてUnitは可換です。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 可換な代数
 
 応用例
 
-- ユニフィケーションの解法として
+ユニフィケーションの解法として
 
 ```hs
 -- この型付けは妥当か？
@@ -1057,6 +1308,7 @@ instance Abelian ()
 出典: [ユニフィケーション - Wikipedia](https://ja.wikipedia.org/wiki/%E3%83%A6%E3%83%8B%E3%83%95%E3%82%A3%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3)
 
 <aside class="notes">
+一番興味深い応用として、
 ユニフィケーションの解法として使われていたのを見たことがあります。
 ここでユニフィケーションについて語るとまた時間が必要なので、
 割愛させていただきますが、
@@ -1069,17 +1321,34 @@ instance Abelian ()
 
 - 半群であって可換半群**でない**例
     - `[a]`
-    - :point_up: `[x, y] ++ [z]`等は可換ではないね :eyes:
+    - :point_up: `[x, y] ++ [z]`等は可換ではない :eyes:
+
+<aside class="notes">
+リストが可換でないのは、
+わかりやすいんじゃないかと思います。
+</aside>
 
 - - - - -
 
 # ここで前半戦
 # 終わり！
 
+<aside class="notes">
+というところで、
+代数の基礎のうち基礎の部分は終了です。
+まとめてみます。
+->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義
 # ここまでのまとめ
+
+<aside class="notes">
+ここまでのまとめ。
+->
+</aside>
 
 - - - - -
 
@@ -1090,14 +1359,29 @@ instance Abelian ()
 | 　`<>`　 | `(x <> y) <> z`  | `e`　    | `x <> inv x` |
 |          | `x <> (y <> z)`  |          | `inv x <> x` |
 
+<aside class="notes">
+マグマは二項演算を持ち、  
+半群は結合法則を持っていました。  
+またモノイドは単位元を持ち、  
+群は逆元を持っていました。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義
 
 これまでの形 :point_down:
 
-- より強い代数　　=　　**より弱い代数** + **何か**
-    - e.g. モノイド　=　　半群 + 単位元
+- より強い代数 =
+    - より弱い代数 + 何か
+- e.g. モノイド =
+    - 半群 + 単位元
+
+<aside class="notes">
+今まではより弱い代数に、
+次々と概念が足されていました。
+次からは ->
+</aside>
 
 - - - - -
 
@@ -1112,13 +1396,21 @@ instance Abelian ()
     - **群** + **半群** + 分配法則
 
 <aside class="notes">
-これからはこの形が多くなります。
+これからは代数の中に、
+他の弱い代数を2つ持っていたりします。  
+例えば擬環っていうものがあるんですが、
+それはこんな感じになっています。
 </aside>
 
 - - - - -
 
-# というところで
-# 早速…… :point_right:
+# というところで :point_right:
+
+<aside class="notes">
+というところで後半戦、
+やっていきましょう。
+->
+</aside>
 
 - - - - -
 
@@ -1174,13 +1466,18 @@ newtype Xor = Xor
 
 （加法）**可換群** + （乗法）**可換半群**
 
+- - -
+
+分配法則
+
 `x (y <> z)` = `xy <> xz`  
 `(x <> y) z` = `xz <> yz`
 
 <aside class="notes">
 擬環は可換群と可換半群の組み合わせです。
-この2つの式は「分配法則」っていいます。
-分配法則をHaskellのコードで表すと ->
+足し算と掛け算の両方ができるってことですね。  
+かつ「分配」ができます。
+この分配の法則をHaskellのコードで表すと ->
 </aside>
 
 - - - - -
@@ -1196,19 +1493,23 @@ distributiveLaw x y z =
   (x <> y) >< z == x >< z <> y >< z
 ```
 
+加法: `<>`, 乗法: `><`
+
 <aside class="notes">
-こんな感じです。
-この先っぽが内側に向いている方の二項演算子大なり小なりは、
-小なり大なりよりも結合優先度が高いことに注意です。  
-改めて擬環の定義をしてみましょう ->
+こうなります。  
+この先っぽが内側に向いている方の二項演算子大なり小なりを加法。
+今までもでてきてた先っぽが外側に向いている二項演算を乗法って言います。
+乗法は加法よりも結合優先度が高いことに注意です。  
+そしたら擬環の定義を見てみましょう。
+->
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-- 加法 :point_right: 群　`(a, <>, emptyA, inverseA)`
-- 乗法 :point_right: 半群`(a, ><)`
+- 加法群`(a, <>, emptyA, inverseA)`
+- 乗法半群`(a, ><)`
 
 ```haskell
 class Rng a where
@@ -1216,43 +1517,50 @@ class Rng a where
     emptyA   :: a
     inverseA :: a -> a
     (><)     :: a -> a -> a
-
 infixl 6 <>
 infixl 7 ><
 ```
 
 <aside class="notes">
-ここで「二項演算><・emptyA・inverseA」の組み合わせを加法、
-二項演算<>を乗法って言います。
-あとは ->
+ここで「型aとその加法の二項演算><・emptyA・inverseA」の組み合わせを加法群、
+「型aとその乗法の二項演算<>」を乗法って言います。  
+加法群は群なので ->
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-- 加法単位元（**零元**）
+加法単位元（**零元**） と 各値に対する加法逆元
 
 ```hs
-emptyA :: a
+emptyA   :: a
+inverseA :: a -> a
 ```
+
+<aside class="notes">
+単位元と、
+aの全ての値に応じた逆元を持ちます。
+</aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
 
-つまるところ擬環は……
+擬環は……
 
 **分配**をするために  
-必要なものを定めたプロトコル🤓
+必要なものを定めたプロトコル :point_left: 🤓
 
-```
-2(5 + 2) = 2*5 + 2*2
-```
+`2 * (5 + 2)` = `2*5 + 2*2`
 
 <aside class="notes">
-にこにー　にこににー、
-になる。
+つまるところ擬環は、
+分配を十分に行うための代数です。  
+分配とは(5 + 2)に対して2を掛けると、
+足し算に区切られた各値に2が掛けられるものです。  
+インスタンスを見てみましょう。
+->
 </aside>
 
 - - - - -
@@ -1271,9 +1579,12 @@ instance Rng Integer where
 ```
 
 <aside class="notes">
+まずはInteger。  
 足し算についての群が加法、
 掛け算についての半群が乗法なので、
-加法・乗法という言い回しがストンとくるんじゃないでしょうか。
+加法・乗法という言い回しがストンとくるんじゃないでしょうか。  
+ちなみに足し算と掛け算を分ける必要がなくなったので、
+newtypeは使う必要もなくなりました。
 </aside>
 
 - - - - -
@@ -1289,8 +1600,10 @@ instance Rng Rational where
 ```
 
 <aside class="notes">
-Integerと同じように、
-Rationalの定義ができます。
+Rationalも同じく、
+足し算と掛け算の擬環を定義できます。
+あとはBoolの擬環です。
+->
 </aside>
 
 - - - - -
@@ -1319,6 +1632,13 @@ xor _ _ = False
 
 -->
 
+<aside class="notes">
+Boolはxorとandで擬環を定義できます。  
+最後にもう一つインスタンスを見て、
+擬環を終わります。
+->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 擬環
@@ -1333,6 +1653,11 @@ instance Rng () where
     () >< ()    = ()
 ```
 
+<aside class="notes">
+はい、
+いつものですね。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義
@@ -1340,8 +1665,8 @@ instance Rng () where
 ## (Ring)
 
 <aside class="notes">
-擬環に少しの概念を加えた代数として、
-環っていうのもあります。
+擬環に少しの概念を加えた代数である環を、
+軽く説明します。
 </aside>
 
 - - - - -
@@ -1357,17 +1682,11 @@ instance Rng () where
 `1 (x <> y) z` = `(x <> y) z`  
 `x (y <> z) 1` = `x (y <> z)`
 
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-擬環 + 乗法**単位元** emptyM
-
-```haskell
-emptyLawForMulti :: (Ring a, Eq a) => a -> Bool
-emptyLawForMulti x =
-  (x >< emptyM == x) && (x == emptyM >< x)
-```
+<aside class="notes">
+環は擬環に対して乗法の単位元を加えたものです。  
+つまり加法可換群と乗法可換モノイドの組み合わせです。
+定義は ->
+</aside>
 
 - - - - -
 
@@ -1377,6 +1696,11 @@ emptyLawForMulti x =
 class Rng a => Ring a where
     emptyM :: a
 ```
+
+<aside class="notes">
+こうなります。
+インスタンスを見てみると ->
+</aside>
 
 - - - - -
 
@@ -1390,6 +1714,10 @@ instance Ring Rational where
     emptyM = 1 % 1
 ```
 
+<aside class="notes">
+いつもと同じく掛け算に対して1です。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 環
@@ -1402,10 +1730,20 @@ instance Ring () where -- 🤓
     emptyM = ()
 ```
 
+<aside class="notes">
+Bool環の乗法単位元は、
+Andの単位元と同じものです。  
+あとはいつもの。
+</aside>
+
 - - - - -
 
-# またちょっと
-# 休憩 :sleeping:
+# ちょっと
+# 脱線 :sleeping:
+
+<aside class="notes">
+ここでちょっとだけ脱線してみましょう。
+</aside>
 
 - - - - -
 
@@ -1420,11 +1758,20 @@ instance Ring () where -- 🤓
 
 # Q. 写像ってなに？
 
+<aside class="notes">
+写像が何かと言うと ->
+</aside>
+
 - - - - -
 
 ## A. こういうの
 
 ![](morphism.png)
+
+<aside class="notes">
+こういうのがあります。  
+ここでちょっと新しい概念として ->
+</aside>
 
 - - - - -
 
@@ -1432,9 +1779,14 @@ instance Ring () where -- 🤓
 
 ![](semigroup-homomorphism.png)
 
+<aside class="notes">
+半群準同型写像というものを導入します。
+半群準同型写像とは ->
+</aside>
+
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 **半群準同型**`f : a -> b`とは
 
@@ -1446,21 +1798,34 @@ instance Ring () where -- 🤓
 
 があるときに
 
+<aside class="notes">
+まず2つの半群について考えるので、二項演算を!と?で区別します。  
+そして半群a,bがあったときに ->
+</aside>
+
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 :arrow_down:
 
-`a`の全ての値 `x :: a`, `y :: a` を
+<code class='no-border'>a</code>の全ての値
+<code class='no-border'>x :: a</code>,
+<code class='no-border'>y :: a</code>を
 
-`f (x <!> y) :: b` = `f x <?> f y :: b`
+`f (x <!> y)` = `f x <?> f y`
 にする  
-`f` のことである :relieved:
+<code class='no-border'>f</code> のことである :relieved:
+
+<aside class="notes">
+各値をこのように保存するfです。  
+なんのこっちゃって感じだと思うので、
+そういうときはHaskellで書いてみましょう。
+</aside>
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 <!--
 
@@ -1499,9 +1864,14 @@ instance Semigroup Int
 (<?>) = (<>)
 ```
 
+<aside class="notes">
+まず前述の通り、
+ある半群aとbを区別して ->
+</aside>
+
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 ```haskell
 newtype Homo a b = Homo
@@ -1514,9 +1884,16 @@ listAToInt = Homo length
 
 :point_up: `Semigroup [a]` と `Semigroup Int` は準同型
 
+<aside class="notes">
+半群準同型写像を表すnewtypeとしてHomoというものを定義します。  
+そしてリストの半群からIntの半群への準同型写像、
+listAToIntも定義します。  
+このlistAToIntは ->
+</aside>
+
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 ```haskell
 homoLaw :: ( Semigroup a, Eq a
@@ -1535,6 +1912,14 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 
 -->
 
+<aside class="notes">
+この法則を満たします。
+……
+というのが半群準同型写像でした。  
+ここでこれをモノイドや群に拡張した準同型写像も存在します。
+->
+</aside>
+
 - - - - -
 
 ## モノイド準同型写像
@@ -1547,6 +1932,10 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 
 ![](group-homomorphism.png)
 
+<aside class="notes">
+というところで実は……
+</aside>
+
 - - - - -
 
 # 実は……
@@ -1557,9 +1946,14 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 # その合成は
 # **モノイドになる**
 
+<aside class="notes">
+自己準同型写像とその合成はまたモノイドになります。
+自己準同型写像とは ->
+</aside>
+
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 <!--
 
@@ -1588,9 +1982,17 @@ instance Monoid (Homo a a) where
     empty = Homo id
 ```
 
+<aside class="notes">
+同一の半群、
+aからaへの準同型写像です。  
+そしてそれはMonoidのインスタンスになります。
+確認してみましょう。
+->
+</aside>
+
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 ```haskell
 reverseHomo :: Homo [a] [a]
@@ -1604,13 +2006,15 @@ duplicateHomo = Homo $ \xs ->
 ```
 
 <aside class="notes">
+リストの自己準同型写像を2つ定義してみます。  
 この内容は理解しないで大丈夫です。
-これらが準同型写像として型付けられてることに注視してください。
+これらが準同型写像として型付けられてることに注視してください。  
+そしてこれらは ->
 </aside>
 
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 <!--
 
@@ -1638,11 +2042,26 @@ alsoHomo = reverseHomo <> duplicateHomo
 -- ... and forall `Homo [a] [a]` ...
 ```
 
+<aside class="notes">
+このように、
+結合法則と単位元の法則を満たした、
+新しい自己準同型写像を作ることができます。
+イメージは ->
+</aside>
+
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 ![](homomorphism-monoid.png)
+
+<aside class="notes">
+こんな感じです。  
+reverseはリストの自己準同型写像で、
+それはつまりリスト自己準同型写像モノイドの値ということです。  
+ここで大事な言葉意があります。
+->
+</aside>
 
 - - - - -
 
@@ -1659,6 +2078,12 @@ alsoHomo = reverseHomo <> duplicateHomo
 ### 代数の素朴な定義
 # 体
 ## (Field)
+
+<aside class="notes">
+皆さんここまでついてきて頂いてありがとうございます。
+これが今回の、
+最後の代数になります。
+</aside>
 
 - - - - -
 
@@ -1677,11 +2102,22 @@ alsoHomo = reverseHomo <> duplicateHomo
 
 ※ **0を除く**
 
+<aside class="notes">
+体は加法と乗法の両方が群になっていて、
+0 not equal 1です。  
+これは実は ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 体
 
 ## :point_right: 四則演算ができる
+
+<aside class="notes">
+四則演算ができるということを表しています。  
+Haskellで定義してみましょう。
+</aside>
 
 - - - - -
 
@@ -1691,6 +2127,13 @@ alsoHomo = reverseHomo <> duplicateHomo
 class Ring a => Field a where
   inverseM :: a -> a
 ```
+
+<aside class="notes">
+環に乗法逆元の存在を加えると、
+体になります。
+ここで体はいくつかの制約を持ちます。
+->
+</aside>
 
 - - - - -
 
@@ -1707,6 +2150,16 @@ emptyDifferenceLaw =
     (emptyM :: a) /= (emptyA :: a)
 ```
 
+<aside class="notes">
+まずは加法と乗法の単位元が異なるということです。  
+有りていに言うと0と1が異なる、
+ということですね。  
+ここであの、
+いつものUnitは消えます。
+Unitありがとう。  
+あともう一つは ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 体
@@ -1722,11 +2175,17 @@ inverseLawForMulti x
         (inverseM x >< x == emptyM)
 ```
 
+<aside class="notes">
+型aの全ての値のうち、
+0を除いたものが逆元を持ちます。  
+例えばRationalでは ->
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 体
 
-乗法可換群（※0を除く）
+乗法可換群（※**0を除く**）
 
 e.g. Rational なら 群`(R', *, 1/1)` のこと
 
@@ -1738,6 +2197,10 @@ R' = { ..., -2/3, ...
 ```
 
 R'に `0/1` (`0`, `emptyA`) がないことに注意
+
+<aside class="notes">
+このように0を抜いたものになります。
+</aside>
 
 - - - - -
 
@@ -1751,6 +2214,14 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
 | 引き算 | `x <> inv y` |
 | 掛け算 | `x >< y`     |
 | 割り算 | `x >< inv y` |
+
+<aside class="notes">
+体は四則演算を扱うことができます。  
+引き算は足し算のうち、後側を逆元に差し替えたもの。
+割り算は掛け算のうち、後側を逆元に差し替えたものとして定義できます。  
+確認してみましょう。
+->
+</aside>
 
 - - - - -
 
@@ -1768,6 +2239,14 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
 
 :point_up: Field Rational :point_up_2:
 
+<aside class="notes">
+Rationalを例に挙げると……  
+x + -yはちゃんと引き算です。
+割り算はちょっと複雑なんですけど、
+掛け算の後ろの分数の、
+分子と分母を入れ替えるとちゃんと割り算になりますね。
+</aside>
+
 - - - - -
 
 ### 代数の素朴な定義 - 体
@@ -1778,19 +2257,39 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
 
 ![](Where_Dreams_Are_Born_by_titiavanbeugen.jpg)
 
+<aside class="notes">
+0を除くというのは一見、
+不自然に思えるかもしれませんが、
+自然で合理的なものです。  
+是非、0を除きましょう。
+</aside>
+
 - - - - -
 
 # 今日の内容は
 # ここまで！
+
+<aside class="notes">
+これで今日の内容はここまでです。
+</aside>
 
 - - - - -
 
 # お疲れ様でした
 # ✋😊
 
+<aside class="notes">
+皆さんついてきて頂いて、
+本当にありがとうございます。
+</aside>
+
 - - - - -
 
 # まとめ
+
+<aside class="notes">
+最後にまとめ。
+</aside>
 
 - - - - -
 
@@ -1799,6 +2298,13 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
 - 代数の素朴な定義
     - マグマ・**半群**・**モノイド**・**群**
     - 擬環・**環**・**体**
+
+<aside class="notes">
+このスライドでは、
+各々のレベルで制約を満たす、
+代数という構造について学びました。  
+そしてそれぞれは ->
+</aside>
 
 - - - - -
 
@@ -1811,6 +2317,11 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
     - 群・擬環・環・体
 
 （必ずしもこの限りではない🤔）
+
+<aside class="notes">
+このように得意分野を持っています。
+あと宣伝なんですが ->
+</aside>
 
 - - - - -
 
