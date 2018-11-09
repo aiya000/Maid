@@ -20,18 +20,6 @@
 `1 (x <> y) z` = `(x <> y) z`  
 `x (y <> z) 1` = `x (y <> z)`
 
-- - - - -
-
-### 代数の素朴な定義 - 環
-
-擬環 + 乗法**単位元** emptyM
-
-```haskell
-emptyLawForMulti :: (Ring a, Eq a) => a -> Bool
-emptyLawForMulti x =
-  (x >< emptyM == x) &&
-  (emptyM >< x == x)
-```
 
 - - - - -
 
