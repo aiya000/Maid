@@ -1,5 +1,5 @@
-# またちょっと
-# 休憩 :sleeping:
+# ちょっと
+# 脱線 :sleeping:
 
 - - - - -
 
@@ -28,7 +28,7 @@
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 **半群準同型**`f : a -> b`とは
 
@@ -42,7 +42,7 @@
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 :arrow_down:
 
@@ -54,7 +54,7 @@
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 <!--
 
@@ -95,7 +95,7 @@ instance Semigroup Int
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 ```haskell
 newtype Homo a b = Homo
@@ -110,7 +110,7 @@ listAToInt = Homo length
 
 - - - - -
 
-### 休憩 - 半群準同型写像
+### 脱線 - 半群準同型写像
 
 ```haskell
 homoLaw :: ( Semigroup a, Eq a
@@ -153,7 +153,7 @@ checkListAToInt = smallCheck 5 . homoLaw $ listAToInt @ [()]
 
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 <!--
 
@@ -184,7 +184,7 @@ instance Monoid (Homo a a) where
 
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 ```haskell
 reverseHomo :: Homo [a] [a]
@@ -204,7 +204,7 @@ duplicateHomo = Homo $ \xs ->
 
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 <!--
 
@@ -234,7 +234,7 @@ alsoHomo = reverseHomo <> duplicateHomo
 
 - - - - -
 
-### 休憩 - 自己準同型写像と合成はモノイドになる
+### 脱線 - 自己準同型写像と合成はモノイドになる
 
 ![](homomorphism-monoid.png)
 
