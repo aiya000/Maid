@@ -2,8 +2,7 @@
 ![profile-image](profile.png)
 
 - 名前: aiya000 (あいや)
-- Twitter: [pubilc\_ai000ya](https://twitter.com/public_ai000ya)
-- GitHub: [aiya000](https://github.com/aiya000)
+- 推しVim: NeoVim
 
 <aside class="notes">
 まずは少しの自己紹介をさせていただきます。
@@ -14,11 +13,15 @@ TwitterとGitHubやらやらで活動をしています。
 
 - - - - -
 
-# このスライドで
-# 学べること
+## このスライドで学べること
+
+代数に興味がある人の助けに :cupid:
 
 <aside class="notes">
-今日の発表の内容では ->
+今日の発表は、
+代数に興味があるけど、
+敷居高いな〜という人の助けになることを目的としています。
+内容は ->
 </aside>
 
 - - - - -
