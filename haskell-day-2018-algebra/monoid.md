@@ -1,10 +1,11 @@
 ### 代数の素朴な定義
 # モノイド
-## (Monoid - Data.Monoid)
+## (Monoid)
 
 <aside class="notes">
 モノイドって皆さん結構聞いたことあるんじゃないでしょうか。
-というのも色んなところに表れる自然な構造だからですね。
+というのも色んなところに表れる自然な構造だからですね。  
+これも同じ意味のものが、標準ライブラリのData.Monoidにあります。
 </aside>
 
 - - - - -
@@ -180,8 +181,6 @@ Trueです。
 
 ### 代数の素朴な定義 - モノイド
 
-その他インスタンス
-
 ```haskell
 instance Monoid (Product Integer) where
   empty = Product 1
@@ -201,8 +200,6 @@ instance Monoid [a] where
 - - - - -
 
 ### 代数の素朴な定義 - モノイド
-
-その他インスタンス
 
 ```haskell
 instance Monoid (Sum Rational) where
@@ -234,7 +231,7 @@ instance Monoid () where
 
 <aside class="notes">
 UnitではUnitです。
-というところで ->
+インスタンスになれない型としては ->
 </aside>
 
 - - - - -
@@ -242,13 +239,48 @@ UnitではUnitです。
 ### 代数の素朴な定義 - モノイド
 
 - 半群であってモノイド**でない**例
-    - `Data.List.NonEmpty.NonEmpty a`
+    - `NonEmpty a` (<code class='no-border'>Data.List.NonEmpty</code>)
     - :point_up: 空リストのような単位元がない
-    - `Data.Monoid.First a`, `Data.Monoid.Last a`
+    - `First a`, `Last a` (<code class='no-border'>Data.Monoid</code>)
+        - <code class='no-border'>First (Just 10)</code>, <code class='no-border'>Last Nothing</code>
 
 <aside class="notes">
 NonEmpty aはモノイドにはなれません。
 また、
 与えられた値のうち最初のものを返すFirstや、
 与えられた値のうち最後のものを返すLastも初期値がありません。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - モノイド
+
+```hs
+class Semigroup a => Monoid a where
+  empty :: a
+
+instance Monoid (Sum Integer) where
+  empty = Sum 0
+
+instance Monoid And where
+  empty = And True
+
+instance Monoid [a] where
+  empty = []
+```
+
+`0 + 10`, `10 + 0`
+
+`[] ++ [x, y]`, `[x, y] ++ []`
+
+<aside class="notes">
+モノイドについてのまとめです。  
+モノイドは二項演算によって他方を変えない値として、
+単位元というものが備わる代数した。  
+インスタンスにはIntegerの足し算と掛け算、
+Rationalの足し算と掛け算、
+Boolのandとorとxor、
+リストなどがあります。  
+じゃあ次の代数にいきます。
+->
 </aside>
