@@ -135,10 +135,10 @@ newtypeは使う必要もなくなりました。
 
 ```haskell
 instance Rng Rational where
-    (<>)       = (+)
-    emptyA     = 0 % 1
-    inverseA x = negate
-    (><)       = (*)
+    (<>)     = (+)
+    emptyA   = 0 % 1
+    inverseA = negate
+    (><)     = (*)
 ```
 
 <aside class="notes">
