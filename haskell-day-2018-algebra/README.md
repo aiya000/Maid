@@ -17,6 +17,8 @@ The Haskell codes :point_down:
 
 ```shell-session
 $ make code
+$ ls FirstHalf.hs LastHalf.hs
+FirstHalf.hs  LastHalf.hs
 ```
 
 ## LICENSE
