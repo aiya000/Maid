@@ -186,7 +186,7 @@ aにも[a]にも閉じていない
 
 ### 代数の素朴な定義 - マグマ
 
-```haskell
+```hs
 class Magma a where
     (<>) :: a -> a -> a
 
@@ -197,8 +197,11 @@ instance Magma [a] where
     (<>) = (++)
 ```
 
-`10 + 20 + 30 + ...`
+`10 + 20 + ...`
 `[x, y] ++ [z] ++ ...`
+
+`True && False && ...`
+`1.0 + 2.0 + ...`
 
 <aside class="notes">
 マグマ全体のまとめです。
