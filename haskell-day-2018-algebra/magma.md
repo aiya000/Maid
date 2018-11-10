@@ -22,9 +22,8 @@ x <> y <> z
 
 <aside class="notes">
 マグマは足し算あるいは掛け算のような、
-「構造に閉じた」「二項演算」というものが行えるものです。  
-その「閉じた二項演算」というものが何か、
-の前にHaskellでの定義を見てみましょう。
+ある制約を満たす関数を持つ構造です。
+Haskellでの定義を見てみましょう。
 ->
 </aside>
 
@@ -35,24 +34,32 @@ x <> y <> z
 ```haskell
 class Magma a where
     (<>) :: a -> a -> a
+```
 
-instance Magma Int where
+<aside class="notes">
+Magmaはこの形の関数を持ちます。
+次にいくつかの、
+マグマのインスタンスを見てみます。
+->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - マグマ
+
+```haskell
+instance Magma Integer where
     (<>) = (+)
 
 instance Magma [a] where
     (<>) = (++)
 ```
 
-`<>` ← aに閉じた（aの上の）二項演算
+`10 + 20`, `[x, y] ++ [z]`
 
 <aside class="notes">
-Magmaはこの形の関数を持ちます。  
-詳しい説明は後に回しますが、
-これが「aに閉じた二項演算」です。  
-　  
-例えばIntやリストはその型に合致する関数を持つので、
-マグマです。
-あとは ->
+Integerとリスト。
+あと ->
 </aside>
 
 - - - - -
@@ -70,35 +77,39 @@ instance Magma () where
     () <> () = ()
 ```
 
-`<>` ← aに閉じた（aの上の）二項演算
-
 <aside class="notes">
-BoolやFloat、Unitなどなどもマグマです。
+BoolやFloat、Unitなどなどがマグマになれます。
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - マグマ
+
+- `<>` <- <code class='no-border'>a</code>に閉じた二項演算
+- `++` <- <code class='no-border'>[a]</code>に閉じた二項演算
+- `+` <- <code class='no-border'>Integer</code>に閉じた二項演算
 
 **閉じた**（**上の**）、**二項演算**？ 🤔
 
 <aside class="notes">
-じゃあ「閉じた二項演算」とは何かって言うと ->
+これらの関数は「aに閉じた、二項演算」または
+「aの上の、二項演算」と呼ばれます。  
+「閉じた」「二項演算」とは何かと言うと ->
 </aside>
 
 - - - - -
 
 ### 代数の素朴な定義 - マグマ
 
-aに閉じた（aの上の）演算とは:
+<code class='no-border'>a</code>に閉じた（<code class='no-border'>a</code>の上の）演算とは:
 
 :point_down: このような演算
 
-- `a`の値だけを受け取って
-- `a`の値を返す
+- `a`の**値だけを受け取って**
+- `a`の**値を返す**
 
 ```hs
-(+) :: Int -> Int -> Int
+(+) :: Integer -> Integer -> Integer
 id  :: Rational -> Rational
 ```
 
@@ -108,7 +119,7 @@ id  :: Rational -> Rational
 ここで誤解を恐れず言えば、
 Haskellで「演算」とは主に関数のことです。  
 　  
-+はIntに閉じた演算、
++はIntegerに閉じた演算、
 このidはRationalに閉じた演算です。
 </aside>
 
@@ -119,7 +130,7 @@ Haskellで「演算」とは主に関数のことです。
 二項演算とは: **2引数の演算**
 
 ```hs
-(+)       :: Int -> Int -> Int
+(+)       :: Integer -> Integer -> Integer
 (:)       :: a -> [a] -> [a]
 fromMaybe :: a -> Maybe a -> a
 ```
@@ -135,11 +146,11 @@ fromMaybe :: a -> Maybe a -> a
 ### 代数の素朴な定義 - マグマ
 
 :ok:
-Int上の二項演算
+Integer上の二項演算
 :ok_woman:
 
 ```hs
-(+) :: Int -> Int -> Int
+(+) :: Integer -> Integer -> Integer
 ```
 
 - - -
@@ -161,11 +172,40 @@ aにも[a]にも閉じていない
 ```
 
 <aside class="notes">
-マグマとは、
-このようなaに閉じた二項演算というものを持つ構造でした。  
+まとめます。
+マグマが必要とするのは、
+閉じた二項演算です。  
++はIntegerに閉じた二項演算です。  
+このidはRationalに閉じていますが、
+二項演算ではありません。
+(:)は二項演算ですが、
+閉じた演算ではありません。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - マグマ
+
+```haskell
+class Magma a where
+    (<>) :: a -> a -> a
+
+instance Magma Integer where
+    (<>) = (+)
+
+instance Magma [a] where
+    (<>) = (++)
+```
+
+`10 + 20 + 30 + ...`
+`[x, y] ++ [z] ++ ...`
+
+<aside class="notes">
+マグマ全体のまとめです。
+マグマとはこのような、
+aに閉じた二項演算というものを持つ構造でした。  
+つまり何度も値を足し合わせることができるということです。  
 　  
-例えばIntはそのような+を持つので、
-マグマになれます。  
-また、下記の2つは閉じた二項演算ではありませんので、
-マグマの根拠とはなりません。
+例えばIntegerはそのような+によってマグマになります。
+リストは++を以てマグマになります。
 </aside>
