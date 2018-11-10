@@ -39,7 +39,7 @@
 
 <aside class="notes">
 四則演算ができるということを表しています。  
-Haskellで定義してみましょう。
+まずはHaskellで定義してみましょう。
 </aside>
 
 - - - - -
@@ -49,12 +49,19 @@ Haskellで定義してみましょう。
 ```haskell
 class Ring a => Field a where
   inverseM :: a -> a
+
+instance Field Rational where
+  inverseM x = denominator x % numerator x
 ```
 
 <aside class="notes">
 環に乗法逆元の存在を加えると、
-体になります。
-ここで体はいくつかの制約を持ちます。
+体になります。  
+ここでIntegerの掛け算と、
+Boolのandは逆元を持たないので、
+このインスタンスにはなれません。
+Unitもある条件によって消えます。  
+体の要請する法則を見てみましょう。
 ->
 </aside>
 
@@ -129,6 +136,23 @@ R'に `0/1` (`0`, `emptyA`) がないことに注意
 
 ### 代数の素朴な定義 - 体
 
+「0を除く」
+
+これをやらないと`0 = 1`になり全てが`0`になる
+
+![](Where_Dreams_Are_Born_by_titiavanbeugen.jpg)
+
+<aside class="notes">
+0を除くというのは一見、
+不自然に思えるかもしれませんが、
+自然で合理的なものです。  
+是非、0を除きましょう。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 体
+
 **四則演算**ができる
 
 |        |              |
@@ -174,15 +198,18 @@ x + -yはちゃんと引き算です。
 
 ### 代数の素朴な定義 - 体
 
-「0を除く」
+```hs
+class Ring a => Field a where
+  inverseM :: a -> a
 
-これをやらないと`0 = 1`になり全てが`0`になる
-
-![](Where_Dreams_Are_Born_by_titiavanbeugen.jpg)
+instance Field Rational where
+  inverseM x = denominator x % numerator x
+```
 
 <aside class="notes">
-0を除くというのは一見、
-不自然に思えるかもしれませんが、
-自然で合理的なものです。  
-是非、0を除きましょう。
+まとめです。
+体は加法群と乗法群を合体させた、
+四則演算のできる代数です。  
+その制約はかなり強いので、
+基本的な型ではRationalくらいしかインスタンスになれません。
 </aside>
