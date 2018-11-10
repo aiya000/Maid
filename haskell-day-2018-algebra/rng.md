@@ -175,10 +175,8 @@ xor _ _ = False
 -->
 
 <aside class="notes">
-Boolはxorとandで擬環を定義できます。  
-最後にもう一つインスタンスを見て、
-擬環を終わります。
-->
+Boolはxorとandで擬環を定義できます。
+あとは ->
 </aside>
 
 - - - - -
@@ -198,4 +196,44 @@ instance Rng () where
 <aside class="notes">
 はい、
 いつものですね。
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+```hs
+class Rng a where
+    (<>)     :: a -> a -> a
+    emptyA   :: a
+    inverseA :: a -> a
+    (><)     :: a -> a -> a
+```
+
+`x >< (y <> z)` = `(x >< y) <> (x >< z)`
+
+<aside class="notes">
+擬環のまとめです。  
+擬環は群と半群を合体させた代数であって ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 擬環
+
+```hs
+instance Rng Integer where
+    ... -- +, 0, negate, *
+
+instance Rng Rational where
+    ... -- +, 0/1, negate, *
+
+instance Rng Bool where
+    ... -- xor, False, id, &&
+```
+
+<aside class="notes">
+擬環はこのように分配を行うことができる代数です。
+インスタンスにはIntegerとRational、Bool。
+あとはUnitがあります。
 </aside>
