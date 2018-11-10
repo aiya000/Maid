@@ -111,3 +111,34 @@ instance Abelian ()
 リストが可換でないのは、
 わかりやすいんじゃないかと思います。
 </aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 可換な代数
+
+```hs
+class Semigroup a => Abelian a
+
+instance Abelian (Sum Integer)
+instance Abelian (Product Integer)
+instance Abelian (Sum Rational)
+instance Abelian (Product Rational)
+instance Abelian And
+instance Abelian Or
+instance Abelian Xor
+instance Abelian ()
+```
+
+`10 + 20` = `20 + 10`,
+`10 * 20` = `20 * 10`
+
+`True && False` = `False && True`
+
+
+<aside class="notes">
+まとめです。  
+二項演算の左右の値を入れ替えても同じ結果を得られるのが、
+交換法則、可換というものです。  
+多くのインスタンスがありますが、
+リストなどはこれを満たしません。
+</aside>
