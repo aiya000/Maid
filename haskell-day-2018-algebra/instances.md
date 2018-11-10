@@ -1,8 +1,5 @@
-# ところで……
-
-<aside class="notes">
-ところでですね ->
-</aside>
+## ある型の複数の
+## マグマインスタンスについて
 
 - - - - -
 
@@ -17,17 +14,17 @@
 - - - - -
 
 ```hs
-instance Magma Int where
+instance Magma Integer where
     (<>) = (+)
 
-instance Magma Int where
+instance Magma Integer where
     (<>) = (*)
 ```
 
 🤔
 
 <aside class="notes">
-Intの足し算も掛け算はどちらもIntについて閉じており、
+Integerの足し算も掛け算はどちらもIntegerについて閉じており、
 二項演算でもあります。
 これだとどっちをインスタンスにすればいいか困りますね。
 ->
@@ -49,7 +46,7 @@ instance Magma Bool where
 Boolについても同様です。  
 つまり「代数は必ずしも型に対して1つだけ定まるわけじゃない」
 ということです。
-というところで解決策として ->
+この解決策として ->
 </aside>
 
 - - - - -
@@ -92,7 +89,7 @@ instance Num a => Magma (Product a) where
 <aside class="notes">
 それに対してインスタンスを定義してあげましょう。  
 これはGeneralizedNewtypeDerivingとStandaloneDerivingを使った、
-IntやFloatの新しいインスタンスで ->
+IntegerやFloatの新しいインスタンスで ->
 </aside>
 
 - - - - -
@@ -100,37 +97,19 @@ IntやFloatの新しいインスタンスで ->
 ### 代数の素朴な定義
 
 ```haskell
-newtype And = And
-    { unAnd :: Bool
-    } deriving (Show, Eq)
+newtype And = And Bool deriving (Show, Eq)
+newtype Or = Or Bool deriving (Show, Eq)
 
 instance Magma And where
     And x <> And y = And $ x && y
-```
-
-<aside class="notes">
-Boolについても各々のnewtypeを追加していきます。  
-Andはこんな感じで、
-Orはというと ->
-</aside>
-
-- - - - -
-
-### 代数の素朴な定義
-
-```haskell
-newtype Or = Or
-    { unOr :: Bool
-    } deriving (Show, Eq)
-
 instance Magma Or where
     Or x <> Or y = Or $ x || y
 ```
 
 <aside class="notes">
-同様にこんな感じ。
-Xorも同じく。
-->
+Boolについても各々のnewtypeを追加していきます。  
+BoolのAndとOrはこう。
+同様にXorについて ->
 </aside>
 
 - - - - -
@@ -149,12 +128,12 @@ instance Magma Xor where
 ```
 
 <aside class="notes">
-こうですね。  
+こうです。  
 Unitについてはインスタンスが唯一つなので、
 新しく定義はしません。  
-……
+　  
 というところで、
-まず代数とは何かというところは完了です。  
-次にいきましょう。
-次は ->
+代数の導入は完了です。  
+次の代数にいきましょう。
+->
 </aside>
