@@ -185,8 +185,6 @@ Falseには写れません。
 
 ### 代数の素朴な定義 - 群
 
-その他インスタンス
-
 ```haskell
 instance Group (Sum Rational) where
   inverse = negate
@@ -196,7 +194,38 @@ instance Group () where
 ```
 
 <aside class="notes">
-その他インスタンスはこれらがあります。
+他のインスタンスはこれらがあります。
 Unitはいつものやつですね。
-というところで…… ->
+</aside>
+
+- - - - -
+
+### 代数の素朴な定義 - 群
+
+```hs
+class Monoid a => Group a where
+  inverse :: a -> a
+
+instance Group (Sum Integer) where
+  inverse = negate
+
+instance Group Xor where
+  inverse = id
+```
+
+`10 + -10` = `-10 + 10` = `0`
+
+`True xor True` = `False`,
+`False xor False` = `False`
+
+<aside class="notes">
+群についてのまとめです。  
+群aはaの全ての値に対して、
+その逆元というものが定まるものでした。  
+インスタンスはIntegerとRationalの足し算、
+BoolのXor、
+Unitがあります。  
+逆元の要請はけっこう厳しくて、
+インスタンスになれる構造がそう多くありません。  
+というところで ->
 </aside>
