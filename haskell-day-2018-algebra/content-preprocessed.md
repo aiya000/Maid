@@ -900,10 +900,11 @@ UnitではUnitです。
 ### 代数の素朴な定義 - モノイド
 
 - 半群であってモノイド**でない**例
-    - `NonEmpty a` (<code class='no-border'>Data.List.NonEmpty</code>)
+    - `NonEmpty a` と `++`
     - :point_up: 空リストのような単位元がない
-    - `First a`, `Last a` (<code class='no-border'>Data.Monoid</code>)
-        - <code class='no-border'>First (Just 10)</code>, <code class='no-border'>Last Nothing</code>
+    - `First a`, `Last a` と 引数の前者（後者）を取る`<>`
+
+#### ※<code class='no-border'>Data.List.NonEmpty</code>, <code class='no-border'>Data.Monoid</code>
 
 <aside class="notes">
 NonEmpty aはモノイドにはなれません。
