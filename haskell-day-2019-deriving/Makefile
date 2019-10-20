@@ -4,3 +4,6 @@ all:
 
 watch:
 	watchexec --exts sass -- $(MAKE)
+
+open:
+	electron index.html &
