@@ -1,0 +1,49 @@
+.reveal h1 {
+  text-transform: none; }
+.reveal h2 {
+  text-transform: none; }
+.reveal h3 {
+  font-size: 80%;
+  margin-bottom: 8%;
+  text-decoration: underline;
+  text-transform: none; }
+.reveal h4 {
+  font-size: 60%;
+  text-decoration: underline;
+  text-transform: none; }
+.reveal h5 {
+  font-size: 40%;
+  text-decoration: underline;
+  text-transform: none; }
+.reveal pre {
+  line-height: 160%; }
+.reveal code {
+  border: solid 2px silver;
+  padding: 10px;
+  margin: 10px; }
+
+.profile {
+  display: flex;
+  flex-direction: row; }
+  .profile div {
+    display: flex;
+    flex-direction: column; }
+  .profile .left {
+    width: 40%;
+    margin: 0 5%; }
+  .profile .right {
+    width: 60%; }
+    .profile .right ul li {
+      margin-bottom: 16px; }
+
+.twin {
+  display: flex;
+  flex-direction: row; }
+  .twin .pane {
+    width: 40%;
+    margin: 0 5%; }
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
