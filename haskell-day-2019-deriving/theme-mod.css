@@ -40,7 +40,10 @@
   display: flex;
   flex-direction: row; }
   .twin .pane {
-    width: 40%;
+    width: 50%;
+    margin: 0 5%; }
+  .twin pre {
+    width: 50%;
     margin: 0 5%; }
 
 .vertical-center {

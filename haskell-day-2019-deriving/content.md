@@ -23,8 +23,23 @@
 </div>
 
 <aside class="notes">
-では自己紹介はここまでにして、次にいきましょう。
-このセッションで最初に学べることは…… ->
+名前を「あいやぜろぜろぜろ」と申します。
+普段はプログラミングとか、あとは少しだけ圏論をやっていて、数学圏論入門本みたいなのを頒布したりしてます。
+
+僕のちょっとした近況なのですが……
+
+もともと、いわゆる地声が出せなくて、普段からこの裏声で話してるんですよ。
+
+それで最近はVTuberになりたくて、
+ボイスチェンジャーに頼らないで、
+単なる裏声じゃなくて可愛い女の子の声を出せるようになりたいな〜〜と思って、
+練習してたんです。
+
+そしたらこんな、地声が出るようになりました。
+
+……では自己紹介はここまでにして、次にいきましょう。
+
+まずこのセッションで最初に学ぶことは…… ->
 </aside>
 
 - - - - -
@@ -41,13 +56,9 @@
 
 皆さん「しんさんきぼうって何？」って感じだと思うので、気になるところをはっきりさせておきましょう！
 
-　
-
 神算鬼謀とは
 「人知の及ばないような、すぐれた巧みな策略のこと。」
 です。
-
-　
 
 それだけGHC Haskellのderivingは、すごく賢くなっているということです。
 </aside>
@@ -59,7 +70,7 @@
 - - - - -
 
 ## GHCの提供する
-## derivingテクノロジーの全体像
+## deriving機能の全体像
 
 - - - - -
 
@@ -79,7 +90,11 @@
 
 - - - - -
 
-### そもそもderivingとは - GHCの提供するderivingテクノロジーの...
+## Haskell標準
+
+- - - - -
+
+### Haskell標準 - そもそもderivingとは
 
 ```haskell
 data Direction = Left | Right | Up | Down
@@ -110,14 +125,95 @@ data Direction = Left | Right | Up | Down
 
 - - - - -
 
-### GHCの提供するderivingテクノロジーの全体像
+## GHC拡張のderiving
 
-- stock (Haskell標準のderiving)
-- anyclass (`DeriveAnyClass`)
-- newtype (`GeneralizedNewtypeDeriving`)
-- via (`DerivingVia`)
+- - - - -
 
-＞＞＞ 多い ＜＜＜
+### GHC拡張のderiving - そもそもderivingとは
+
+新しい3つのderiving方法
+
+- `DeriveAnyClass`
+- `GeneralizedNewtypeDeriving`
+- `DerivingVia`
+
+- - - - -
+
+### GHC拡張のderiving - そもそもderivingとは
+
+ある実装データ型`Two`の実装
+
+```haskell
+class Number a where
+  number :: a -> Int
+  number = const 10  -- デフォルト実装
+```
+
+```haskell
+data One = One
+instance Number One where
+  number One = 1  -- オーバーライド実装
+```
+
+```haskell
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+newtype Two = Two { pred :: One }
+  deriving (Number)  -- デフォルト実装とオーバーライド実装どっち？？
+```
+
+- - - - -
+
+<!-- TODO: leftにアライン -->
+
+<div>
+Haskell「`deriving (Number)`、デフォルト実装とオーバーライド実装どっち？？」
+</div>
+
+<div>
+GHC「わからん」
+</div>
+
+```markdown
+warning:
+    • Both DeriveAnyClass and GeneralizedNewtypeDeriving are enabled
+      Defaulting to the DeriveAnyClass strategy for instantiating Number
+    • In the newtype declaration for ‘Two’
+```
+
+- - - - -
+
+## まとめると - そもそもderivingとは
+
+型クラスをderivingする方法が「4種類」ある
+
+- stock
+    - Haskell標準のderiving
+- anyclass
+    - `DeriveAnyClass`
+- newtype
+    - `GeneralizedNewtypeDeriving`
+- via
+    - `DerivingVia`
+
+- - - - -
+
+# ＞＞＞ 多い ＜＜＜
+
+- - - - -
+
+DerivingStrategies「
+こいつらアカン。
+
+」
+
+- - - - -
+
+## DerivingStrategies - GHCの提供するderivingテクノロジーの...
+
+DerivingStrategies
+
+- - - - -
 
 ## stock
 ## StandaloneDeriving
