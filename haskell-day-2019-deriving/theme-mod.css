@@ -15,11 +15,9 @@
   font-size: 40%;
   text-decoration: underline;
   text-transform: none; }
-.reveal pre {
-  line-height: 160%; }
 .reveal code {
   border: solid 2px silver;
-  padding: 10px;
+  padding: 0 10px;
   margin: 10px; }
 
 .profile {
@@ -50,3 +48,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center; }
+
+.unimportant {
+  font-size: 24px !important; }

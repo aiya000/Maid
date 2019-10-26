@@ -76,13 +76,12 @@
 
 ### GHCの提供するderivingテクノロジーの全体像 - 今回の内容
 
-`DerivingStrategies`拡張が提供する  
-各deriving機構の紹介
+『4種類』の各deriving機構の紹介 + α
 
-- stock
-- anyclass
-- newtype
-- via
+- Haskell標準のderiving
+- `GeneralizedNewtypeDeriving`
+- `DeriveAnyClass`
+- `DerivingVia`
 
 - - - - -
 
@@ -106,8 +105,9 @@ data Direction = Left | Right | Up | Down
         <div>関数を自動で</div>
         <div>定義してくれるやつ</div>
         <div>　</div>
-        <div>　</div>
-        <div>　</div>
+        <div>特定の型クラスのみに対して</div>
+        <div>しか使えない</div>
+        <div>Eq・Show・Enum・...・~~Read~~</div>
     </div>
 
     >>> Left == Left
@@ -129,63 +129,180 @@ data Direction = Left | Right | Up | Down
 
 - - - - -
 
-### GHC拡張のderiving - そもそもderivingとは
+:point_down: 今回の主題
+
+## GHC拡張のderiving
+
+- - - - -
+
+### GHC拡張のderiving - 今回の主題
 
 新しい3つのderiving方法
 
+- `GeneralizedNewtypeDeriving`
+- `DeriveAnyClass`
+- `DerivingVia`
+
+- - - - -
+
+## GeneralizedNewtypeDeriving
+
+- - - - -
+
+### GeneralizedNewtypeDeriving - GHC拡張のderiving
+
+「どういう意味？」
+
+- Generalized
+    - 「一般化された」
+- NewtypeDeriving
+    - 「`newtype`用の`deriving`」
+
+- - - - -
+
+### GeneralizedNewtypeDeriving - GHC拡張のderiving
+
+```haskell
+data Nat = Zero | Succ Nat
+  deriving (Show)
+
+class Numeric a where
+  toNumber :: a -> Int
+
+instance Numeric Nat where
+  toNumber Zero     = 0
+  toNumber (Succ x) = 1 + toNumber x
+```
+
+```haskell
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
+newtype NonNegative = NonNegative Nat
+  deriving (Numeric)  -- GeneralizedNewtypeDerivingの機能
+```
+
+- - - - -
+
+### GeneralizedNewtypeDeriving - GHC拡張のderiving
+
+Nat
+
+```
+>>> toNumber Zero
+0
+>>> toNumber (Succ (Succ Zero))
+2
+```
+
+NonNegative
+
+```
+>>> toNumber $ NonNegative Zero
+0
+>>> toNumber $ NonNegative (Succ (Succ Zero))
+2
+```
+
+- - - - -
+
+## DeriveAnyClass
+
+- - - - -
+
+### DeriveAnyClass - GHC拡張のderiving
+
+TODO
+
+- - - - -
+
+## DerivingVia
+
+- - - - -
+
+:point_down: 僕のめちゃ推しGHC拡張
+
+## DerivingVia
+
+- - - - -
+
+### DerivingVia - GHC拡張のderiving
+
+TODO
+
+- - - - -
+
+# おまけ
+
+- - - - -
+
+### deriving方法（全種類） - おまけ
+
+型クラスをderivingする方法が「4種類」ある
+
+- Haskell標準のderiving
 - `DeriveAnyClass`
 - `GeneralizedNewtypeDeriving`
 - `DerivingVia`
 
 - - - - -
 
-### GHC拡張のderiving - そもそもderivingとは
+# ＞＞＞ 多い ＜＜＜
+
+- - - - -
+
+### GHC拡張のderiving - おまけ
 
 ある実装データ型`Two`の実装
 
 ```haskell
-class Number a where
-  number :: a -> Int
-  number = const 10  -- デフォルト実装
+class Numeric a where
+  toNumber :: a -> Int
+  toNumber = const 10  -- デフォルト実装
 ```
 
 ```haskell
 data One = One
-instance Number One where
-  number One = 1  -- オーバーライド実装
+instance Numeric One where
+  toNumber One = 1  -- オーバーライド実装
 ```
 
 ```haskell
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 newtype Two = Two { pred :: One }
-  deriving (Number)  -- デフォルト実装とオーバーライド実装どっち？？
+  deriving (Numeric)  -- デフォルト実装とオーバーライド実装どっち？？
 ```
 
 - - - - -
 
-<!-- TODO: leftにアライン -->
+Haskell「`deriving (Numeric)`、デフォルト実装とオーバーライド実装どっち？？」
 
-<div>
-Haskell「`deriving (Number)`、デフォルト実装とオーバーライド実装どっち？？」
-</div>
-
-<div>
-GHC「わからん」
-</div>
+GHC「　　　　　わからん　　　　　」　　　
 
 ```markdown
 warning:
     • Both DeriveAnyClass and GeneralizedNewtypeDeriving are enabled
-      Defaulting to the DeriveAnyClass strategy for instantiating Number
+      Defaulting to the DeriveAnyClass strategy for instantiating Numeric
     • In the newtype declaration for ‘Two’
 ```
 
+<div class="unimportant">
+意訳: `DeriveAnyClass`・`GeneralizedNewtypeDeriving`  
+どっちも適用できるけど？  
+とりあえず `DeriveAnyClass` しておくね。
+</div>
+
 - - - - -
 
-## まとめると - そもそもderivingとは
+DerivingStrategies「
+こいつらアカン。
+ワイがまとめなきゃ。」
 
-型クラスをderivingする方法が「4種類」ある
+- - - - -
+
+## DerivingStrategies - GHCの提供するderivingテクノロジーの...
+
+DerivingStrategies「名前をつけました」
 
 - stock
     - Haskell標準のderiving
@@ -198,35 +315,17 @@ warning:
 
 - - - - -
 
-# ＞＞＞ 多い ＜＜＜
+## おまけ（その２）
 
 - - - - -
 
-DerivingStrategies「
-こいつらアカン。
-
-」
-
-- - - - -
-
-## DerivingStrategies - GHCの提供するderivingテクノロジーの...
-
-DerivingStrategies
-
-- - - - -
-
-## stock
 ## StandaloneDeriving
 
 [GHC User's Guide - StandaloneDeriving](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=deriveanyclass#extension-StandaloneDeriving)
 
-## DeriveAnyClass
-## GeneralizedNewtypeDeriving
-## DerivingVia
-
 - - - - -
 
-## おまけ
+## おまけ（その３）
 
 - - - - -
 
@@ -234,4 +333,8 @@ DerivingStrategies
 
 - - - - -
 
-### ApplyingVia - おまけ
+### ApplyingVia - おまけ（その３）
+
+- - - - -
+
+# おわり
