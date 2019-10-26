@@ -1,5 +1,10 @@
 all: build
 
+start:
+	$(MAKE) serve &
+	$(MAKE) open
+	$(MAKE) watch
+
 serve:
 	cd .. && $(MAKE) serve
 
@@ -14,4 +19,5 @@ watch:
 	watchexec --exts sass -- '$(MAKE) || $(notify) fail'
 
 open:
+	echo "Don't forget opening developer console and checking 'Disable cache' to refresh content"
 	chromium http://localhost:25252/haskell-day-2019-deriving &
