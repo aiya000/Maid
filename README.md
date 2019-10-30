@@ -1,10 +1,23 @@
-# :diamond_shape_with_a_dot_inside: Maid :diamond_shape_with_a_dot_inside:
+# 💠 Maid 💠
 
-A slide collection made by aiya000 :eyes:
+Slides by aiya000
 
-## :notes: NOTICE :notes:
+## Contents
 
-These excludes a MIT LISENCE :point_down:,
-because these has a different LISENCE.
+- [vimconf.swp.2018](vimconf.swp.2018)
+- [nico-lang](nico-lang)
+- [reveal.js](reveal.js)
+- [haskell-day-2018-algebra](haskell-day-2018-algebra)
+- [haskell-day-2019-deriving](haskell-day-2019-deriving)
+- [lisp-on-haskell-in-compile-time](lisp-on-haskell-in-compile-time)
+- [proof-with-haskell](proof-with-haskell)
+- [basics-of-haskell](basics-of-haskell)
+- [my-vim-friends](my-vim-friends)
+- [either-monad-in-vim-script](either-monad-in-vim-script)
+- [about-time-script](about-time-script)
+
+## 🎶 LICENSE 🎶
+
+These is MIT LICENSE excluding :point_down:
 
 - ./haskell-day-2018-algebra
