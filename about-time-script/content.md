@@ -1,87 +1,168 @@
 ## Time script
-## 〜静的型付きVim script〜
-## 予告編
+## - Strong Static Typing with Vim script -
+
+　
+
+### https://bit.ly/2PxJOYe
+### aiya000 (@public_ai000ya)
 
 - - - - -
 
-# Time scriptとは？
+# What is Time script?
 
 - - - - -
 
-# Vim scriptに静的型付けを加えたやつ
+### What is Time script?
+
+- `Vim script` +=
+    - **'Strong' Static Typing**
+    - **Advanced features**
+
+Like TypeScript of JavaScript.
 
 - - - - -
 
-# 先進的な機能を加えたやつ
+### What is Time script?
+
+Now, making Vim plugins requires Vim script.
+Or
+
+- ruby
+- lua
+- python2
+- python3
+- ...etc
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### What is Time script?
 
-Vimプラグインを開発するには（主に）  
-Vim scriptで書くことが必要。
-
-- or ruby, lua, python2, python3
+Which is **static typing languages**? :thinking_face:
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### What is Time script?
 
-静的型付き言語による開発が無理では？ :thinking_face:
-
-- - - - -
-
-### Vim scriptに静的型付けを加えたやつ
-
-Vim scriptにコンパイルする  
-静的型付き言語を開発すればいい
-
-:point_up: :point_up:
+:muscle: :muscle: :muscle:  :muscle: :muscle: :muscle:  :muscle: :muscle: :muscle:  
+＞＞＞ It's me, **Time script** ＜＜＜  
+:muscle: :muscle: :muscle:  :muscle: :muscle: :muscle:  :muscle: :muscle: :muscle:  
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### Syntax and Types
 
-現行の意味論
-
-`:help type` に書いてある型
+Basic types
 
 ```vim
-let x: Int     = 42 " Vim's Number type
+let x:  Int    = 42
 let s1: String = 'you'
 let s2: String = "me"
-let y: Float   = 1.0
-let b: Bool    = v:true
-let z1: Null   = v:null " None type
-let z2: Null   = v:none "
+let y:  Float  = 1.0
+let b:  Bool   = v:true
+let z1: Null   = v:null
+let z2: Null   = v:none
 ```
+
+These types can show `:help type` on Vim.
+
+<aside class="notes">
+これらは「`:help type` に書いてある各型」を調整したものです。
+
+例えばこのString・Bool・Null型はそのままVim scriptにある型で、
+このInt・Float型は、Vim scriptにあるnumber型を調整したものになります。
+</aside>
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### Syntax and Types
 
 ```vim
-let xs: List String  = ['sugar', 'sweet', 'moon']
-let ys: Dict Int     = {'foo': 10, 'bar': 20}
-" Funcref type
-let F: Int -> String = function('string')
+let xs: List String = ['sugar', 'sweet', 'moon']
+let d:  Dict Int    = {'foo': 10, 'bar': 20}
+
+" Function (Funcref) type
+let F: Int -> String     = function('string')
+let G: (Int, Int) -> Int = function('range')
 ```
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### Syntax and Types
 
-独自の型
+Advanced types
 
 ```vim
 let n: Nat  = 10
 let c: Char = 'x'
 let a: Any  = 10
+
+" Same as Dict Any
+let o: Object = {'foo': 10, 'bar': 'string'}
 ```
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
+### Syntax and Types
+
+Compile error!
+
+```vim
+let n: Nat  = -10   " ! negative numbers
+let c: Char = 'xaa' " ! two or more characters
+
+" ! In Time script, Object and Dict must be
+"    accessed by an Int or Nat index.
+let o: Object = {'foo': 10, 'bar': 'string'}
+echo o[0]
+```
+
+- - - - -
+
+### Syntax and Types
+
+Compile error!
+
+```vim
+" ! Any is not the 'top' type.
+let a: Any = 10
+let b: Int = a
+```
+
+<aside class="notes">
+TypeScriptは TODO
+</aside>
+
+- - - - -
+
+### Syntax and Types
+
+Typing functions
+
+```vim
+" abort by default
+function F(x: Int): String
+  return string(x)
+endfunction
+```
+
+- - - - -
+
+### Syntax and Types
+
+Typing functions
+
+```vim
+" Options is embraced by
+" [] (traditional options) or
+" [[]] (Time script's options).
+function x.f(): Bool [dict] [[no-abort]]
+  return v:true
+endfunction
+```
+
+- - - - -
+
+### Syntax and Types
 
 ```vim
 " Union types
@@ -94,37 +175,24 @@ let u: Tuple Int String Bool = [-10, 'me', v:true]
 
 - - - - -
 
-### Vim scriptに静的型付けを加えたやつ
-
-関数への型付け
-
-```vim
-function! F(x: Int) [String] abort
-  return string(a:x)
-endfunction
-```
+# Another advanced features
 
 - - - - -
 
-# 先進的な機能を加えたやつ
+### Another advanced features
 
-- - - - -
-
-### 先進的な機能を加えたやつ
-
-- String interpolations
+String interpolations.
 
 ```vim
 let n: Nat = 10
-echo "$n ${n + 1}" " !!
-" 10 11
+echo $'$n ${n + 1}'  " 10 11
 ```
 
 - - - - -
 
-### 先進的な機能を加えたやつ
+### Another advanced features
 
-- 自明な文脈（括弧中など）でのバッククォートを省略
+Don't require **unnecessary back-slashes** on trivial cases.
 
 ```vim
 let xs = [
@@ -132,34 +200,50 @@ let xs = [
 ]
 
 echo map(xs, { _, x ->
-    f(x) + g(x)
+  f(x) + g(x)
 })
 ```
 
 - - - - -
 
-### 先進的な機能を加えたやつ
+### Another advanced features
 
-- ディクショナリでの自明なクオーテーションの省略
+Don't require **unnecessary quotes 'on `{}` notation'** dicts.
 
 ```vim
-let x = {foo: 10} " !!
-echo x == {'foo': 10}
-" 1
+echo {foo: 10}  " {'foo': 10}
+```
+
+Also allowing **mixin names** both quoted and not quoted.
+
+```vim
+let x = { aaa: 'caramel', 'keba-b': 'sweet' }
 ```
 
 - - - - -
 
-### 先進的な機能を加えたやつ
+### Another advanced features
 
-- 関数型変数に対してのsneak\_case
+Allowing to **names of non upper cases** `[a-z_]+` for function references.
 
 ```vim
 let to_string = function('string')
+" let ToString = function('string')
 ```
+
+　
+
+(FYI, in Vim script, variables of funcref must be named by `[A-Z][a-zA-Z0-9_]`.)
 
 - - - - -
 
-Thanks.
+:point_right: Thanks! :point_right:
 
+- - - - -
+
+Please give me stars to increase my development!  
 🤟🙄🤟
+
+[https://github.com/aiya000/hs-time-script](https://github.com/aiya000/hs-time-script)
+
+:point_up: :point_up: :point_up:
