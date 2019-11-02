@@ -108,7 +108,7 @@ Time scriptはまだ実装中だということです。
 ### What is Time script?
 
 Now, making Vim plugins requires Vim script.
-Or
+And (not "or")
 
 - ruby
 - lua
@@ -165,9 +165,6 @@ These types can show `:help type` on Vim.
 
 <aside class="notes">
 これらは「`:help type` に書いてある各型」を調整したものです。
-
-例えばこのString・Bool・Null型はそのままVim scriptにある型で、
-このInt・Float型は、Vim scriptにあるnumber型を調整したものになります。
 </aside>
 
 - - - - -
@@ -227,10 +224,8 @@ let a: Any  = 10
 これらはVim scriptには定義されていない型です。  
   
 　  
-  
-Natは0以上の数値のみを表します。
-自然数・natural numberのことです。  
-例えばリストの長さとかが負数なのはありあえないので、そういうときに便利です。
+Natは0以上の数値のみを表します。  
+Charは長さ1の文字列。  
   
 Anyはいつものやつで、型情報を忘却する、本当は入れたくないやつです。
 </aside>
@@ -289,42 +284,40 @@ Typing functions
 ```vim
 " abort by default
 function F(x: Int): String
-  if x == 0 throw 'rejected' endif
-  echo 'good'
+  if a:x is 0 | throw 'rejected' | endif
+  echo 'bad'
   return string(x)
 endfunction
-echo F(0)  " error! 'rejected'
-           " ('good' doesn't output.)
+echo F(0)  " Error! 'rejected'
+           " (No 'bad')
 ```
 
 <aside class="notes">
 関数の型です。
 デフォルトでabortにします。
-abortっていうのは、例外が送出されたときに、後続の処理を行わないやつですね。  
-
-ちなみに行志向じゃなくてASTで構文を表すので、このような一行ifでもバーを要求しません。
+abortっていうのは、例外が送出されたときに、後続の処理を行わないやつですね。
 </aside>
 
 - - - - -
 
-### Syntax and Types
-
-Typing functions
-
-```vim
-" Options is embraced by
-" [] (traditional options) or
-" [[]] (Time script's options).
-function x.f(): Bool [dict] [[no-abort]]
-  return v:true
-endfunction
-```
-
-<aside class="notes">
-Vim scriptとTime scriptの関数オプションはこんな感じに指定します。
-</aside>
-
-- - - - -
+<!-- ### Syntax and Types -->
+<!--  -->
+<!-- Typing functions -->
+<!--  -->
+<!-- ```vim -->
+<!-- " Options is embraced by -->
+<!-- " [] (traditional options) or -->
+<!-- " [[]] (Time script's options). -->
+<!-- function x.f(): Bool [dict] [[no-abort]] -->
+<!--   return v:true -->
+<!-- endfunction -->
+<!-- ``` -->
+<!--  -->
+<!-- <aside class="notes"> -->
+<!-- Vim scriptとTime scriptの関数オプションはこんな感じに指定します。 -->
+<!-- </aside> -->
+<!--  -->
+<!-- - - - - - -->
 
 ### Syntax and Types
 
@@ -349,23 +342,23 @@ let u: Tuple Int String Bool = [-10, 'me', v:true]
 最後に、「先進的機能」について。
 </aside>
 
-- - - - -
-
-### Another advanced features
-
-String interpolations.
-
-```vim
-let n: Nat = 10
-echo $'$n ${n + 1}'  " 10 11
-```
-
-<aside class="notes">
-皆大好きなやつです。
-
-でもこれはもう僕がVim本体にパッチを書いて送ったので、
-Time script側では実装しないかもしれません。
-</aside>
+<!-- - - - - - -->
+<!--  -->
+<!-- ### Another advanced features -->
+<!--  -->
+<!-- String interpolations. -->
+<!--  -->
+<!-- ```vim -->
+<!-- let n: Nat = 10 -->
+<!-- echo $'$n ${n + 1}'  " 10 11 -->
+<!-- ``` -->
+<!--  -->
+<!-- <aside class="notes"> -->
+<!-- 皆大好きなやつです。 -->
+<!--  -->
+<!-- でもこれはもう僕がVim本体にパッチを書いて送ったので、 -->
+<!-- Time script側では実装しないかもしれません。 -->
+<!-- </aside> -->
 
 - - - - -
 
@@ -374,13 +367,16 @@ Time script側では実装しないかもしれません。
 Don't require **unnecessary back-slashes** on trivial cases.
 
 ```vim
-echo map(xs, { _, x ->
-  f(x) + g(x)
-})
+let xs: List Int = [
+  10  " In Time script
+]
+```
 
-echo map(xs, { _, x ->
-  f(x) + g(x)
-})
+```vim
+let xs: List Int = [
+\   10
+\ ]  " In Vim script
+
 ```
 
 <aside class="notes">
@@ -449,6 +445,8 @@ Vim scriptでは関数参照への変数は大文字スタートで名付ける�
 
 <aside class="notes">
 以上です！
+
+**その他色んな、超強力な機能を書いてありますので、GitHubリポジトリのREADMEを見てみてください。**
 </aside>
 
 - - - - -
