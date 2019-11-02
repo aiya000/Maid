@@ -67,3 +67,26 @@ p.minimumize > img {
     width: 40%;
     object-fit: contain;
 }
+
+.profile {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile div {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile .left {
+    width: 40%;
+    margin: 0 5%;
+}
+
+.profile .right {
+    width: 60%;
+}
+
+.profile .right ul li {
+    margin-bottom: 16px
+}
