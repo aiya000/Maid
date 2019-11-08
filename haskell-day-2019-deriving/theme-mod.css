@@ -42,9 +42,13 @@
   .twin .pane {
     width: 50%;
     margin: 0 5%; }
-  .twin pre {
-    width: 50%;
+  .twin .primary {
+    width: 80%;
     margin: 0 5%; }
+  .twin .aaaaaaaaa {
+    width: 60%; }
+  .twin .uooooooo {
+    width: 40%; }
 
 .vertical-center {
   display: flex;
@@ -59,3 +63,8 @@
 
 .small-list {
   font-size: 24px !important; }
+
+.setulab-icons {
+  text-align: right; }
+  .setulab-icons img {
+    width: 64px; }

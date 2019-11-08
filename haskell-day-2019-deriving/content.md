@@ -5,6 +5,11 @@
 ### 🤟🙄🤟 aiya000
 ### https://bit.ly/2MuMofR
 
+<aside class="notes">
+『「しんさんきぼう」GHCのderivingテクノロジー』という発表をさせていただきます。
+よろしくお願いします！
+</aside>
+
 - - - - -
 
 ## 僕
@@ -67,6 +72,10 @@
 
 ## 今回の内容
 
+<aside class="notes">
+では本編に移りましょう。
+</aside>
+
 - - - - -
 
 ## GHCの提供する
@@ -76,7 +85,7 @@
 
 ### GHCの提供するderivingテクノロジーの全体像 - 今回の内容
 
-『4種類』の各deriving機構の紹介 + α
+標準 +『3種類』の各deriving機構の紹介 + α
 
 - Haskell標準のderiving
 - `GeneralizedNewtypeDeriving`
@@ -116,16 +125,18 @@ data Direction = Left | Right | Up | Down
     >>> [Right .. Down]
     [Right,Up,Down]
 
-    >>> maxBound  :: Direction
+    >>> maxBound :: Direction
     Down
 
     >>> minBound :: Direction
     Left
 </div>
 
-- - - - -
-
-## GHC拡張のderiving
+<aside class="notes">
+- 比較演算子はEqから  
+- てんてんリストはEnumから  
+- maxBound・minBoundはBoundedから導出されたもの
+</aside>
 
 - - - - -
 
@@ -143,6 +154,11 @@ data Direction = Left | Right | Up | Down
 - `DeriveAnyClass`
 - `DerivingVia`
 
+<aside class="notes">
+- これらがderiving系のGHC拡張の中で、比較的メジャーなもの  
+- この順番で説明していきます  
+</aside>
+
 - - - - -
 
 ## GeneralizedNewtypeDeriving
@@ -157,6 +173,10 @@ data Direction = Left | Right | Up | Down
     - 「一般化された」（汎用的な）
 - NewtypeDeriving
     - 「`newtype`用の`deriving`」
+
+<aside class="notes">
+言葉としては『……』っていう意味を持ちます。
+</aside>
 
 - - - - -
 
@@ -192,16 +212,18 @@ newtype NonNegative = NonNegative Nat
 ```
 
 <aside class="notes">
+どんなものか？  
 - 標準ではこの、自前で定義したNumericクラスというのはderivingできません  
-- GeneralizedNewtypeDerivingのおかげでderivingできるようになっています  
--  NatクラスのNumericインスタンスを、NonNegativeにコピーしてそのまま使うイメージ  
+- GNDのおかげでderivingできるようになっています  
+- 「Numeric Nat」インスタンスを「Numeric NonNegative」インスタンスにコピーするイメージ  
+- Natは0と1以上の数（自然数）を表す型です  
 </aside>
 
 - - - - -
 
 ### GeneralizedNewtypeDeriving - GHC拡張のderiving
 
-Nat
+Nat（GNDされた型）
 
 ```
 >>> toNumber Zero
@@ -210,7 +232,7 @@ Nat
 2
 ```
 
-**NonNegative**
+**NonNegative**（GNDした型）
 
 ```
 >>> toNumber $ NonNegative Zero
@@ -218,6 +240,10 @@ Nat
 >>> toNumber $ NonNegative (Succ (Succ Zero))
 2
 ```
+
+<aside class="notes">
+- このようにNumericインスタンスの挙動は同じになります  
+</aside>
 
 - - - - -
 
@@ -234,18 +260,25 @@ newtype Processor a = Processor
              , MonadState TokenPos
              , MonadError Failure
              )
--- これら全部、GeneralizedNewtypeDerivingによる
--- Monad m => ExceptT e mのインスタンス
 ```
 
 <div class="unimportant">
-主題と関係ないので、詳しくは理解できなくてよい！
-とりあえず「便利」。
+**ここは詳しく理解できなくてよい**けど、めっちゃ「便利」
 </div>
+
+<aside class="notes">
+- 例えばこんな感じ  
+- 何やら難しいことやってますが、これもGND  
+- 主題と離れるので理解できなくてよいけど、GNDはすごく便利です！  
+</aside>
 
 - - - - -
 
 ## DeriveAnyClass
+
+<aside class="notes">
+GNDが便利なのを感じられたところで、次にいきましょう。
+</aside>
 
 - - - - -
 
@@ -272,6 +305,13 @@ instance Visible Anonymous
 "not specified"
 ```
 
+<aside class="notes">
+例えばこんなVisibleクラスのように、
+実装しなければいけない関数がないクラスがあると、
+instance宣言のwhere句なしに、
+インスタンス定義ができます。
+</aside>
+
 - - - - -
 
 ### DeriveAnyClass - GHC拡張のderiving
@@ -290,12 +330,22 @@ data Anonymous = Anonymous
 "not specified"
 ```
 
+<aside class="notes">
+そのときにDeriveAnyClassを使うと、instance宣言しないでderivingで、同じことができます。  
+という地味に便利なものでした。
+</aside>
+
 - - - - -
 
 ### DeriveAnyClass - GHC拡張のderiving
 
 「どのようなクラスでもderivingできるようにする最強のやべーやつ」
 **ではない**
+
+<aside class="notes">
+こういう「やべーやつ」ではないです。
+残念！
+</aside>
 
 - - - - -
 
@@ -322,7 +372,7 @@ data Anonymous = Anonymous
 
 ### DerivingVia - GHC拡張のderiving
 
-<!--
+<!-- {{{
 
 ```haskell
 data Nat = Zero | Succ Nat
@@ -336,7 +386,7 @@ instance Numeric Nat where
   toNumber (Succ x) = 1 + toNumber x
 ```
 
--->
+}}} -->
 
 Negative: 0 と 負数
 
@@ -358,22 +408,36 @@ instance Numeric Negative where
 ```
 
 <aside class="notes">
-- もうちょっと、数の種類を増やしてみる
+- ここでNat型を元に、0と負数を表す型を作る  
 </aside>
 
 - - - - -
 
 ちょっと考えてみる
 
-　
+<div class="unimportant">　</div>
 
-:thinking_face: oO( Negativeをベースにして、  
-                    　　　`instance Numeric Nat`な  
-                    　　　　　newtypeを作れないかな……？ )
+:thinking_face: oO( さらにNegativeをベースにして、  
+                    　　　　　`instance Numeric Nat`と同じ挙動の  
+                    　　　　`newtype Positive`を作れないかな  
+                    　　　　　　　　　　……？ )
+
+<div class="unimportant">　</div>
+
+- - -
 
 <div class="unimportant">
-※ ここで「ベースにする」とは、 TODO
+    <ul>
+        ここでの言葉「BarがFooをベースにする」とは 👇
+        <li>`newtype Bar = Bar Foo`のこと。さらに</li>
+        <li>`newtype Baz = Baz Bar`としたときに「BazはBarとFooをベースとしている」とも。</li>
+    </ul>
 </div>
+
+<aside class="notes">
+- この「ベースにする」っていうのは公な言葉じゃない  
+- ここでの用法として定義しておく  
+</aside>
 
 - - - - -
 
@@ -381,23 +445,33 @@ instance Numeric Negative where
 
 ```haskell
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
--- ？？？
 newtype Positive' = Positive' Negative
   deriving (Numeric)
+-- ☝ 誤ったPositive
 ```
 
+<div class="small">
+結果として「2」が欲しかったのだけど……
+</div>
+
 ```haskell
--- 結果「2」が欲しかったのだけど……
->>> toNumber . Positive' . Negative  $ Succ (Succ Zero)
+>>> toNumber . Positive' . Negative $ Succ (Succ Zero)
 -2
 ```
 
-　
+<div class="unimportant">　</div>
 
-うん、これ、`instance Numeric Negative`やね。
+うん、これ、  
+`instance Numeric Negative`の挙動やね。
 <div class="unimportant">
 （それはそう）
 </div>
+
+<aside class="notes">
+なんでかっていうと、GNDは直近のベースのインスタンスを使うからです。  
+- ここで「直近のベース」とはNegativeのこと  
+- でも本当はNatのNumericインスタンスを使いたかった  
+</aside>
 
 - - - - -
 
@@ -440,6 +514,10 @@ newtype Positive = Positive Negative
 
 オーケー！！！
 
+<aside class="notes">
+ちゃんと「Succ (Succ Zero)」が「2」を表してる！
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
@@ -458,10 +536,10 @@ newtype Positive = Positive Negative
 ベースのツリー :point_down:
 
 ```
-Nat                      -- `instance Numeric Nat`
-|- NonNegative Nat       -- `deriving Numeric` (GND)
-|- Negative Nat          -- `instance Numeric Negative`
-   |- Positive Negative  -- `deriving Numeric via Nat` (via)
+ Nat                      -- 👈
+ |- NonNegative Nat       --
+ |- Negative Nat          -- 👈
+    |- Positive Negative  --
 ```
 
 Positiveのベースには**Negative**と**Nat**が存在し、  
@@ -471,10 +549,31 @@ Positiveのベースには**Negative**と**Nat**が存在し、
 
 ### DerivingVia - GHC拡張のderiving
 
-==> Positiveは :point_down: のどちらもインスタンスも`deriving`することができる
+<div class="twin">
+    <div>==></div>
+    <div class="primary">
+        ならPositiveは、　　　　　　　　　　  
+        どちらのインスタンスも　　　　　　  
+        `deriving`できそう……？ 👇　　　　
+    </div>
+</div>
+
+<div class="unimportant">　</div>
 
 - `instance Numeric Nat`
 - `instance Numeric Negative`
+
+- - -
+
+```
+ Nat                      -- 👈
+ |- NonNegative Nat       --
+ |- Negative Nat          -- 👈
+    |- Positive Negative  --
+```
+
+<aside class="notes">
+</aside>
 
 - - - - -
 
@@ -490,6 +589,12 @@ Positive'「よろしゃす」　　　　　　　　　
 Positive' oO（ん、GND、今なにか言ってた？  
 　　　　まあいっか）
 
+<aside class="notes">
+NatとNegativeのNumericインスタンスの、
+どちらでもderivingできる状況に対して、
+GNDは直近の方を選びます。
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
@@ -503,25 +608,37 @@ Positive'「できてないやん！！！」
 
 GND「そう言ったやん！！！」
 
+<aside class="notes">
+- Positiveプライムの直近のベースはNegative  
+- だからNegativeのインスタンスを使う  
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
 
 <div class="small">
-一方DerivingViaとPositiveは……
+DerivingVia「ドーモ、デリビングビアです。  
+　　　　　　どちらもderivingできますが、  
+　　　どちらにしますか？」
 </div>
 
 <div class="unimportant">　</div>
-
-DerivingVia「どちらもderivingできますが、  
-　　どちらにしますか？」
 
 - `via Nat`
 - `via Negative`
 
 <div class="unimportant">　</div>
 
-Positive「`via Nat`でお願いします」　　
+<div class="small">
+Positive「ドーモ、ポジティヴです。　　  
+　　　　　　`via Nat`でお願いします」　　　　
+</div>
+
+<aside class="notes">
+一方DerivingViaは  
+- どちらかを指定することができる  
+</aside>
 
 - - - - -
 
@@ -538,11 +655,20 @@ DerivingVia「 👍 」
 
 Positive「 👍 」　
 
+<aside class="notes">
+ちゃんと、Natのインスタンスと同じ挙動になりました。  
+ユウジョウ！
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
 
-まとめると
+小まとめ
+
+<aside class="notes">
+まだ途中ですが、ここまでの内容をまとめます。
+</aside>
 
 - - - - -
 
@@ -576,6 +702,14 @@ Nat                      -- 👈
 
 - - - - -
 
+ここでちょっとひと呼吸。
+
+<aside class="notes">
+GNDに対して、DerivingViaは、ベースのいずれかのインスタンスを選ぶことができました。
+</aside>
+
+- - - - -
+
 ### DerivingVia - GHC拡張のderiving
 
 それだけ？
@@ -585,6 +719,11 @@ Nat                      -- 👈
 ### DerivingVia - GHC拡張のderiving
 
 まだあるよ
+
+<aside class="notes">
+実はDerivingViaは「ベースになっていないけど、同じnewtypeな型」のインスタンスもderivingできます。  
+どういうことかというと……
+</aside>
 
 - - - - -
 
@@ -615,12 +754,12 @@ newtype NonNegative = NonNegative Nat
 }}} -->
 
 <div class="small">
-僕「やっぱりNegativeがPositiveのベースに　　　　  
+？？「やっぱりNegativeがPositiveのベースに　　　　  
 　　　　なっているのはおかしい。Natが適切っぽい」
 </div>
 
 <div class="small">
-僕「あとPositiveはNonNegativeの　　　　　　　　  
+？？「あとPositiveはNonNegativeの　　　　　　　　  
 　　　　Numericインスタンスを使うとよさそう」
 </div>
 
@@ -638,6 +777,15 @@ newtype Positive = Positive Nat
   deriving (Numeric) via NonNegative
 ```
 
+<aside class="notes">
+ここで誰かは考えました。  
+- 負数が正の数のベースになっているのは、おかしくない？  
+- PositiveってNonNegativeと同じ意味だし、同じインスタンス使ってもよさそう  
+と。  
+　  
+というわけで、やってみました。
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
@@ -651,11 +799,17 @@ newtype Positive = Positive Nat
 
 ちゃんとNonNegativeのNumberインスタンスと同じ動きをしている
 
+<aside class="notes">
+挙動を確認してみても、ちゃんと正しくなったままです。
+</aside>
+
 - - - - -
 
 ### DerivingVia - GHC拡張のderiving
 
 あれ、でも、PositiveのベースにNonNegativeはないよ？？
+
+いいの？
 
 ```haskell
 Nat
@@ -664,7 +818,9 @@ Nat
 |- Positive Nat
 ```
 
-いいの？
+<div class="small">
+☝ 現在のツリー
+</div>
 
 - - - - -
 
@@ -689,8 +845,8 @@ Nat
 </div>
 
 <aside class="notes">
-- 「representationとは？」っていうのはこの発表の範囲を超えてしまうので、やりません
-- 大まかに言って「同じ型をベースにしていればオーケー」とは言えます
+- 「representationとは？」っていうのはこの発表の範囲を超えてしまうので、やりません  
+- 大まかに言って「同じ型をベースにしていればオーケー」とは言えます  
 </aside>
 
 - - - - -
@@ -700,6 +856,42 @@ Nat
 - その他機能
     - newtype以外に、dataに対しても使える
 
+<aside class="notes">
+あとは、こんな機能もあります。
+</aside>
+
+- - - - -
+
+### DerivingVia - GHC拡張のderiving
+
+DerivingViaまとめ
+
+- <span class="small">newtypeじゃなくて、dataのderivingでも使える</span>
+- <span class="small">representationが同じ、別の型のインスタンスをderivingできる</span>
+    - <span class="small">例えば 👇</span>
+
+<div class="twin">
+<div class="aaaaaaaaa">
+<pre><code class="lang-haskell hljs">newtype Z = Z A
+  deriving (Foo) via A
+  --             via X
+  --             via Y
+  --             via V
+  -- いずれもできる ☝
+</code></pre>
+</div>
+
+<div class="uooooooo">
+<pre><code>data A
+|- newtype X = X A
+|- newtype Y = Y A
+   |- newtype V = V Y
+
+全てFooインスタンスとする
+</code></pre>
+</div>
+</div>
+
 - - - - -
 
 ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ ｖ
@@ -708,9 +900,19 @@ Nat
 
 ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾ ＾
 
+<aside class="notes">
+DerivingVia強い！！
+</aside>
+
 - - - - -
 
 # おまけ
+
+<aside class="notes">
+と、ここまでが本題でした。  
+あとはペース落として、最後のプラスアルファを見ていきましょう。  
+ちょっと重要度がおちますので、楽に聞いていてください。
+</aside>
 
 - - - - -
 
@@ -752,6 +954,14 @@ newtype Two = Two { pred :: One }
   deriving (Numeric')  -- デフォルト実装とオーバーライド実装どっち？？
 ```
 
+<aside class="notes">
+- ここに、さっきまでのNumericっぽいクラスがあります。  
+- これにはtoNumberプライムのデフォルト実装がついてます  
+- Oneでは明示的にtoNumberプライムを実装します  
+　  
+このとき皆さん、Twoのderiving Numericプライムが、どちらの実装を使うか、わかりますか？
+</aside>
+
 - - - - -
 
 Haskell「この`deriving (Numeric')`、　　　　  
@@ -776,6 +986,11 @@ warning:
 どっちも適用できるけど？  
 とりあえず `DeriveAnyClass` しておくね。
 </div>
+
+<aside class="notes">
+- これはGHCもわかりません  
+- とりあえず、DeriveAnyClassを使っておいてはくれました  
+</aside>
 
 - - - - -
 
@@ -835,17 +1050,22 @@ DerivingStrategies「構文をつけてみよう」
 ```haskell
 {-# LANGUAGE DerivingStrategies #-}
 newtype SomeBody = SomeBody Person
-  deriving       (Show)          -- 標準
-  deriving stock (Eq)            -- 標準
-  deriving anyclass (Visible)    -- DeriveAnyClass
-  deriving newtype (Enum)        -- GeneralizedNewtypeDeriving
-  deriving (Bounded) via Person  -- DerivingVia
+  deriving          (Show)                -- 標準
+  deriving stock    (Eq)                  -- 標準
+  deriving anyclass (Visible)             -- DeriveAnyClass
+  deriving newtype  (Enum)                -- GeneralizedNewtypeDeriving
+  deriving          (Bounded) via Person  -- DerivingVia
 ```
 
 ```haskell
 data Person = Eta | Mu
   deriving (Show, Eq, Enum, Bounded)
 ```
+
+<div class="setulab-icons">
+    ![](mu-icon.png)
+    ![](eta-icon.png)
+</div>
 
 - - - - -
 
@@ -913,6 +1133,13 @@ instance Numeric' One where
   toNumber' One = 1  -- オーバーライド実装
 ```
 
+<aside class="notes">
+「さっきの問題」っていうのは、
+このような場合に、
+どちらの実装を使えばいいのかわからない、
+というもののことでした。
+</aside>
+
 - - - - -
 
 ### DerivingStrategies - GHCの提供するderivingテクノロジーの...
@@ -920,6 +1147,9 @@ instance Numeric' One where
 デフォルト実装を使うなら
 
 ```haskell
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveAnyClass #-}
+
 newtype Two = Two { pred :: One }
   deriving anyclass (Numeric')
 ```
@@ -936,6 +1166,9 @@ newtype Two = Two { pred :: One }
 オーバーライド実装を使うなら（`GND`）
 
 ```haskell
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 newtype Two' = Two' { pred' :: One }
   deriving newtype (Numeric')
 ```
@@ -945,6 +1178,11 @@ newtype Two' = Two' { pred' :: One }
 1
 ```
 
+<aside class="notes">
+オーバーライド実装を使いたいなら、
+このようにGNDを使うこともできますし
+</aside>
+
 - - - - -
 
 ### DerivingStrategies - GHCの提供するderivingテクノロジーの...
@@ -952,6 +1190,9 @@ newtype Two' = Two' { pred' :: One }
 オーバーライド実装を使うなら（`DerivingVia`）
 
 ```haskell
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DerivingVia #-}
+
 newtype Two'' = Two'' { pred'' :: One }
   deriving (Numeric') via One
 ```
@@ -960,6 +1201,10 @@ newtype Two'' = Two'' { pred'' :: One }
 >>> toNumber' $ Two'' One
 1
 ```
+
+<aside class="notes">
+DerivingViaを使うこともできます。
+</aside>
 
 - - - - -
 
@@ -977,7 +1222,7 @@ newtype Two'' = Two'' { pred'' :: One }
 
 ```haskell
 deriving anyclass (Numeric')
-deriving newtype (Numeric')
+deriving newtype  (Numeric')
 deriving (Numeric') via One
 ```
 
