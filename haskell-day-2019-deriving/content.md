@@ -618,7 +618,7 @@ GND「そう言ったやん！！！」
 ### DerivingVia - GHC拡張のderiving
 
 <div class="small">
-DerivingVia「ドーモ、デリビングビアです。  
+DerivingVia「ドーモ＝デライビングヴィアです。  
 　　　　　　どちらもderivingできますが、  
 　　　どちらにしますか？」
 </div>
@@ -631,7 +631,7 @@ DerivingVia「ドーモ、デリビングビアです。
 <div class="unimportant">　</div>
 
 <div class="small">
-Positive「ドーモ、ポジティヴです。　　  
+Positive「ドーモ＝ポジティヴです。　　  
 　　　　　　`via Nat`でお願いします」　　　　
 </div>
 
