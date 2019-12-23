@@ -1,0 +1,115 @@
+body {
+    background-color: #fff0f5;
+}
+
+.reveal a {
+    color: #333031;
+}
+
+.reveal a:link {
+    color: #999093;
+}
+
+.reveal h1 {
+    color: #333031;
+    text-transform: none;
+}
+
+.reveal h2 {
+    color: #333031;
+    text-transform: none;
+}
+
+.reveal h3 {
+    color: #333031;
+    font-size: 80%;
+    margin-bottom: 3%;
+    text-decoration: underline;
+    text-transform: none;
+}
+
+.reveal h4 {
+    color: #333031;
+    font-size: 60%;
+    text-transform: none;
+}
+
+.reveal h5 {
+    text-transform: none;
+    font-size: 40%;
+}
+
+.reveal strong {
+    color: #ff6699;
+}
+
+.reveal ol {
+    padding-left: 24px;
+}
+
+.reveal ul {
+    padding-left: 24px;
+}
+
+.reveal {
+    font-size: 280%;
+    color: #333031;
+}
+
+.reveal pre code {
+    font-size: 160%;
+    line-height: 160%;
+    border: solid 2px silver;
+}
+
+.reveal code {
+    border: solid 2px silver;
+    padding: 10px;
+    margin: 10px;
+}
+
+p.left {
+    text-align: left;
+}
+
+p.right {
+    text-align: right;
+}
+
+.small {
+    font-size: 28px;
+}
+
+.small a {
+    font-size: 28px;
+}
+
+.small li {
+    font-size: 28px;
+}
+
+div.half-line {
+    height: 20px;
+}
+
+.twine {
+  display: flex;
+  flex-direction: row;
+}
+
+.twine div {
+    display: flex;
+    flex-direction: column;
+}
+
+.twine .left {
+    width: 50%;
+}
+
+.twine .right {
+    width: 50%;
+}
+
+.twine .right ul li {
+    margin-bottom: 16px
+}
