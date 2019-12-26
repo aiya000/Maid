@@ -15,6 +15,7 @@ Slides by aiya000
 - [my-vim-friends](my-vim-friends)
 - [either-monad-in-vim-script](either-monad-in-vim-script)
 - [about-time-script](about-time-script)
+- [who-is-aiya000-2019](who-is-aiya000-2019)
 
 ## 🎶 LICENSE 🎶
 
