@@ -1,0 +1,32 @@
+.reveal h1 {
+  text-transform: none;
+}
+
+.reveal h2 {
+  text-transform: none;
+}
+
+.reveal h3 {
+  text-transform: none;
+}
+
+.reveal ul {
+  padding-left: 24px;
+}
+
+.reveal section img {
+  border: none;
+}
+
+.reveal span.note-ref {
+  font-size: 20px;
+}
+
+.reveal div.note {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.reveal div.icons img {
+  height: 80px;
+}
