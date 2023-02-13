@@ -1,12 +1,4 @@
-.reveal h1 {
-  text-transform: none;
-}
-
-.reveal h2 {
-  text-transform: none;
-}
-
-.reveal h3 {
+.reveal :is(h1, h2, h3, h4, h5, a) {
   text-transform: none;
 }
 
@@ -19,6 +11,14 @@
 }
 
 .reveal span.note-ref {
+  font-size: 20px;
+}
+
+.reveal .sub {
+  font-size: 30px;
+}
+
+.reveal span.small {
   font-size: 20px;
 }
 
