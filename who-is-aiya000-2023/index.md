@@ -185,6 +185,71 @@ Vimです。
 
 - - - - -
 
+Haskell
+
+<aside class="notes">
+次にHaskellです。
+多くは語りませんが、
+Haskellには人生を救われた経験があります。
+</aside>
+
+- - - - -
+
+#### 技術 - Haskell
+
+[Time script](https://github.com/aiya000/hs-time-script)
+（自作言語）
+（未完成）
+
+![](./Timescript.png)
+
+<aside class="notes">
+Haskellで作っていた、自作プログラミング言語です。
+Vimに内臓されたVim scriptという言語の置き換えを狙っていました。
+作っていたらVim script自体に静的型付けが導入されたり、
+TypeScriptが使えるようになったりしたので、
+お蔵入りになりました。 <br />
+成仏してください。 <br />
+でも構文解析と自動化テストの練習にかなりなったので、
+成果はあったと思います。
+</aside>
+
+- - - - -
+
+#### 技術 - Haskell
+
+[((((zuramaru))))](https://github.com/aiya000/hs-zuramaru)
+Lisp方言
+
+![](./zura.png)
+
+<aside class="notes">
+これも自作プログラミング言語で、
+Lisp方言です。 <br />
+これはHaskellとの親和性がいつの間にか高くなったやつで、
+型でLispが書けたりします。
+ちゃんとコンパイル時に型で書いたLispが処理されて、結果が実際の型に落とし込まれます。
+気になったらリポジトリのreadmeを見てみてください。 <br />
+もちろん普通にHaskellの実行時にも、Lispの実行ができます。
+</aside>
+
+- - - - -
+
+#### 技術 - Haskell
+
+[ゴリラ](https://github.com/aiya000/hs-gorira)
+
+![](./gorira.png)
+
+<aside class="notes">
+これはゴリラです。
+Twitter botです。
+僕の発言をソースに、意味の分からないことを話すbotです。 <br />
+マルコフ連鎖の連結が弱くて、こんなことをしゃべってます。
+</aside>
+
+- - - - -
+
 数学
 
 <aside class="notes">
