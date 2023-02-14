@@ -48,6 +48,8 @@ TwitterやMastodon・GitHubなどをやってます。
 #### 技術
 
 - ✨ Vim ✨
+    - マウスなしでの直観的編集！ プラグインの豊富さ！  
+      矩形編集！！
 
 - ✨ Haskell ✨
     - モナド！！ **圏論**, **代数的構造**
@@ -57,7 +59,7 @@ TwitterやMastodon・GitHubなどをやってます。
 
 <aside class="notes">
 使っているエディタはVimです！
-ここは大切なところですので、宣言します。
+ここは大切なところなので、宣言します。
 <br /> <br />
 一番得意な言語はHaskellです。
 Haskellで、強い静的型付けのなんたるや、を学びました。
@@ -68,6 +70,131 @@ HaskellにはKindっていう、型に対する型みたいなのがあったり
 - - - - -
 
 #### 技術
+
+- ✨ 数学 ✨
+    - 抽象化は神！ プログラミングへの応用！  
+      たのしい！！
+
+<aside class="notes">
+数学もちょっとやってます。
+アルゴリズムの幅が増えて、とても気持ちがいいです。
+</aside>
+
+- - - - -
+
+Vim
+
+<aside class="notes">
+Vimについて。
+</aside>
+
+- - - - -
+
+#### 技術 - Vim
+
+✨ Vim ✨
+
+- Vim歴11年
+- プラグインを作ったりしてる
+- Vimがないと進捗速度が `1/10` くらいに  
+  落ちると思う
+
+<aside class="notes">
+Vim歴は11年です。
+高校生の頃から使っています。 <br />
+プラグインも作ってます。 <br />
+Vimがないと生きていけないので、よろしくお願いします。
+</aside>
+
+- - - - -
+
+#### 技術 - Vim
+
+[neosnippet-emoji](https://github.com/aiya000/neosnippet-emoji)
+
+補完候補にEmojiを追加するプラグイン。
+
+<img src="https://github.com/aiya000/neosnippet-emoji/raw/master/sample.gif" height="400px" />
+
+<aside class="notes">
+いくつか僕が作ったVimプラグインを紹介させてください。
+よかったらStarもください。 <br />
+はい。 <br />
+VimでEmojiを使うときに便利です。
+neosnippet.vimっていう大手プラグインに依存してます。
+</aside>
+
+- - - - -
+
+#### 技術 - Vim
+
+[vim-webpage](https://github.com/aiya000/vim-webpage)
+
+Vimで選択した単語の翻訳ページ（Webページ）を  
+ポップアップで開いたりするプラグイン。
+
+<img src="https://github.com/aiya000/vim-webpage/raw/master/sample.gif" height="400px" />
+
+<aside class="notes">
+VimのポップアップでWebページを開くやつです。
+英単語を引くときに主に使ってますが、
+選択してる文字をよしなにURLパラメーターにしてページを開くだけなので、
+Google検索などでも色々使えたりします。
+</aside>
+
+- - - - -
+
+#### 技術 - Vim
+
+[aho-bakaup.vim](https://github.com/aiya000/aho-bakaup.vim)
+
+ファイル保存時に、所定の場所にバックアップを作成するプラグイン。
+
+<aside class="notes">
+これはgit管理で溢れてしまったときの予防策です。
+愛用しています。
+</aside>
+
+- - - - -
+
+#### 技術 - Vim
+
+[vim-ghcid-quickfix](https://github.com/aiya000/vim-ghcid-quickfix)
+
+HaskellのビルドやテストをQuickFixで見る  
+プラグイン。
+
+<img src="https://github.com/aiya000/vim-ghcid-quickfix/raw/master/sample.gif" height="400px" />
+
+<aside class="notes">
+これはHaskellの開発で使うやつですね。
+QuickFixっていう、Vimのメッセージリストみたいなものに、ビルド結果を流します。
+いろいろよしなにやってくれます。
+</aside>
+
+- - - - -
+
+Vim
+
+<img src="./vim-heaven.png" height="500px" />
+
+<aside class="notes">
+Vimです。
+やばいですね！
+</aside>
+
+- - - - -
+
+数学
+
+<aside class="notes">
+一度Vimから離れて、数学です。
+数学もちょっとだけ趣味でかじっています。
+</aside>
+
+- - - - -
+
+#### 技術 - 数学
 
 ✨ 数学 ✨
 
@@ -89,15 +216,24 @@ HaskellにはKindっていう、型に対する型みたいなのがあったり
 </div>
 
 <aside class="notes">
-数学もちょっとだけ趣味でかじっています。
 主に圏論っていう、数学を抽象化する分野が好きで、ぼーっと眺めています。 <br />
 代数的構造っていう、足し算みたいな、皆さんがいつも使っているものを抽象化する分野もちょっとだけかじりました。
-ちょっとだけです。
+ちょっとだけです。 <br />
+最近は、毎日圏論ばっかりやってます。
+色んな発見がいっぱいあるので、やってて楽しいです。
 </aside>
 
 - - - - -
 
-#### 技術
+TypeScript
+
+<aside class="notes">
+みんな大好きTypeScriptも、主力言語として使っています。
+</aside>
+
+- - - - -
+
+#### 技術 - TypeScript
 
 ✨ **TypeScript** ✨
 
@@ -111,7 +247,6 @@ HaskellにはKindっていう、型に対する型みたいなのがあったり
 </div>
 
 <aside class="notes">
-みんな大好きTypeScriptも、主力言語として使っています。
 TypeScriptは放っておくと静的型付けが壊れる言語なので、
 数学で学んだことや、TaPLというつよつよの本で学んだ知識を用いて、
 不安全なことをレビューで指摘したりしています。
@@ -122,7 +257,16 @@ TypeScriptは放っておくと静的型付けが壊れる言語なので、
 型警察👮🚓==3
 
 <aside class="notes">
-なので型警察って呼ばれています。
+なのでチーム内では型警察って呼ばれています。
+今後も型警察としてがんばっていこうと思います。
+</aside>
+
+- - - - -
+
+その他
+
+<aside class="notes">
+その他です。
 </aside>
 
 - - - - -
@@ -207,6 +351,27 @@ Haskellや集合論の基礎も書いてます。
 
 - - - - -
 
+#### 技術 - 執筆その他
+
+↓PDFが無料らしいよ！
+
+- [簡約!? λカ娘 10](https://ikmsm.pastillage-research.org/ikmsm/books/c92.html)
+- [簡約!? λカ娘 11](https://ikmsm.pastillage-research.org/ikmsm/books/c94.html)
+
+<div style="display: flex; justify-content: center">
+<img src="https://ikmsm.pastillage-research.org/ikmsm/images/c92-cover.jpg" height="400px" />
+<img src="https://ikmsm.pastillage-research.org/ikmsm/images/c94-cover.jpg" height="400px" />
+</div>
+
+<aside class="notes">
+ラムダカ娘っていう合同本にも数学記事を寄稿しました。
+これはPDFがいつの間にか無料になっていたので、
+興味ある人は、
+ぜひこのリンクからダウンロードしてみてください。
+</aside>
+
+- - - - -
+
 # 職歴
 
 <aside class="notes">
@@ -279,10 +444,11 @@ Haskellや集合論の基礎も書いてます。
 
 #### 職歴
 
-- 某ホテルのロボット開発のお手伝い
-- 某大手企業の音声加工技術のお手伝い
+- 変なホテルのロボット開発のお手伝い
+- 某大手企業さんの音声加工技術のお手伝い
+- 某大手企業さんのための、GitHubのマネジメントアプリ作成
 - iOSアプリなんもわからん！
-- GitHubのマネジメントアプリ
+    - なのにリファクタリング任された
 
 <aside class="notes">
 あとはこんなこともしました。
@@ -355,7 +521,8 @@ VimConfとHaskell Dayでよく発表してます。
 
 - 圏論完全に理解したい！
 
-- TaPLを全部読みたい！
+- TaPL・圏論の基礎・ベーシック圏論を  
+  全部読みたい！
 
 <aside class="notes">
 本を商業出版したいと思っています！
