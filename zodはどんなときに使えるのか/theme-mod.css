@@ -23,3 +23,14 @@
 body {
   background-color: lavender;
 }
+
+.profile {
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    width: 15%;
+}
+
+.book {
+    width: 35%;
+}
