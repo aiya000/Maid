@@ -1,0 +1,42 @@
+.reveal :is(h1, h2, h3, h4, h5, h6) {
+  text-transform: none;
+  color: black;
+}
+
+.reveal {
+  color: black;
+}
+
+.reveal strong {
+  color: blue;
+}
+
+.reveal ul {
+  padding-left: 24px;
+}
+
+.reveal a {
+  blue !important;
+  text-decoration: underline !important;
+}
+
+.reveal code {
+  background-color: black;
+  color: white;
+  padding: 8px;
+}
+
+body {
+  background-color: lavender;
+}
+
+.profile {
+  position: absolute;
+  left: 5%;
+  bottom: 5%;
+  width: 15%;
+}
+
+.book {
+  width: 35%;
+}
