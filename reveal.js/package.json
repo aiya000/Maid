@@ -38,9 +38,5 @@
     "grunt-zip": "~0.17.1",
     "mustache": "^2.3.0",
     "socket.io": "^2.1.1"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "emoji-awesome": "0.0.1"
   }
 }

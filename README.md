@@ -17,9 +17,3 @@ Slides by aiya000
 - [who-is-aiya000-2019](https://aiya000.github.io/Maid/who-is-aiya000-2019)
 - [who-is-aiya000-2023](https://aiya000.github.io/Maid/who-is-aiya000-2023)
 - [zodはどんなときに使えるのか](https://aiya000.github.io/Maid/zodはどんなときに使えるのか)
-
-## 🎶 LICENSE 🎶
-
-These is MIT LICENSE excluding :point_down:
-
-- ./haskell-day-2018-algebra
