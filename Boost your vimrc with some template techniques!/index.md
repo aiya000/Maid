@@ -1,8 +1,8 @@
-# Boost your vimrc with
-# some template techniques!
+## Boost your vimrc with
+## some template techniques!
 
 - 2023-XX-XX
-- [aiya000](https://twitter.com/public_ai000ya)
+- aiya000（[@public\_ai000ya](https://twitter.com/public_ai000ya)）
 
 <a style="position: absolute; bottom: 0; left: 0; width: 150px; height: auto;" href="TODO: このスライドがあるURL">
 <img src="TODO">
@@ -10,40 +10,47 @@
 
 - - - - -
 
-# この発表はなに？
+# What is this session?
 
 - - - - -
 
-## この発表はなに？
+## What is this session?
 
-TODO
-
-- - - - -
-
-# 僕
+1. Learn 
 
 - - - - -
 
-## 僕
+# Me
+
+- - - - -
+
+## Me
 
 <img src="../shared/me-mu2.jpg" style="position: absolute; top: 100px; right: 0; width: 300px; height: auto;" />
 
-- 名前
+- Name
     - aiya000
 - Twitter
-    - [pubilc\_ai000ya](https://twitter.com/public_ai000ya)
+    - [@pubilc\_ai000ya](https://twitter.com/public_ai000ya)
 
-- すき
-    - 静的型付き言語
-        - **Vim**・TypeScript・Haskell・Scala3・Idris
-    - 数学
-        - 圏論・代数的構造
+- Like
+    - Strong static typed languages
+        - TypeScript, **Haskell**, Scala3, Idris
+    - Math
+        - Categoroy theory, Algebraic structure
 
 - - - - -
 
-## 僕
+## Me
 
-こういう数学の本を書いてます。
+- Like
+    - and **Vim** ;)
+
+- - - - -
+
+## Me
+
+I wrote this books!
 
 <div>
     <a href="https://aiya000.booth.pm/items/1298622"><img src="../shared/setulab-cover.png" class="book" /></a>
@@ -58,8 +65,8 @@ TODO
 
 - - - - -
 
-[今日のLT資料](https://zenn.dev/aiya000/articles/cd06a0f3620d59)  
-↑ クリック
+[This session's zenn link](https://zenn.dev/aiya000/articles/cd06a0f3620d59)  
+↑ Please ♡
 
 <aside class="notes">
 ちなみに、今回の資料はZennにも上げています。
@@ -68,8 +75,8 @@ TODO
 
 - - - - -
 
-## vimrcを加速させる！
-## テンプレテクニック！
+## Boost your vimrc with
+## some template techniques!
 
 - - - - -
 
@@ -79,8 +86,8 @@ TODO
 
 ## vital.vim
 
-vim-jp製  
-Vim scriptの**準標準**ライブラリ
+Vim script's semi standard library,  
+from vim-jp.
 
 https://github.com/vim-jp/vital.vim
 
@@ -111,63 +118,130 @@ let s:Promise = s:V.import('Async.Promise')
 
 ...
 
-いっぱいあるよ！
+And a lot of modules!!
 
 - - - - -
 
 ## vital.vim
 
-Vim scriptを書くとき全般、  
-つまりvimrcを書くときにも使える！
+vital.vim for writing Vim script.  
+Meaning also vital.vim for writing your **vimrc**.
 
 ```vim
-" 式指向でエラーメッセージを書く
+" Writing expression oriented error messages
 let g:vimrc.open_on_gui =
   \ g:vimrc.is_macos   ? 'open' :
   \ g:vimrc.is_windows ? 'start' :
   \ g:vimrc.is_unix    ? 'xdg-open' : s:Msg.warn('no method for GUI-open')
 
-" @a ~ @z の範囲にキーマップする
+" Do keymapping for the range of @a ~ @z
 for x in s:List.char_range('a', 'z')
   execute 'nnoremap' '<silent>' $'@{x}'
-    \ (":\<C-u>" .. $'call vimrc#execute_repeatable_macro("{x}")\<CR>')
+    \ (":\<C-u>" .. $'call vimrc#foo("{x}")\<CR>')
 endfor
 ```
 
 - - - - -
 
-# Vim scriptの
-# 言語機能たち
+# Vim script specs
 
 - - - - -
 
-## Vim scriptの言語機能たち
-
-`$''` `$""`
+## Vim script specs
 
 String interpolation
 
+`$''` `$""`
+
 ```vim
-" もう .. しなくていいんだ
+" No more '..' !!!!!!!!
 
-" ↓ 読みやすい！
-call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
-
-" ↓ 読みずらい ずら～
+" Not easy to read
 call system('chown -R ' .. $USER .. ':' .. $GROUP .. '"{foo_directory}"')
+
+" ↓ Easy to read ↓
+call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
 ```
 
 - - - - -
 
-## Vim scriptの言語機能たち
+## Vim script specs
 
 ```vim
+" Ne more expand('~') !
+
 if filereadable($'{$HOME}/dein_env.toml')
   call dein#load_toml('~/dein_env.toml', {'lazy': 0})
 endif
-" もうexpand('~')しなくてもいいんだ
 ```
 
 - - - - -
 
-TODO: autoloadに分けること
+## Vim script specs
+
+Function delcrations is placing num of lines.
+
+```vim
+function s:read_git_root() abort
+  " ...
+endfunction
+function s:job_start_simply(cmd) abort
+  " ...
+endfunction
+" ... and a lot of functions.
+
+command! -bar GitPush call s:job_start_simply(['git', 'push'])
+" ... and a lot of commands.
+
+let s:root = call s:read_git_root()
+" ... others
+```
+
+- - - - -
+
+## Vim script specs
+
+You can use **~/.vim/autoload** and **~/.vim/plugin** directory.  
+For example:
+
+.vim/autoload/vimrc.vim
+```vim
+function vimrc#job_start_simply(cmd) abort
+  " ...
+endfunction
+
+" ...
+```
+
+- - - - -
+
+.vim/autoload/vimrc/job.vim
+```vim
+function vimrc#job#start_simply(cmd) abort
+  " ...
+endfunction
+
+" ...
+```
+
+.vim/plugin/vimrc.vim
+```vim
+command! -bar GitPush call s:job_start_simply(['git', 'push'])
+
+" ...
+```
+
+.vimrc
+```vim
+let s:root = call s:read_git_root()
+
+" ...
+```
+
+- - - - -
+
+## Vim script specs
+
+- autoload: **function** declarations
+- plugins: **command** declaretions
+- vimrc: settings and others
