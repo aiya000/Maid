@@ -4,7 +4,7 @@ Slides by aiya000
 
 ## Contents
 
-- [Boost your vimrc with some template techniques!](https://aiya000.github.io/Maid/Boost+your+vimrc+with+some+template+techniques%21)
+- [Boost-your-vimrc-with-some-template-techniques!](https://aiya000.github.io/Maid/Boost-your-vimrc-with-some-template-techniques)
 - [about-time-script](https://aiya000.github.io/Maid/about-time-script)
 - [basics-of-haskell](https://aiya000.github.io/Maid/basics-of-haskell)
 - [either-monad-in-vim-script](https://aiya000.github.io/Maid/either-monad-in-vim-script)
