@@ -1,5 +1,5 @@
-## vimrcを加速させる！
-## テンプレテクニック！
+# Boost your vimrc with
+# some template techniques!
 
 - 2023-XX-XX
 - [aiya000](https://twitter.com/public_ai000ya)
