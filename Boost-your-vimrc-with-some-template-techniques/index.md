@@ -8,6 +8,14 @@
 <img src="qrcode.png">
 </a>
 
+<!-- 今回のキーワード
+
+nice
+
+# 👍
+
+-->
+
 - - - - -
 
 # What is this session?
