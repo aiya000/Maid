@@ -4,8 +4,8 @@
 - 2023-XX-XX
 - aiya000（[@public\_ai000ya](https://twitter.com/public_ai000ya)）
 
-<a style="position: absolute; bottom: 0; left: 0; width: 150px; height: auto;" href="TODO: このスライドがあるURL">
-<img src="TODO">
+<a style="position: absolute; bottom: -2; left: 0; width: 150px; height: auto;" href="https://aiya000.github.io/Maid/Boost-your-vimrc-with-some-template-techniques/#/">
+<img src="qrcode.png">
 </a>
 
 - - - - -
@@ -16,7 +16,8 @@
 
 ## What is this session?
 
-1. Learn 
+- Learn how to **refine** your vimrc
+    - using some techniques
 
 - - - - -
 
@@ -80,6 +81,10 @@ I wrote this books!
 
 - - - - -
 
+# Vim script libraries
+
+- - - - -
+
 # vital.vim
 
 - - - - -
@@ -92,10 +97,9 @@ from vim-jp.
 https://github.com/vim-jp/vital.vim
 
 ```vim
-let s:V = vital#vimrc#new()
-let s:List = s:V.import('Data.List')
-let s:Msg = s:V.import('Vim.Message')
-let s:Promise = s:V.import('Async.Promise')
+let s:List = vital#vimrc#import('Data.List')
+let s:Msg = vital#vimrc#import('Vim.Message')
+let s:Promise = vital#vimrc#import('Async.Promise')
 ```
 
 - - - - -
@@ -143,43 +147,98 @@ endfor
 
 - - - - -
 
+nice
+
+# 👍
+
+- - - - -
+
+#### vital.vim
+
+My favorite modules: **Data.List**
+
+```vim
+let s:List = vital#vimrc#import('Data.List')
+
+echo s:List.has([1, 2, 3], 2)
+" 1
+
+echo s:List.char_range('a', 'f')
+" ['a', 'b', 'c', 'd', 'e', 'f']
+
+echo s:List.count({ x -> x % 2 == 0 }, [1, 2, 3, 4, 5])
+" 2
+```
+
+- - - - -
+
+These are VERY basic functions.
+
+```vim
+echo s:List.foldl({ memo, val -> memo + val }, 0, range(1, 10))
+" 55 (= 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10)
+
+echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
+" ['b', 'c']
+```
+
+- - - - -
+
+#### vital.vim
+
+**Vim.Message**
+
+```vim
+let s:Msg = vital#vimrc#import('Vim.Message')
+
+call s:Msg.echo(hl, msg)
+" > Execute echo with {hl} (highlight-groups).
+
+call s:Msg.echomsg(hl, msg)
+" > Execute :echomsg with {hl} (highlight-groups).
+
+call s:Msg.warn(msg)
+" > Execute :echomsg with hl-WarningMsg
+
+call s:Msg.error(msg)
+" Execute :echomsg with hl-ErrorMsg
+```
+
+- - - - -
+
+Usually, `:echo` is a syntax (command).  
+But this can be an expression.
+
+```vim
+let g:vimrc.open_on_gui =
+  \ g:vimrc.is_macos   ? 'open' :
+  \ g:vimrc.is_windows ? 'start' :
+  \ g:vimrc.is_unix    ? 'xdg-open' :
+    \ s:Msg.warn('no method for GUI-open')
+```
+
+(Also this is useful than `execute('echo "foo"')`)
+
+- - - - -
+
+nice
+
+# 👍
+
+- - - - -
+
 # Vim script specs
 
 - - - - -
 
-## Vim script specs
-
-String interpolation
-
-`$''` `$""`
-
-```vim
-" No more '..' !!!!!!!!
-
-" Not easy to read
-call system('chown -R ' .. $USER .. ':' .. $GROUP .. '"{foo_directory}"')
-
-" ↓ Easy to read ↓
-call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
-```
+## autoload, plugin, vimrc
 
 - - - - -
 
-## Vim script specs
+#### autoload, plugin, vimrc
 
-```vim
-" Ne more expand('~') !
-
-if filereadable($'{$HOME}/dein_env.toml')
-  call dein#load_toml('~/dein_env.toml', {'lazy': 0})
-endif
-```
-
-- - - - -
-
-## Vim script specs
-
-Function delcrations is placing num of lines.
+Function and command delcrations  
+is placing num of lines.
 
 ```vim
 function s:read_git_root() abort
@@ -188,9 +247,9 @@ endfunction
 function s:job_start_simply(cmd) abort
   " ...
 endfunction
-" ... and a lot of functions.
+" ... and a lot of functions and sub functions.
 
-command! -bar GitPush call s:job_start_simply(['git', 'push'])
+command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
 " ... and a lot of commands.
 
 let s:root = call s:read_git_root()
@@ -199,15 +258,19 @@ let s:root = call s:read_git_root()
 
 - - - - -
 
-## Vim script specs
+#### autoload, plugin, vimrc
 
-You can use **~/.vim/autoload** and **~/.vim/plugin** directory.  
+You can use **~/.vim/autoload** and **~/.vim/plugin** directory.
 For example:
 
 .vim/autoload/vimrc.vim
 ```vim
-function vimrc#job_start_simply(cmd) abort
+function vimrc#read_git_root() abort
   " ...
+endfunction
+
+function s:foo() abort
+  " a sub function
 endfunction
 
 " ...
@@ -221,27 +284,79 @@ function vimrc#job#start_simply(cmd) abort
   " ...
 endfunction
 
+function s:bar() abort
+  " a sub function
+endfunction
+
 " ...
 ```
 
 .vim/plugin/vimrc.vim
 ```vim
-command! -bar GitPush call s:job_start_simply(['git', 'push'])
-
-" ...
-```
-
-.vimrc
-```vim
-let s:root = call s:read_git_root()
+command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
 
 " ...
 ```
 
 - - - - -
 
-## Vim script specs
+.vimrc
+```vim
+let s:root = call vimrc#read_git_root()
+" ...
+```
+
+- - - - -
+
+#### autoload, plugin, vimrc
 
 - autoload: **function** declarations
 - plugins: **command** declaretions
 - vimrc: settings and others
+
+- - - - -
+
+nice
+
+# 👍
+
+- - - - -
+
+# String interpolation
+
+- - - - -
+
+#### String interpolation
+
+`$''` `$""`
+
+```vim
+" No more '..' !!!!!!!!
+
+" Not easy to read
+call system('chown -R ' .. $USER .. ':' .. $GROUP .. '"{foo_directory}"')
+
+" ↓ Easy to read ↓
+call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
+```
+
+```vim
+" No more expand('~') !
+
+if filereadable($'{$HOME}/dein_env.toml')
+  call dein#load_toml('~/dein_env.toml', {'lazy': 0})
+endif
+```
+
+- - - - -
+
+```vim
+" Better than printf()
+let name = 'Bram'
+
+" Not easy to read
+echo printf('Hi %s', name)
+
+" ↓ Easy to read ↓
+echo $'Hi {name}'
+```
