@@ -1,12 +1,15 @@
-## Boost your vimrc with
-## some template techniques!
+## Boost your vimrc with some template techniques!
 
-- 2023-XX-XX
+- 2023-11-18
 - aiya000（[@public\_ai000ya](https://twitter.com/public_ai000ya)）
 
 <a style="position: absolute; bottom: -2; left: 0; width: 150px; height: auto;" href="https://aiya000.github.io/Maid/Boost-your-vimrc-with-some-template-techniques/#/">
 <img src="qrcode.png">
 </a>
+
+　
+
+← This session's slide
 
 <!-- 今回のキーワード
 
@@ -44,7 +47,7 @@ nice
 
 - Like
     - Strong static typed languages
-        - TypeScript, **Haskell**, Scala3, Idris
+        - **TypeScript**, **Haskell**, Scala3, Idris
     - Math
         - Categoroy theory, Algebraic structure
 
@@ -59,7 +62,7 @@ nice
 
 ## Me
 
-I wrote this books!
+My works!
 
 <div>
     <a href="https://aiya000.booth.pm/items/1298622"><img src="../shared/setulab-cover.png" class="book" /></a>
@@ -75,7 +78,10 @@ I wrote this books!
 - - - - -
 
 [This session's zenn link](https://zenn.dev/aiya000/articles/cd06a0f3620d59)  
-↑ Please ♡
+
+![](qrcode-to-zenn.png)
+
+↑ Please your ♡Favorite♡
 
 <aside class="notes">
 ちなみに、今回の資料はZennにも上げています。
@@ -163,7 +169,9 @@ nice
 
 #### vital.vim
 
-My favorite modules: **Data.List**
+My favorite modules.
+
+First: **Data.List**
 
 ```vim
 let s:List = vital#vimrc#import('Data.List')
@@ -199,23 +207,23 @@ echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
 ```vim
 let s:Msg = vital#vimrc#import('Vim.Message')
 
-call s:Msg.echo(hl, msg)
-" > Execute echo with {hl} (highlight-groups).
+call s:Msg.echo('WarningMsg', 'some warning')
+" > some warning
 
-call s:Msg.echomsg(hl, msg)
-" > Execute :echomsg with {hl} (highlight-groups).
+call s:Msg.echomsg('ErrorMsg', 'some error')
+" > some error
 
-call s:Msg.warn(msg)
-" > Execute :echomsg with hl-WarningMsg
+call s:Msg.warn('some warning')
+" > some warning
 
-call s:Msg.error(msg)
-" Execute :echomsg with hl-ErrorMsg
+call s:Msg.error('some error')
+" > some error
 ```
 
 - - - - -
 
-Usually, `:echo` is a syntax (command).  
-But this can be an expression.
+Usually, `:echo` is a syntax (a command).  
+But Vim.Message allows to use as an expression.
 
 ```vim
 let g:vimrc.open_on_gui =
@@ -258,6 +266,7 @@ endfunction
 " ... and a lot of functions and sub functions.
 
 command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
+command! -bar GitAddAllAsync call s:job_start_simply(['git', 'add', '-A'])
 " ... and a lot of commands.
 
 let s:root = call s:read_git_root()
@@ -269,7 +278,19 @@ let s:root = call s:read_git_root()
 #### autoload, plugin, vimrc
 
 You can use **~/.vim/autoload** and **~/.vim/plugin** directory.
-For example:
+
+```
+$HOME
+|- .vim
+   |- autoload
+   |- plugin
+```
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+**autoload**
 
 .vim/autoload/vimrc.vim
 ```vim
@@ -278,13 +299,15 @@ function vimrc#read_git_root() abort
 endfunction
 
 function s:foo() abort
-  " a sub function
+  " a sub function (not be exposed)
 endfunction
 
 " ...
 ```
 
 - - - - -
+
+(Sub namespaces)
 
 .vim/autoload/vimrc/job.vim
 ```vim
@@ -293,15 +316,25 @@ function vimrc#job#start_simply(cmd) abort
 endfunction
 
 function s:bar() abort
-  " a sub function
+  " a sub function (not be exposed)
 endfunction
 
 " ...
 ```
 
+- - - - -
+
+**plugins**
+
 .vim/plugin/vimrc.vim
 ```vim
 command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
+command! -bar GitAddAllAsync
+  \ call s:job_start_simply(['git', 'add', '-A'])
+command! -bar -nargs=1 GitCommitMAsync
+  \ call s:job_start_simply(['git', 'commit', '-m', <q-args>])
+command! -bar -nargs=1 GitCheckoutAsync
+  \ call s:job_start_simply(['git', 'checkout', <q-args>])
 
 " ...
 ```
@@ -314,12 +347,18 @@ let s:root = call vimrc#read_git_root()
 " ...
 ```
 
+In your Vim
+```
+:GitCommitMAsync awesome
+:GitPushAsync
+```
+
 - - - - -
 
 #### autoload, plugin, vimrc
 
-- autoload: **function** declarations
-- plugins: **command** declaretions
+- autoload: **functions**
+- plugins: **commands**
 - vimrc: settings and others
 
 - - - - -
@@ -330,13 +369,11 @@ nice
 
 - - - - -
 
-# String interpolation
+# String interpolation `$''` `$""`
 
 - - - - -
 
-#### String interpolation
-
-`$''` `$""`
+#### String interpolation `$''` `$""`
 
 ```vim
 " No more '..' !!!!!!!!
@@ -360,7 +397,7 @@ endif
 
 ```vim
 " Better than printf()
-let name = 'Bram'
+let name = 'Vim'
 
 " Not easy to read
 echo printf('Hi %s', name)
@@ -368,3 +405,65 @@ echo printf('Hi %s', name)
 " ↓ Easy to read ↓
 echo $'Hi {name}'
 ```
+
+- - - - -
+
+# Literal Dict `#{}`
+
+- - - - -
+
+#### Literal Dict `#{}`
+
+```vim
+call ddc#custom#patch_global({
+  \ 'ui': 'native',
+  \ 'sources': ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+  \ 'sourceOptions': {
+    \ '_': {
+      \ 'matchers': ['matcher_fuzzy'],
+      \ 'sorters': ['sorter_fuzzy'],
+      \ 'converters': ['converter_fuzzy'],
+      \ 'ignoreCase': v:true,
+    \ },
+    \ 'vim-lsp': #{
+" ...
+```
+
+- - - - -
+
+highlighter Karoshi
+
+![](./sample-dict.png)
+
+(and hard to write.)
+
+- - - - -
+
+#### Literal Dict `#{}`
+
+```vim
+call ddc#custom#patch_global(#{
+  \ ui: 'native',
+  \ sources: ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+  \ sourceOptions: #{
+    \ _: #{
+      \ matchers: ['matcher_fuzzy'],
+      \ sorters: ['sorter_fuzzy'],
+      \ converters: ['converter_fuzzy'],
+      \ ignoreCase: v:true,
+    \ },
+    \ vim-lsp: #{
+" ...
+```
+
+- - - - -
+
+![](./sample-literal-dict.png)
+
+- - - - -
+
+nice
+
+# 👍
+
+

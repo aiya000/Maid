@@ -23,6 +23,8 @@
 .reveal code {
   background-color: black;
   color: white;
+  border-radius: 4px;
+  padding: 2px;
 }
 
 body {
