@@ -1,10 +1,12 @@
 .reveal :is(h1, h2, h3, h4, h5, h6) {
   text-transform: none;
   color: black;
+  border-bottom: solid 1px;
 }
 
 .reveal {
   color: black;
+  font-family: arial;
 }
 
 .reveal strong {
@@ -22,6 +24,7 @@
 
 .reveal code {
   background-color: black;
+  font-family: arial;
   color: white;
   border-radius: 4px;
   padding: 2px;

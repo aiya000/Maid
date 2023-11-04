@@ -4,8 +4,11 @@
 - aiya000（[@public\_ai000ya](https://twitter.com/public_ai000ya)）
 
 <a style="position: absolute; bottom: -2; left: 0; width: 150px; height: auto;" href="https://aiya000.github.io/Maid/Boost-your-vimrc-with-some-template-techniques/#/">
-<img src="qrcode.png">
+<img src="qrcode-to-zenn.png">
 </a>
+<!-- 
+<img src="qrcode.png">
+-->
 
 　
 
@@ -28,7 +31,7 @@ nice
 ## What is this session?
 
 - Learn how to **refine** your vimrc
-    - using some techniques
+- using some techniques
 
 - - - - -
 
@@ -38,13 +41,24 @@ nice
 
 ## Me
 
-<img src="../shared/me-mu2.jpg" style="position: absolute; top: 100px; right: 0; width: 300px; height: auto;" />
+<img src="../shared/me-mu2.jpg" style="position: absolute; top: 0px; right: -100px; width: 250px; height: auto;" />
 
 - Name
     - aiya000
 - Twitter
     - [@pubilc\_ai000ya](https://twitter.com/public_ai000ya)
+- 常に裏声で生活している変なおじさん
 
+TODO: ↑を英語でも冗談めかす言い方で訳してほしい
+
+- - - - -
+
+## Me
+
+<img src="../shared/me-mu2.jpg" style="position: absolute; top: 0px; right: -100px; width: 250px; height: auto;" />
+
+- Name
+    - aiya000
 - Like
     - Strong static typed languages
         - **TypeScript**, **Haskell**, Scala3, Idris
@@ -55,8 +69,7 @@ nice
 
 ## Me
 
-- Like
-    - and **Vim** ;)
+- I also love in **Vim** ;)
 
 - - - - -
 
@@ -73,20 +86,52 @@ My works!
 せつラボっていう本を出しています。 <br />
 数学がわからないけど、入門したい！ という人向けに、やさしい内容の本になっています。 <br />
 このLTのこの画像をクリックすると販売ページに進めるので、よかったら買ってくれると、僕がよろこびます！ <br />
+スキをしてくれても、よろこびます！ <br />
 </aside>
 
 - - - - -
 
-[This session's zenn link](https://zenn.dev/aiya000/articles/cd06a0f3620d59)  
+## Me
+
+Latest works!
+
+<div>
+    <a href="https://aiya000.booth.pm/items/5138923"><img src="../shared/setulab2-cover.jpg" class="book" /></a>
+    <a href="https://aiya000.booth.pm/items/5138923"><img src="../shared/setulab2-backcover.jpg" class="book" /></a>
+</div>
+
+<aside class="notes">
+こちらも購入・スキをしてくれると、とってもよろこびます！ <br />
+</aside>
+
+- - - - -
+
+[This session's link](https://zenn.dev/aiya000/articles/76e60375898409)  
 
 ![](qrcode-to-zenn.png)
-
-↑ Please your ♡Favorite♡
 
 <aside class="notes">
 ちなみに、今回の資料はZennにも上げています。
 もしよかったら、いいねをよろしくお願いします。
 </aside>
+
+- - - - -
+
+#### HIKKY, Inc.
+
+![](vketcloud.png)
+
+- - - - -
+
+#### HIKKY, Inc.
+
+VRChatでVketを開いている企業
+
+- - - - -
+
+nice
+
+# 👍
 
 - - - - -
 
@@ -105,7 +150,7 @@ My works!
 
 ## vital.vim
 
-Vim script's semi standard library,  
+Vim script's **semi standard** library,  
 from vim-jp.
 
 https://github.com/vim-jp/vital.vim
@@ -120,13 +165,13 @@ let s:Promise = vital#vimrc#import('Async.Promise')
 
 ## vital.vim
 
-<img src="./vital1.png" style="width: auto; height: 60vh;" />
+<img src="./vital1.png" style="width: auto; height: 55vh;" />
 
 - - - - -
 
 ## vital.vim
 
-<img src="./vital2.png" style="width: auto; height: 60vh;" />
+<img src="./vital2.png" style="width: auto; height: 55vh;" />
 
 - - - - -
 
@@ -142,7 +187,7 @@ And a lot of modules!!
 
 ## vital.vim
 
-vital.vim for writing Vim script.  
+vital.vim is for writing Vim script.  
 Meaning also vital.vim for writing your **vimrc**.
 
 ```vim
@@ -192,7 +237,8 @@ These are VERY basic functions.
 
 ```vim
 echo s:List.foldl({ memo, val -> memo + val }, 0, range(1, 10))
-" 55 (= 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10)
+" 55
+" (= 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10)
 
 echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
 " ['b', 'c']
@@ -223,7 +269,7 @@ call s:Msg.error('some error')
 - - - - -
 
 Usually, `:echo` is a syntax (a command).  
-But Vim.Message allows to use as an expression.
+But Vim.Message allows to use as an **expression**.
 
 ```vim
 let g:vimrc.open_on_gui =
@@ -253,7 +299,8 @@ nice
 
 #### autoload, plugin, vimrc
 
-Function and command delcrations  
+In vimrc,  
+function and command delcrations  
 is placing num of lines.
 
 ```vim
@@ -292,6 +339,8 @@ $HOME
 
 **autoload**
 
+- - -
+
 .vim/autoload/vimrc.vim
 ```vim
 function vimrc#read_git_root() abort
@@ -307,7 +356,9 @@ endfunction
 
 - - - - -
 
-(Sub namespaces)
+(Sub namespaces `foo#bar#baz()`)
+
+- - -
 
 .vim/autoload/vimrc/job.vim
 ```vim
@@ -326,6 +377,8 @@ endfunction
 
 **plugins**
 
+- - -
+
 .vim/plugin/vimrc.vim
 ```vim
 command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
@@ -341,13 +394,17 @@ command! -bar -nargs=1 GitCheckoutAsync
 
 - - - - -
 
+🙌 Easy to use 🙌
+
+- - -
+
 .vimrc
 ```vim
 let s:root = call vimrc#read_git_root()
 " ...
 ```
 
-In your Vim
+On your Vim
 ```
 :GitCommitMAsync awesome
 :GitPushAsync
@@ -431,7 +488,7 @@ call ddc#custom#patch_global({
 
 - - - - -
 
-highlighter Karoshi
+highlighter to be **Karoshi**
 
 ![](./sample-dict.png)
 
@@ -457,6 +514,8 @@ call ddc#custom#patch_global(#{
 ```
 
 - - - - -
+
+Good highlighting!
 
 ![](./sample-literal-dict.png)
 
