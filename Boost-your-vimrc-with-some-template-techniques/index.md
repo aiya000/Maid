@@ -22,9 +22,21 @@ nice
 
 -->
 
+<aside class="notes">
+こんにちは、aiya000と申します。
+これから「Boost your vimrc with some template techniques!」という発表をさせていただきます。
+よろしくお願いします。 <br />
+ちなみに今回の資料はzennにアップしています。
+よかったらQRコードからアクセスしてみてください。
+</aside>
+
 - - - - -
 
 # What is this session?
+
+<aside class="notes">
+さて、この発表が何かというと
+</aside>
 
 - - - - -
 
@@ -33,9 +45,17 @@ nice
 - Learn how to **refine** your vimrc
 - using some techniques
 
+<aside class="notes">
+.vimrcをよくしていく方法と、そのテクニックについて話していきます。
+</aside>
+
 - - - - -
 
 # Me
+
+<aside class="notes">
+その前に、まず自己紹介をさせてください。
+</aside>
 
 - - - - -
 
@@ -51,6 +71,13 @@ nice
 
 TODO: ↑を英語でも冗談めかす言い方で訳してほしい
 
+<aside class="notes">
+僕の名前はaiya000と申します。
+だいたいの人は「あいや」と呼んでくれています。 <br />
+常に裏声で生活をしている、変なおじさんです。
+よろしくお願いします。
+</aside>
+
 - - - - -
 
 ## Me
@@ -61,15 +88,34 @@ TODO: ↑を英語でも冗談めかす言い方で訳してほしい
     - aiya000
 - Like
     - Strong static typed languages
-        - **TypeScript**, **Haskell**, Scala3, Idris
+        - **TypeScript**, **Haskell**, Idris, Scala3
     - Math
-        - Categoroy theory, Algebraic structure
+        - Categoroy theory, Algebraic structure  
+          ↑ a little bit :)
+
+<aside class="notes">
+好きなものは、強い静的型付き言語と、その型システムです。
+必ずしも使用経験があるわけではないですが、**TypeScript**, **Haskell**, Idris, Scala3などが好きです。 <br />
+TypeScriptは実務でガリガリにやっています。
+Haskellについては過去にガリガリやっていました。
+僕のふるさとはHaskellです。 <br />
+<br />
+数学も好きで、趣味でやっています。
+圏論と代数を少しやっています。
+</aside>
 
 - - - - -
 
 ## Me
 
 - I also love in **Vim** ;)
+
+<aside class="notes">
+そしてもちろん、Vimがだいすきです。 <br />
+僕がパワーでハラスメントな会社で働いていたときは、
+上司の目を盗んで、
+Vimのヘルプを読んで心の安寧を得ていました。
+</aside>
 
 - - - - -
 
@@ -83,10 +129,16 @@ My works!
 </div>
 
 <aside class="notes">
-せつラボっていう本を出しています。 <br />
-数学がわからないけど、入門したい！ という人向けに、やさしい内容の本になっています。 <br />
-このLTのこの画像をクリックすると販売ページに進めるので、よかったら買ってくれると、僕がよろこびます！ <br />
-スキをしてくれても、よろこびます！ <br />
+あとは……
+せつラボっていう本を出しています。
+数学がわからないけど、入門したい！
+圏論に入門したいけど、難しい！
+という人向けに書きました。
+数学の前提知識を仮定しない、全てこの本の中で説明する内容になっています。
+なので初心者向けです。<br />
+<br />
+僕のzennのプロフィールにある、Twitterアカウントからこの商品をたどれるので、よかったら見てくれるとうれしいです！
+サンプルで、集合論とHaskellについてをまるまる解説しています。
 </aside>
 
 - - - - -
@@ -101,18 +153,18 @@ Latest works!
 </div>
 
 <aside class="notes">
-こちらも購入・スキをしてくれると、とってもよろこびます！ <br />
+こちらはさきほどの本の続きで、圏論をやるにあたって、あると満足できる知識を書いた本です。
+こちらも購入とか、Boothでスキをしてくれると、とってもよろこびます！ <br />
 </aside>
 
 - - - - -
 
-[This session's link](https://zenn.dev/aiya000/articles/76e60375898409)  
+nice
 
-![](qrcode-to-zenn.png)
+# 👍
 
 <aside class="notes">
-ちなみに、今回の資料はZennにも上げています。
-もしよかったら、いいねをよろしくお願いします。
+いいね！
 </aside>
 
 - - - - -
@@ -121,30 +173,72 @@ Latest works!
 
 ![](vketcloud.png)
 
+<aside class="notes">
+最後の宣伝をさせてください。
+このスライドは、株式会社HIKKYの業務時間の一部を使って書かれました。
+</aside>
+
 - - - - -
 
 #### HIKKY, Inc.
 
-VRChatでVketを開いている企業
+A company which is holding **Vket** on VRChat.
+
+<aside class="notes">
+VketというイベントをVRChat上で開催している会社です。
+</aside>
 
 - - - - -
 
-nice
+#### HIKKY, Inc.
 
-# 👍
+[Vket Cloud](https://cloud.vket.com/)
+
+[![](vketcloud.gif)](https://cloud.vket.com/)
+
+- A **metaverse** development platform
+- For PC, smartphones, tablet devices
+- **Free** (for persons)
+
+Try now: [My Vket](https://vket.com)
+
+<aside class="notes">
+事業としてVket Cloudというものを展開しています。
+これを使うと、いわゆるメタバース、アバターを使って人としゃべったり遊んだりする空間を、作れます。
+ブラウザがまともに動く環境なら、Vket Cloudは動きます。 <br />
+個人はフリーです。 <br />
+自由に試せるので、もしよかったら試してみてください。
+My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せるので、こちらもよかったら試してみてください。
+</aside>
 
 - - - - -
 
 ## Boost your vimrc with
 ## some template techniques!
 
+<aside class="notes">
+というところで、
+前置きが長くなりましたが、
+発表を始めていきます。
+よろしくお願いします！
+</aside>
+
 - - - - -
 
 # Vim script libraries
 
+<aside class="notes">
+まずはVim scriptの、あるライブラリについてです。
+その名も…
+</aside>
+
 - - - - -
 
 # vital.vim
+
+<aside class="notes">
+vital.vimです。
+</aside>
 
 - - - - -
 
@@ -161,17 +255,34 @@ let s:Msg = vital#vimrc#import('Vim.Message')
 let s:Promise = vital#vimrc#import('Async.Promise')
 ```
 
+<aside class="notes">
+vital.vimはvim-jp製の、Vim scriptの準標準ライブラリです。
+例えばリストの操作をするためのモジュールや、
+メッセージを扱うモジュール、
+非同期処理を扱うモジュールなどがあります。
+</aside>
+
 - - - - -
 
 ## vital.vim
 
 <img src="./vital1.png" style="width: auto; height: 55vh;" />
 
+<aside class="notes">
+READMEを見てもらうとわかるんですが、
+その他すごーーーく多くのモジュールが存在しています。
+</aside>
+
 - - - - -
 
 ## vital.vim
 
 <img src="./vital2.png" style="width: auto; height: 55vh;" />
+
+<aside class="notes">
+僕もData.EitherやData.Optionalなどなどのモジュールに、
+コントリビュートさせていただきました。
+</aside>
 
 - - - - -
 
@@ -182,6 +293,11 @@ let s:Promise = vital#vimrc#import('Async.Promise')
 ...
 
 And a lot of modules!!
+
+<aside class="notes">
+本当に多くのモジュールが存在します。
+ぜひVim scriptを書く際には、使うことをおすすめします。
+</aside>
 
 - - - - -
 
@@ -204,11 +320,21 @@ for x in s:List.char_range('a', 'z')
 endfor
 ```
 
+<aside class="notes">
+そしてvital.vimを、Vim scriptを書くために使えるということは、
+つまり.vimrcを書くためにも使えます。 <br />
+例えばこんな感じですね。
+</aside>
+
 - - - - -
 
 nice
 
 # 👍
+
+<aside class="notes">
+いいですね！
+</aside>
 
 - - - - -
 
@@ -230,6 +356,10 @@ echo s:List.char_range('a', 'f')
 echo s:List.count({ x -> x % 2 == 0 }, [1, 2, 3, 4, 5])
 " 2
 ```
+
+<aside class="notes">
+僕の好きなモジュールを紹介します。
+</aside>
 
 - - - - -
 
