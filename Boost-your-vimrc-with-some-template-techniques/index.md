@@ -67,9 +67,7 @@ nice
     - aiya000
 - Twitter
     - [@pubilc\_ai000ya](https://twitter.com/public_ai000ya)
-- 常に裏声で生活している変なおじさん
-
-TODO: ↑を英語でも冗談めかす言い方で訳してほしい
+- High tone Peter Pan 🤔
 
 <aside class="notes">
 僕の名前はaiya000と申します。
@@ -280,7 +278,7 @@ READMEを見てもらうとわかるんですが、
 <img src="./vital2.png" style="width: auto; height: 55vh;" />
 
 <aside class="notes">
-僕もData.EitherやData.Optionalなどなどのモジュールに、
+僕もData.List・Data.EitherやData.Optionalなどなどのモジュールに、
 コントリビュートさせていただきました。
 </aside>
 
@@ -359,6 +357,11 @@ echo s:List.count({ x -> x % 2 == 0 }, [1, 2, 3, 4, 5])
 
 <aside class="notes">
 僕の好きなモジュールを紹介します。
+まずはData.Listです。 <br />
+Data.Listには、リストがその要素を持つかを確認するhasや、 <br />
+Vim scriptには欲しい、文字の範囲を出力するchar_range、 <br />
+条件を満たす要素をカウントするcountがあります。
+あとは <br />
 </aside>
 
 - - - - -
@@ -373,6 +376,126 @@ echo s:List.foldl({ memo, val -> memo + val }, 0, range(1, 10))
 echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
 " ['b', 'c']
 ```
+
+<aside class="notes">
+わかる人にはわかる、畳み込み関数foldl。 <br />
+集合の積を取るintersectもあります。 <br />
+他にも
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+- `pop`, `shift`, `unshift`, `cons`, `uncons`
+- `uniq`, `uniq_by`, `sort`, `sort_by`
+- `all`, `any`
+
+<aside class="notes">
+このような古典的な関数が多くあります。
+ここでは説明しきれないくらいあります。
+興味があったらぜひ、ご自身で見てみてください。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+**Data.Optional**
+
+```vim
+let s:Optional = vital#vimrc#import('Data.Optional')
+
+let _1 = s:Optional.none()
+" none
+let _2 = s:Optional.some(42)
+" some(42)
+let _3 = s:Optional.new(v:null)
+" none
+let _4 = s:Optional.new(42)
+" some(42)
+```
+
+<aside class="notes">
+次に紹介するのは、Data.Optionalです。
+これはHaskellやScalaを知っていると、同じく知っているかもしれません。 <br />
+「nullもしくはある値」を表す型です。 <br />
+ちなみにここでechoではなくletしているのは、echoをすると内部表現が出てくるので、めんどくさいからです。
+これについてはあんまり考えなくていいです！
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+let _1 = v:null
+let _2 = 42
+```
+
+<aside class="notes">
+でも動的型付き言語なら、v:nullと値を素直に使えばいいんじゃないの？
+と思いますよね。 <br />
+実は……
+</aside>
+
+- - - - -
+
+# 😭
+
+<aside class="notes">
+その通りです。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+Expression Oriented Programming
+
+```vim
+call s:Optional.new(s:read_foo_file_if_exist())
+  \ ->s:Optional.flat_map({ foo -> s:parse_foo(foo) })
+  \ ->s:Optional.optional(
+    \ { parsed -> s:make_parsed_file(parsed) },
+    \ { -> execute('echo "Nothing to do"') }
+  \ )
+```
+
+<aside class="notes">
+でももしVim script、でScalaやHaskellのような式指向のプログラミング、
+つまり構文ではなく式を使った、冗長さのないショートハンドなプログラミングを行いたい場合は、
+役に立つでしょう。 <br />
+これはfooファイルが存在すれば内容を読み込んで、
+その内容をパースして、
+パースした結果をファイルに書き込む例です。 <br />
+もしfooファイルがなかったり、パースに失敗したりした場合、最終的には何もしません。 <br />
+という式指向プログラミングの例でした。 <br />
+ちなみに、この矢印はメソッド記法と呼ばれていて
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" :help method
+
+call s:Optional.optional(
+  \ s:Optional.flat_map(
+    \ s:Optional.new(s:read_foo_file_if_exist()),
+    \ { foo -> s:parse_foo(foo) })
+  \ ),
+  \ { parsed -> s:make_parsed_file(parsed) },
+  \ { -> execute('echo "Nothing to do"') }
+\ )
+```
+
+<aside class="notes">
+この式と同じ意味です。
+これはメソッド記法を使用したときより、順序が上から下でないので、読みにくいですね。 <br />
+頭が疲れてきたので、次のモジュールにいきましょう。
+</aside>
 
 - - - - -
 
@@ -395,6 +518,10 @@ call s:Msg.warn('some warning')
 call s:Msg.error('some error')
 " > some error
 ```
+
+<aside class="notes">
+TODO
+</aside>
 
 - - - - -
 
