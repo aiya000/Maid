@@ -43,7 +43,7 @@ nice
 ## What is this session?
 
 - Learn how to **refine** your vimrc
-- using some techniques
+- using some **techniques**
 
 <aside class="notes">
 .vimrcをよくしていく方法と、そのテクニックについて話していきます。
@@ -183,7 +183,7 @@ nice
 A company which is holding **Vket** on VRChat.
 
 <aside class="notes">
-VketというイベントをVRChat上で開催している会社です。
+HIKKYは、VketというイベントをVRChat上で開催している会社です。
 </aside>
 
 - - - - -
@@ -203,8 +203,10 @@ Try now: [My Vket](https://vket.com)
 <aside class="notes">
 事業としてVket Cloudというものを展開しています。
 これを使うと、いわゆるメタバース、アバターを使って人としゃべったり遊んだりする空間を、作れます。
-ブラウザがまともに動く環境なら、Vket Cloudは動きます。 <br />
-個人はフリーです。 <br />
+ブラウザがまともに動く環境なら、Vket Cloudは動きます。
+スマホでも動くメタバースプラットフォームが作れます。 <br />
+個人はフリーです。
+商用も比較的安いです。 <br />
 自由に試せるので、もしよかったら試してみてください。
 My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せるので、こちらもよかったら試してみてください。
 </aside>
@@ -223,10 +225,286 @@ My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せる�
 
 - - - - -
 
+## autoload, plugin, vimrc
+
+<aside class="notes">
+まずはautoload, plugin, vimrc、というファイル構成の話です。
+</aside>
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+In vimrc,  
+function and command delcrations  
+is placing num of lines.
+
+```vim
+function s:read_git_root() abort
+  " ...
+endfunction
+function s:job_start_simply(cmd) abort
+  " ...
+endfunction
+" ... and a lot of functions and sub functions.
+
+command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
+command! -bar GitAddAllAsync call s:job_start_simply(['git', 'add', '-A'])
+" ... and a lot of commands.
+
+let s:root = call s:read_git_root()
+" ... others
+```
+
+<aside class="notes">
+皆さんまず最初にVimに入門したら、.vimrcを書くと思います。
+ええ、わかります。
+vimrcは楽しいものです。 <br />
+でも何も考えずにvimrcを書いていると、
+このように行がかさんでしまいますね。
+3000行とかも行く人もいるんじゃないでしょうか。
+</aside>
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+You can use **~/.vim/autoload** and **~/.vim/plugin** directory.
+
+```
+$HOME
+|- .vim
+   |- autoload
+   |- plugin
+```
+
+<aside class="notes">
+そこで、vimrcをautoload, plugin, vimrcの3つに分けましょう、という話です。 <br />
+これはVimに備わっている機構で、簡単に言うとautoloadには関数を、pluginにはコマンドを書くことができます。
+なんでもかんでもvimrcに書くよりは、とてもいいと思われます。
+モジュール分割ですね。
+</aside>
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+**autoload**
+
+- - -
+
+.vim/autoload/vimrc.vim
+```vim
+function vimrc#read_git_root() abort
+  " ...
+endfunction
+
+function s:foo() abort
+  " a sub function (not be exposed)
+endfunction
+
+" ...
+```
+
+<aside class="notes">
+まず、autoloadです。
+先ほど言った通り、ここには関数が書けます。 <br />
+見ての通り、vimrc#という名前空間に、関数を置いています。
+あとはsプリフィックスを付けると、外部に公開しない、スクリプトローカルな関数が書けます。
+</aside>
+
+- - - - -
+
+(Sub namespaces `foo#bar#baz()`)
+
+- - -
+
+.vim/autoload/vimrc/job.vim
+```vim
+function vimrc#job#start_simply(cmd) abort
+  " ...
+endfunction
+
+function s:bar() abort
+  " a sub function (not be exposed)
+endfunction
+
+" ...
+```
+
+<aside class="notes">
+もちろん、名前空間は掘ることができます。
+慣習的に、名前空間を掘ったら、autoload/vimrc/job.vimというように、ファイルパスも同様に掘ります。 <br />
+ここではvimrc#jobという名前空間に、start_simplyという関数を定義しています。
+もちろんここでも、barというような、privateな関数も置くことができます。
+</aside>
+
+- - - - -
+
+**plugins**
+
+<aside class="notes">
+次はpluginについてです。  
+いわゆる「Vimプラグイン」とはまた違った概念なので、そこは混乱なきようお願いします。
+</aside>
+
+- - -
+
+.vim/plugin/vimrc.vim
+```vim
+command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
+command! -bar GitAddAllAsync
+  \ call s:job_start_simply(['git', 'add', '-A'])
+command! -bar -nargs=1 GitCommitMAsync
+  \ call s:job_start_simply(['git', 'commit', '-m', <q-args>])
+command! -bar -nargs=1 GitCheckoutAsync
+  \ call s:job_start_simply(['git', 'checkout', <q-args>])
+
+" ...
+```
+
+<aside class="notes">
+TODO
+</aside>
+
+- - - - -
+
+🙌 Easy to use 🙌
+
+- - -
+
+.vimrc
+```vim
+let s:root = call vimrc#read_git_root()
+" ...
+```
+
+On your Vim
+```
+:GitCommitMAsync awesome
+:GitPushAsync
+```
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+- autoload: **functions**
+- plugins: **commands**
+- vimrc: settings and others
+
+- - - - -
+
+nice
+
+# 👍
+
+- - - - -
+
+# String interpolation `$''` `$""`
+
+- - - - -
+
+#### String interpolation `$''` `$""`
+
+```vim
+" No more '..' !!!!!!!!
+
+" Not easy to read
+call system('chown -R ' .. $USER .. ':' .. $GROUP .. '"{foo_directory}"')
+
+" ↓ Easy to read ↓
+call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
+```
+
+```vim
+" No more expand('~') !
+
+if filereadable($'{$HOME}/dein_env.toml')
+  call dein#load_toml('~/dein_env.toml', {'lazy': 0})
+endif
+```
+
+- - - - -
+
+```vim
+" Better than printf()
+let name = 'Vim'
+
+" Not easy to read
+echo printf('Hi %s', name)
+
+" ↓ Easy to read ↓
+echo $'Hi {name}'
+```
+
+- - - - -
+
+# Literal Dict `#{}`
+
+- - - - -
+
+#### Literal Dict `#{}`
+
+```vim
+call ddc#custom#patch_global({
+  \ 'ui': 'native',
+  \ 'sources': ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+  \ 'sourceOptions': {
+    \ '_': {
+      \ 'matchers': ['matcher_fuzzy'],
+      \ 'sorters': ['sorter_fuzzy'],
+      \ 'converters': ['converter_fuzzy'],
+      \ 'ignoreCase': v:true,
+    \ },
+    \ 'vim-lsp': #{
+" ...
+```
+
+- - - - -
+
+highlighter to be **Karoshi**
+
+![](./sample-dict.png)
+
+(and hard to write.)
+
+- - - - -
+
+#### Literal Dict `#{}`
+
+```vim
+call ddc#custom#patch_global(#{
+  \ ui: 'native',
+  \ sources: ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+  \ sourceOptions: #{
+    \ _: #{
+      \ matchers: ['matcher_fuzzy'],
+      \ sorters: ['sorter_fuzzy'],
+      \ converters: ['converter_fuzzy'],
+      \ ignoreCase: v:true,
+    \ },
+    \ vim-lsp: #{
+" ...
+```
+
+- - - - -
+
+Good highlighting!
+
+![](./sample-literal-dict.png)
+
+- - - - -
+
+nice
+
+# 👍
+
+
 # Vim script libraries
 
 <aside class="notes">
-まずはVim scriptの、あるライブラリについてです。
+次はVim scriptの、あるライブラリについてです。
 その名も…
 </aside>
 
@@ -378,7 +656,8 @@ echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
 ```
 
 <aside class="notes">
-わかる人にはわかる、畳み込み関数foldl。 <br />
+わかる人にはわかる、畳み込み関数foldl。
+もちろんfoldrもあります。<br />
 集合の積を取るintersectもあります。 <br />
 他にも
 </aside>
@@ -410,7 +689,7 @@ let _1 = s:Optional.none()
 " none
 let _2 = s:Optional.some(42)
 " some(42)
-let _3 = s:Optional.new(v:null)
+let _3 = s:Optional.new(v:null) " Returns none if v:null, or returns some
 " none
 let _4 = s:Optional.new(42)
 " some(42)
@@ -420,7 +699,7 @@ let _4 = s:Optional.new(42)
 次に紹介するのは、Data.Optionalです。
 これはHaskellやScalaを知っていると、同じく知っているかもしれません。 <br />
 「nullもしくはある値」を表す型です。 <br />
-ちなみにここでechoではなくletしているのは、echoをすると内部表現が出てくるので、めんどくさいからです。
+ちなみにここでechoではなくletしているのは、echoをすると内部表現が出てくるからです。
 これについてはあんまり考えなくていいです！
 </aside>
 
@@ -463,15 +742,17 @@ call s:Optional.new(s:read_foo_file_if_exist())
 ```
 
 <aside class="notes">
-でももしVim script、でScalaやHaskellのような式指向のプログラミング、
+でももしVim scriptで、ScalaやHaskellのような式指向のプログラミング、
 つまり構文ではなく式を使った、冗長さのないショートハンドなプログラミングを行いたい場合は、
 役に立つでしょう。 <br />
+つまり、行数が少なくなることが期待できます。 <br /
 これはfooファイルが存在すれば内容を読み込んで、
 その内容をパースして、
 パースした結果をファイルに書き込む例です。 <br />
 もしfooファイルがなかったり、パースに失敗したりした場合、最終的には何もしません。 <br />
 という式指向プログラミングの例でした。 <br />
-ちなみに、この矢印はメソッド記法と呼ばれていて
+関数型プログラミングにも通じますね。 <br />
+ちなみに、関数名の直前の矢印はメソッド記法と呼ばれていて
 </aside>
 
 - - - - -
@@ -520,7 +801,8 @@ call s:Msg.error('some error')
 ```
 
 <aside class="notes">
-TODO
+Vim.Messageは、Vimのechoを拡張したモジュールです。 <br />
+例えばこのように、ワンハンドで警告メッセージやエラーメッセージを出すことができます。
 </aside>
 
 - - - - -
@@ -538,248 +820,30 @@ let g:vimrc.open_on_gui =
 
 (Also this is useful than `execute('echo "foo"')`)
 
+<aside class="notes">
+先ほど使っていた、execute関数でechoするよりも、モダンでいいですね。 <br />
+ちなみにこれらの関数も式として使えるので、このような書き方ができます。
+</aside>
+
 - - - - -
 
 nice
 
 # 👍
+
+<aside class="notes">
+いいね！
+</aside>
 
 - - - - -
 
 # Vim script specs
 
-- - - - -
-
-## autoload, plugin, vimrc
-
-- - - - -
-
-#### autoload, plugin, vimrc
-
-In vimrc,  
-function and command delcrations  
-is placing num of lines.
-
-```vim
-function s:read_git_root() abort
-  " ...
-endfunction
-function s:job_start_simply(cmd) abort
-  " ...
-endfunction
-" ... and a lot of functions and sub functions.
-
-command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
-command! -bar GitAddAllAsync call s:job_start_simply(['git', 'add', '-A'])
-" ... and a lot of commands.
-
-let s:root = call s:read_git_root()
-" ... others
-```
+<aside class="notes">
+というところで、ひといきつきましょう。
+vital.vimの紹介は終わりです。
+</aside>
 
 - - - - -
 
-#### autoload, plugin, vimrc
-
-You can use **~/.vim/autoload** and **~/.vim/plugin** directory.
-
-```
-$HOME
-|- .vim
-   |- autoload
-   |- plugin
-```
-
-- - - - -
-
-#### autoload, plugin, vimrc
-
-**autoload**
-
-- - -
-
-.vim/autoload/vimrc.vim
-```vim
-function vimrc#read_git_root() abort
-  " ...
-endfunction
-
-function s:foo() abort
-  " a sub function (not be exposed)
-endfunction
-
-" ...
-```
-
-- - - - -
-
-(Sub namespaces `foo#bar#baz()`)
-
-- - -
-
-.vim/autoload/vimrc/job.vim
-```vim
-function vimrc#job#start_simply(cmd) abort
-  " ...
-endfunction
-
-function s:bar() abort
-  " a sub function (not be exposed)
-endfunction
-
-" ...
-```
-
-- - - - -
-
-**plugins**
-
-- - -
-
-.vim/plugin/vimrc.vim
-```vim
-command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
-command! -bar GitAddAllAsync
-  \ call s:job_start_simply(['git', 'add', '-A'])
-command! -bar -nargs=1 GitCommitMAsync
-  \ call s:job_start_simply(['git', 'commit', '-m', <q-args>])
-command! -bar -nargs=1 GitCheckoutAsync
-  \ call s:job_start_simply(['git', 'checkout', <q-args>])
-
-" ...
-```
-
-- - - - -
-
-🙌 Easy to use 🙌
-
-- - -
-
-.vimrc
-```vim
-let s:root = call vimrc#read_git_root()
-" ...
-```
-
-On your Vim
-```
-:GitCommitMAsync awesome
-:GitPushAsync
-```
-
-- - - - -
-
-#### autoload, plugin, vimrc
-
-- autoload: **functions**
-- plugins: **commands**
-- vimrc: settings and others
-
-- - - - -
-
-nice
-
-# 👍
-
-- - - - -
-
-# String interpolation `$''` `$""`
-
-- - - - -
-
-#### String interpolation `$''` `$""`
-
-```vim
-" No more '..' !!!!!!!!
-
-" Not easy to read
-call system('chown -R ' .. $USER .. ':' .. $GROUP .. '"{foo_directory}"')
-
-" ↓ Easy to read ↓
-call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
-```
-
-```vim
-" No more expand('~') !
-
-if filereadable($'{$HOME}/dein_env.toml')
-  call dein#load_toml('~/dein_env.toml', {'lazy': 0})
-endif
-```
-
-- - - - -
-
-```vim
-" Better than printf()
-let name = 'Vim'
-
-" Not easy to read
-echo printf('Hi %s', name)
-
-" ↓ Easy to read ↓
-echo $'Hi {name}'
-```
-
-- - - - -
-
-# Literal Dict `#{}`
-
-- - - - -
-
-#### Literal Dict `#{}`
-
-```vim
-call ddc#custom#patch_global({
-  \ 'ui': 'native',
-  \ 'sources': ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
-  \ 'sourceOptions': {
-    \ '_': {
-      \ 'matchers': ['matcher_fuzzy'],
-      \ 'sorters': ['sorter_fuzzy'],
-      \ 'converters': ['converter_fuzzy'],
-      \ 'ignoreCase': v:true,
-    \ },
-    \ 'vim-lsp': #{
-" ...
-```
-
-- - - - -
-
-highlighter to be **Karoshi**
-
-![](./sample-dict.png)
-
-(and hard to write.)
-
-- - - - -
-
-#### Literal Dict `#{}`
-
-```vim
-call ddc#custom#patch_global(#{
-  \ ui: 'native',
-  \ sources: ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
-  \ sourceOptions: #{
-    \ _: #{
-      \ matchers: ['matcher_fuzzy'],
-      \ sorters: ['sorter_fuzzy'],
-      \ converters: ['converter_fuzzy'],
-      \ ignoreCase: v:true,
-    \ },
-    \ vim-lsp: #{
-" ...
-```
-
-- - - - -
-
-Good highlighting!
-
-![](./sample-literal-dict.png)
-
-- - - - -
-
-nice
-
-# 👍
-
-
+TODO
