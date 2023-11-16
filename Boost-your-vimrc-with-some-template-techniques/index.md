@@ -380,7 +380,7 @@ autoloadとpluginのおかげで、モジュール分割ができました！
 
 .vimrc
 ```vim
-let s:root = call vimrc#read_git_root()
+let s:root = vimrc#read_git_root()
 " ...
 ```
 
