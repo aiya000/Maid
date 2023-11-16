@@ -241,10 +241,10 @@ is placing num of lines.
 
 ```vim
 function s:read_git_root() abort
-  " ...
+    " ...
 endfunction
 function s:job_start_simply(cmd) abort
-  " ...
+    " ...
 endfunction
 " ... and a lot of functions and sub functions.
 
@@ -296,11 +296,11 @@ $HOME
 .vim/autoload/vimrc.vim
 ```vim
 function vimrc#read_git_root() abort
-  " ...
+    " ...
 endfunction
 
 function s:foo() abort
-  " a sub function (not be exposed)
+    " a sub function (not be exposed)
 endfunction
 
 " ...
@@ -322,11 +322,11 @@ endfunction
 .vim/autoload/vimrc/job.vim
 ```vim
 function vimrc#job#start_simply(cmd) abort
-  " ...
+    " ...
 endfunction
 
 function s:bar() abort
-  " a sub function (not be exposed)
+    " a sub function (not be exposed)
 endfunction
 
 " ...
@@ -348,28 +348,33 @@ endfunction
 いわゆる「Vimプラグイン」とはまた違った概念なので、そこは混乱なきようお願いします。
 </aside>
 
-- - -
+- - - - -
 
 .vim/plugin/vimrc.vim
 ```vim
 command! -bar GitPushAsync call s:job_start_simply(['git', 'push'])
 command! -bar GitAddAllAsync
-  \ call s:job_start_simply(['git', 'add', '-A'])
+    \ call s:job_start_simply(['git', 'add', '-A'])
 command! -bar -nargs=1 GitCommitMAsync
-  \ call s:job_start_simply(['git', 'commit', '-m', <q-args>])
+    \ call s:job_start_simply(['git', 'commit', '-m', <q-args>])
 command! -bar -nargs=1 GitCheckoutAsync
-  \ call s:job_start_simply(['git', 'checkout', <q-args>])
+    \ call s:job_start_simply(['git', 'checkout', <q-args>])
 
 " ...
 ```
 
 <aside class="notes">
-TODO
+pluginには主に、コマンドの定義ができます。 <br />
+もちろん他のこともできるのですが、vimrcに関連するものは、コマンドがほとんどだと思います。
 </aside>
 
 - - - - -
 
 🙌 Easy to use 🙌
+
+<aside class="notes">
+autoloadとpluginのおかげで、モジュール分割ができました！
+</aside>
 
 - - -
 
@@ -385,13 +390,24 @@ On your Vim
 :GitPushAsync
 ```
 
+<aside class="notes">
+あとはこのように、autoloadの関数やpluginのコマンドを使うだけです。
+</aside>
+
 - - - - -
 
 #### autoload, plugin, vimrc
 
 - autoload: **functions**
-- plugins: **commands**
+- plugin: **commands**
 - vimrc: settings and others
+
+<aside class="notes">
+改めて確認してみます。 <br />
+autoloadには関数を置きます。
+pluginにはコマンドなどを置きます。
+そしてvimrcには、それらを使う部分や、その他の部分を置きます。
+</aside>
 
 - - - - -
 
@@ -399,9 +415,28 @@ nice
 
 # 👍
 
+<aside class="notes">
+ナイスです！
+</aside>
+
+- - - - -
+
+#### autoload, plugin, vimrc
+
+- doc, indent, syntax, ftdetect, ftplugin, ...
+
+<aside class="notes">
+$HOME配下の.vimディレクトリに置けるものは他にもあるので、よかったら調べてみてください。
+</aside>
+
 - - - - -
 
 # String interpolation `$''` `$""`
+
+<aside class="notes">
+次は構文についてです。 <br />
+まずはstring interpolationについてです。
+</aside>
 
 - - - - -
 
@@ -421,9 +456,17 @@ call system($'chown -R "{$USER}:{$GROUP}" "{foo_directory}"')
 " No more expand('~') !
 
 if filereadable($'{$HOME}/dein_env.toml')
-  call dein#load_toml('~/dein_env.toml', {'lazy': 0})
+    call dein#load_toml('~/dein_env.toml', {'lazy': 0})
 endif
 ```
+
+<aside class="notes">
+string interpolationは、他言語でtemplate stringなどとして実装されているので、知っている人も多いかもしれません。
+これが実は、Vim scriptにも実装されています。 <br />
+このように今までは「..」で文字列結合をしていましたが、今は$''を使って、ブラケットで囲むだけで、文字列の中に値を注入することができます。 <br />
+かなり見やすいですね！
+expand('~')もしなくてよくなりました。
+</aside>
 
 - - - - -
 
@@ -438,28 +481,44 @@ echo printf('Hi %s', name)
 echo $'Hi {name}'
 ```
 
+<aside class="notes">
+もちろん、単純なprintfよりも見やすいです。
+だいぶいいですね。
+</aside>
+
 - - - - -
 
 # Literal Dict `#{}`
+
+<aside class="notes">
+次はLiteral Dictです。
+</aside>
 
 - - - - -
 
 #### Literal Dict `#{}`
 
+Dict `{}`
+
 ```vim
 call ddc#custom#patch_global({
-  \ 'ui': 'native',
-  \ 'sources': ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
-  \ 'sourceOptions': {
-    \ '_': {
-      \ 'matchers': ['matcher_fuzzy'],
-      \ 'sorters': ['sorter_fuzzy'],
-      \ 'converters': ['converter_fuzzy'],
-      \ 'ignoreCase': v:true,
-    \ },
-    \ 'vim-lsp': #{
+    \ 'ui': 'native',
+    \ 'sources': ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+    \ 'sourceOptions': {
+        \ '_': {
+            \ 'matchers': ['matcher_fuzzy'],
+            \ 'sorters': ['sorter_fuzzy'],
+            \ 'converters': ['converter_fuzzy'],
+            \ 'ignoreCase': v:true,
+        \ },
+        \ 'vim-lsp': #{
 " ...
 ```
+
+<aside class="notes">
+皆さん、辞書は使いますよね。
+でもちょっとJavaScriptなどとは違って、書きにくいですよね。
+</aside>
 
 - - - - -
 
@@ -467,7 +526,11 @@ highlighter to be **Karoshi**
 
 ![](./sample-dict.png)
 
-(and hard to write.)
+hard to write
+
+<aside class="notes">
+クオートが必要で書きにくいし、ハイライティングもまっかっかです。
+</aside>
 
 - - - - -
 
@@ -475,18 +538,23 @@ highlighter to be **Karoshi**
 
 ```vim
 call ddc#custom#patch_global(#{
-  \ ui: 'native',
-  \ sources: ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
-  \ sourceOptions: #{
-    \ _: #{
-      \ matchers: ['matcher_fuzzy'],
-      \ sorters: ['sorter_fuzzy'],
-      \ converters: ['converter_fuzzy'],
-      \ ignoreCase: v:true,
-    \ },
-    \ vim-lsp: #{
+    \ ui: 'native',
+    \ sources: ['vim-lsp', 'around', 'neosnippet', 'file', 'buffer'],
+    \ sourceOptions: #{
+        \ _: #{
+            \ matchers: ['matcher_fuzzy'],
+            \ sorters: ['sorter_fuzzy'],
+            \ converters: ['converter_fuzzy'],
+            \ ignoreCase: v:true,
+        \ },
+        \ vim-lsp: #{
 " ...
 ```
+
+<aside class="notes">
+そこでLiteral Dictです。
+Literal Dictは、キーをクオートで囲まずに書けます。
+</aside>
 
 - - - - -
 
@@ -494,17 +562,89 @@ Good highlighting!
 
 ![](./sample-literal-dict.png)
 
+<aside class="notes">
+見てもらうと、きれいなのがわかるかと思います。
+ハイライティングもきれいですね。
+</aside>
+
 - - - - -
 
 nice
 
 # 👍
 
+<aside class="notes">
+いいね！
+</aside>
+
+- - - - -
+
+# method `x->Foo(y, z)`
+
+- - - - -
+
+#### method `x->Foo(y, z)`
+
+```vim
+function Sum(num, x, y) abort
+    return a:num + a:x + a:y
+endfunction
+
+echo Sum(10, 20, 30)
+
+" ↑ Same ↓
+
+echo 10->Sum(20, 30)
+```
+
+- - - - -
+
+#### method `x->Foo(y, z)`
+
+```vim
+" `x` is 1st argument
+" `y` and `z` is rest arguments
+x->Foo(y, z)
+
+" ↑ Same ↓
+
+Foo(x, y, z)
+```
+
+- - - - -
+
+#### method `x->Foo(y, z)`
+
+Where is the method notation useful?
+
+- - - - -
+
+#### method `x->Foo(y, z)`
+
+Easy to read.  
+Can read from above to below.
+
+```vim
+" Fisrt foo(), next bar(), and then baz()
+echo self->foo()
+    \ ->bar(x)
+    \ ->baz(y)
+
+" If don't use the method notation
+echo baz(
+      \ bar(
+          \ foo(self)
+      \ )
+\ )
+```
+
+- - - - -
 
 # Vim script libraries
 
 <aside class="notes">
-次はVim scriptの、あるライブラリについてです。
+というところで、構文や機能についてはここまでにして。 <br />
+次はVim scriptの、あるライブラリについて話します。
 その名も…
 </aside>
 
@@ -585,14 +725,14 @@ Meaning also vital.vim for writing your **vimrc**.
 ```vim
 " Writing expression oriented error messages
 let g:vimrc.open_on_gui =
-  \ g:vimrc.is_macos   ? 'open' :
-  \ g:vimrc.is_windows ? 'start' :
-  \ g:vimrc.is_unix    ? 'xdg-open' : s:Msg.warn('no method for GUI-open')
+    \ g:vimrc.is_macos   ? 'open' :
+    \ g:vimrc.is_windows ? 'start' :
+    \ g:vimrc.is_unix    ? 'xdg-open' : s:Msg.warn('no method for GUI-open')
 
 " Do keymapping for the range of @a ~ @z
 for x in s:List.char_range('a', 'z')
-  execute 'nnoremap' '<silent>' $'@{x}'
-    \ (":\<C-u>" .. $'call vimrc#foo("{x}")\<CR>')
+    execute 'nnoremap' '<silent>' $'@{x}'
+      \ (":\<C-u>" .. $'call vimrc#foo("{x}")\<CR>')
 endfor
 ```
 
@@ -682,6 +822,16 @@ echo s:List.intersect(['a', 'b', 'c'], ['b', 'c'])
 
 **Data.Optional**
 
+<aside class="notes">
+次に紹介するのは、Data.Optionalです。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+**Data.Optional**
+
 ```vim
 let s:Optional = vital#vimrc#import('Data.Optional')
 
@@ -696,7 +846,6 @@ let _4 = s:Optional.new(42)
 ```
 
 <aside class="notes">
-次に紹介するのは、Data.Optionalです。
 これはHaskellやScalaを知っていると、同じく知っているかもしれません。 <br />
 「nullもしくはある値」を表す型です。 <br />
 ちなみにここでechoではなくletしているのは、echoをすると内部表現が出てくるからです。
@@ -734,25 +883,25 @@ Expression Oriented Programming
 
 ```vim
 call s:Optional.new(s:read_foo_file_if_exist())
-  \ ->s:Optional.flat_map({ foo -> s:parse_foo(foo) })
-  \ ->s:Optional.optional(
-    \ { parsed -> s:make_parsed_file(parsed) },
-    \ { -> execute('echo "Nothing to do"') }
-  \ )
+    \ ->s:Optional.flat_map({ foo -> s:parse_foo(foo) })
+    \ ->s:Optional.optional(
+        \ { parsed -> s:make_parsed_file(parsed) },
+        \ { -> execute('echo "Nothing to do"') }
+    \ )
 ```
 
 <aside class="notes">
 でももしVim scriptで、ScalaやHaskellのような式指向のプログラミング、
 つまり構文ではなく式を使った、冗長さのないショートハンドなプログラミングを行いたい場合は、
 役に立つでしょう。 <br />
-つまり、行数が少なくなることが期待できます。 <br /
+つまり、行数が少なくなることが期待できます。 <br />
 これはfooファイルが存在すれば内容を読み込んで、
 その内容をパースして、
 パースした結果をファイルに書き込む例です。 <br />
 もしfooファイルがなかったり、パースに失敗したりした場合、最終的には何もしません。 <br />
 という式指向プログラミングの例でした。 <br />
 関数型プログラミングにも通じますね。 <br />
-ちなみに、関数名の直前の矢印はメソッド記法と呼ばれていて
+ちなみに余談として、ここのメソッド記法を外してみましょう。
 </aside>
 
 - - - - -
@@ -760,22 +909,250 @@ call s:Optional.new(s:read_foo_file_if_exist())
 #### vital.vim
 
 ```vim
-" :help method
-
 call s:Optional.optional(
-  \ s:Optional.flat_map(
-    \ s:Optional.new(s:read_foo_file_if_exist()),
-    \ { foo -> s:parse_foo(foo) })
-  \ ),
-  \ { parsed -> s:make_parsed_file(parsed) },
-  \ { -> execute('echo "Nothing to do"') }
+      \ s:Optional.flat_map(
+          \ s:Optional.new(s:read_foo_file_if_exist()),
+          \ { foo -> s:parse_foo(foo) })
+      \ ),
+      \ { parsed -> s:make_parsed_file(parsed) },
+      \ { -> execute('echo "Nothing to do"') }
 \ )
 ```
 
 <aside class="notes">
-この式と同じ意味です。
-これはメソッド記法を使用したときより、順序が上から下でないので、読みにくいですね。 <br />
-頭が疲れてきたので、次のモジュールにいきましょう。
+順序が上から下でないので、読みにくいですね。
+メソッド記法の重要性がわかりました。
+という余談でした。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" Folds an optional value to a non optional value
+s:Optional.optional(
+    \ maybeOptional,
+    \ { innerValue -> nonOptionalValue1 },
+    \ { -> nonOptionalValue2 }
+\ )
+```
+
+<aside class="notes">
+ちょっと先におおきな塊を出してしまったので、ここで理解のために、Optionalの関数の説明をさせてください。
+new関数については、先ほど解説した通りです。 <br />
+次にoptional関数ですが、これはOptionalの値をextractするために使われます。
+ここのmaybeOptionalがoptionalであれば、Optionalの中のinnerValueを使って、nonOptionalValue1にします。
+もしmaybeOptionalがoptionalでなければ、代わりの値、nonOptionalValue2にします。 <br />
+結果として、この式はOptionalでない値を返します。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" Extracts innerValue, or throws error
+get(optional)
+
+" Extracts innerValue, or to be undefined behavior
+get_unsafe(optional)
+
+" Extracts innerValue, or returns alternative value (altValue)
+get_or(optional, { -> altValue })
+```
+
+<aside class="notes">
+余談が多いですが、また余談をはさませてください。
+optionalの値をextractするには、optional関数以外にも方法があります。
+それがget系の関数です。 <br />
+これら全て、optionalがoptionalの値の場合はinnerValueを返すのですが、
+optionalがinnerValueを持たなかった場合の挙動が違います。 <br />
+get()は例外をthrowします。
+get_unsafe()は挙動が未定義です。
+僕は通常の場合、get_or()をおすすめします。
+get_or()はinnerValueがなかった場合、altValueを返します。 <br />
+ここまでが、余談でした。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+let optinoalValue =
+    \ s:Optional.flat_map(maybeOptional, { innerValue ->
+        \ optinalValue1
+    \ })
+```
+
+<aside class="notes">
+flat_map関数は、maybeOptionalにinnerValueがある場合にそれを使用し、optionalValue1を返します。
+この結果、戻り値optinoalValueはoptionalな値です。 <br />
+これはモナドという性質によって、担保された関数です。
+詳しくは説明しませんが、そう、Optionalはモナドなのです。 <br />
+ええ、ここでは忘れていいことです。忘れましょう。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" You understood this
+call s:Optional.optional(
+      \ s:Optional.flat_map(
+          \ s:Optional.new(s:read_foo_file_if_exist()),
+          \ { foo -> s:parse_foo(foo) })
+      \ ),
+      \ { parsed -> s:make_parsed_file(parsed) },
+      \ { -> execute('echo "Nothing to do"') }
+\ )
+```
+
+<aside class="notes">
+ということで、この式の関数は全て説明しました。
+あなたはこれを理解しました。
+おめでとうございます！
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+**Data.Either**
+
+<aside class="notes">
+次はData.Eitherです！
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" Where is error info...?
+call s:Optional.new(s:read_foo_file_if_exist())
+    \ ->s:Optional.flat_map({ foo -> s:parse_foo(foo) })
+    \ ->s:Optional.optional(
+        \ { parsed -> s:make_parsed_file(parsed) },
+        \ { -> execute('echo "Nothing to do"') }
+    \ )
+```
+
+<aside class="notes">
+先ほどのOptionalのメソッドチェーンですが、実は情報が足りていません。
+そのため、失敗したときのメッセージが「Nothing to do」と、情報量がほとんどないです。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+＞＞＞ Data.Either ＜＜＜
+
+<aside class="notes">
+そこで、Data.Eitherです！
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+let s:Either = vital#vimrc#import('Data.Either')
+
+let _1 = s:Either.left('file not found')
+" left('file not found')
+let _2 = s:Either.right(42)
+" right(42)
+let _3 = s:Either.null_to_left(v:null, 'it is null')
+" left('it is null')
+let _4 = s:Either.null_to_left(42, 'it is null')
+" right(42)
+```
+
+<aside class="notes">
+正しい結果をinnerValueに持つEitherの値を、rightの値と言います。
+逆に失敗した結果をinnerValueに持つEitherの値を、leftの値と言います。 <br />
+rightは英語で「正しい」、leftは英語で「間違った」という意味を持ちますので、
+英語の意味にそっているのがわかります。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+Either is Optional with info.
+
+```vim
+" Meaning right (correct) foo value, or below error message
+let result = s:Either.null_to_left(
+    \ s:read_foo_file_if_exist(),
+    \ 'file foo is not existent.'
+\ )
+```
+
+<aside class="notes">
+応用に進んでみましょう。
+先ほどのOptionalと少し似た例ですが、これはまずfooファイルを読みに行きます。
+`s:read_foo_file_if_exist`関数はfooファイルがなければnullを返します。 <br />
+このときもし本当にnullが返されれば、resultはエラーメッセージのleftの値になります。
+そうでなければ、fooのrightの値になります。 <br />
+つまりEitherは、Optionalと違い、失敗したときのためのエラーメッセージを持つということです。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+let eitherValue =
+    \ s:Either.flat_map(maybeRight, { innerValue ->
+        \ eitherValue1
+    \ })
+```
+
+<aside class="notes">
+そしてEitherもモナドなので、flat_mapができます。
+もちろんモナドについては、今回も忘れていいです。
+忘れましょう。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+```vim
+" Extracts from a left value, or returns the default value
+from_left(defaultValue, either)
+
+" Extracts from a right value, or returns the default value
+from_right(defaultValue, either)
+
+" Extracts from a left value, or throws error
+unsafe_from_left(either)
+
+" Extracts from a right value, or throws error
+unsafe_from_right(either)
+```
+
+<aside class="notes">
+Eitherにもextractをするための関数があります。
+from_leftとfrom_rightは、Optionalのget_orのようなものです。
+ここでunsafe_from_leftとunsafe_from_rightは、Optionalのget_unsafeとは違って、未定義動作は起こしません。
+例外を送出します。 <br />
+Data.Eitherについては以上です。
+</aside>
+
+- - - - -
+
+#### vital.vim
+
+**Vim.Message**
+
+<aside class="notes">
+頭が疲れてきたので、頭をあんまり使わない、次のモジュールにいきましょう。
 </aside>
 
 - - - - -
@@ -812,10 +1189,10 @@ But Vim.Message allows to use as an **expression**.
 
 ```vim
 let g:vimrc.open_on_gui =
-  \ g:vimrc.is_macos   ? 'open' :
-  \ g:vimrc.is_windows ? 'start' :
-  \ g:vimrc.is_unix    ? 'xdg-open' :
-    \ s:Msg.warn('no method for GUI-open')
+    \ g:vimrc.is_macos   ? 'open' :
+    \ g:vimrc.is_windows ? 'start' :
+    \ g:vimrc.is_unix    ? 'xdg-open' :
+        \ s:Msg.warn('no method for GUI-open')
 ```
 
 (Also this is useful than `execute('echo "foo"')`)
@@ -837,13 +1214,27 @@ nice
 
 - - - - -
 
-# Vim script specs
+nice
+
+# 👍👍👍
 
 <aside class="notes">
-というところで、ひといきつきましょう。
-vital.vimの紹介は終わりです。
+いいね！いいね！
 </aside>
 
 - - - - -
 
-TODO
+## Boost your vimrc with
+## some template techniques!
+
+<aside class="notes">
+というところで、この発表は以上になります。
+</aside>
+
+- - - - -
+
+# END
+
+<aside class="notes">
+ご清聴ありがとうございました！
+</aside>
