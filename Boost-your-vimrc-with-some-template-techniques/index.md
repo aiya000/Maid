@@ -51,10 +51,30 @@ nice
 
 - - - - -
 
+## Index
+
+- Me
+- Vim functinos
+    - autoload, plugin, vimrc
+    - String interpolation `$''` `$""`
+    - Literal Dict `#{}`
+    - method `x->Foo(y, z)`
+    - Lambdas `{ -> }`
+- vital.vim
+    - Data.List, Data.Optional, Data.Either, Vim.Message
+
+<aside class="notes">
+目次ですが、こんな感じです。 <br />
+まずはVimの機能や構文について話します。 <br />
+次にvital.vimというライブラリについて話します。 <br />
+</aside>
+
+- - - - -
+
 # Me
 
 <aside class="notes">
-その前に、まず自己紹介をさせてください。
+まず自己紹介をさせてください。
 </aside>
 
 - - - - -
@@ -167,52 +187,6 @@ nice
 
 - - - - -
 
-#### HIKKY, Inc.
-
-![](vketcloud.png)
-
-<aside class="notes">
-最後の宣伝をさせてください。
-このスライドは、株式会社HIKKYの業務時間の一部を使って書かれました。
-</aside>
-
-- - - - -
-
-#### HIKKY, Inc.
-
-A company which is holding **Vket** on VRChat.
-
-<aside class="notes">
-HIKKYは、VketというイベントをVRChat上で開催している会社です。
-</aside>
-
-- - - - -
-
-#### HIKKY, Inc.
-
-[Vket Cloud](https://cloud.vket.com/)
-
-[![](vketcloud.gif)](https://cloud.vket.com/)
-
-- A **metaverse** development platform
-- For PC, smartphones, tablet devices
-- **Free** (for persons)
-
-Try now: [My Vket](https://vket.com)
-
-<aside class="notes">
-事業としてVket Cloudというものを展開しています。
-これを使うと、いわゆるメタバース、アバターを使って人としゃべったり遊んだりする空間を、作れます。
-ブラウザがまともに動く環境なら、Vket Cloudは動きます。
-スマホでも動くメタバースプラットフォームが作れます。 <br />
-個人はフリーです。
-商用も比較的安いです。 <br />
-自由に試せるので、もしよかったら試してみてください。
-My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せるので、こちらもよかったら試してみてください。
-</aside>
-
-- - - - -
-
 ## Boost your vimrc with
 ## some template techniques!
 
@@ -236,8 +210,8 @@ My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せる�
 #### autoload, plugin, vimrc
 
 In vimrc,  
-function and command delcrations  
-is placing num of lines.
+functions and commands declarations  
+use a lot of lines.
 
 ```vim
 function s:read_git_root() abort
@@ -581,6 +555,10 @@ nice
 
 # method `x->Foo(y, z)`
 
+<aside class="notes">
+次はメソッド記法についてです。
+</aside>
+
 - - - - -
 
 #### method `x->Foo(y, z)`
@@ -597,6 +575,10 @@ echo Sum(10, 20, 30)
 echo 10->Sum(20, 30)
 ```
 
+<aside class="notes">
+メソッド記法は、他言語でいうパイプライン演算子のようなもので、矢印の左に書かれた式を、右の関数の第一引数として適用します。
+</aside>
+
 - - - - -
 
 #### method `x->Foo(y, z)`
@@ -611,24 +593,32 @@ x->Foo(y, z)
 Foo(x, y, z)
 ```
 
+<aside class="notes">
+例えば`x->Foo(y,z)`と書いてあるなら、それはFoo(x, y, z)と同じです。
+</aside>
+
 - - - - -
 
 #### method `x->Foo(y, z)`
 
-Where is the method notation useful?
+Where can the method notation be useful?
+
+<aside class="notes">
+さてこの記法は、どんなときに便利なのでしょうか。
+</aside>
 
 - - - - -
 
 #### method `x->Foo(y, z)`
 
 Easy to read.  
-Can read from above to below.
+Can read from top to bottom.
 
 ```vim
 " Fisrt foo(), next bar(), and then baz()
 echo self->foo()
-    \ ->bar(x)
-    \ ->baz(y)
+    \ ->bar()
+    \ ->baz()
 
 " If don't use the method notation
 echo baz(
@@ -637,6 +627,42 @@ echo baz(
       \ )
 \ )
 ```
+
+<aside class="notes">
+例えば見やすさです。
+メソッド記法で書いた場合、上の例のように上から下に読めますが、そうでない場合は下のように、読みにくくなります。 <br />
+というところが、メソッド記法についてでした。
+</aside>
+
+- - - - -
+
+# Lambdas `{ -> }`
+
+<aside class="notes">
+次はラムダ式です。
+メソッド記法と少し記号が似ているので、混同しないように、少しふれておきます。
+</aside>
+
+- - - - -
+
+#### Lambdas `{ -> }`
+
+```vim
+" A lambda function with no arguments
+let F = { -> 'hi' }
+echo F()
+" hi
+
+" A lambda function with arguments
+let G = { x, y -> x + y }
+echo G(10, 20)
+" 30
+```
+
+<aside class="notes">
+いわゆる匿名関数です。
+上が引数なしのラムダ式で、下が引数ありのラムダ式です。
+</aside>
 
 - - - - -
 
@@ -932,9 +958,9 @@ call s:Optional.optional(
 ```vim
 " Folds an optional value to a non optional value
 s:Optional.optional(
-    \ maybeOptional,
-    \ { innerValue -> nonOptionalValue1 },
-    \ { -> nonOptionalValue2 }
+    \ maybe_optional,
+    \ { inner_value -> rawValue1 },
+    \ { -> rawValue2 }
 \ )
 ```
 
@@ -942,8 +968,8 @@ s:Optional.optional(
 ちょっと先におおきな塊を出してしまったので、ここで理解のために、Optionalの関数の説明をさせてください。
 new関数については、先ほど解説した通りです。 <br />
 次にoptional関数ですが、これはOptionalの値をextractするために使われます。
-ここのmaybeOptionalがoptionalであれば、Optionalの中のinnerValueを使って、nonOptionalValue1にします。
-もしmaybeOptionalがoptionalでなければ、代わりの値、nonOptionalValue2にします。 <br />
+ここのmaybe_optionalがoptionalであれば、Optionalの中のinner_valueを使って、rawValue1にします。
+もしmaybe_optionalがoptionalでなければ、代わりの値、rawValue2にします。 <br />
 結果として、この式はOptionalでない値を返します。
 </aside>
 
@@ -952,26 +978,26 @@ new関数については、先ほど解説した通りです。 <br />
 #### vital.vim
 
 ```vim
-" Extracts innerValue, or throws error
+" Extracts inner_value, or throws error
 get(optional)
 
-" Extracts innerValue, or to be undefined behavior
+" Extracts inner_value, or to be undefined behavior
 get_unsafe(optional)
 
-" Extracts innerValue, or returns alternative value (altValue)
-get_or(optional, { -> altValue })
+" Extracts inner_value, or returns alternative value (alt_value)
+get_or(optional, { -> alt_value })
 ```
 
 <aside class="notes">
 余談が多いですが、また余談をはさませてください。
 optionalの値をextractするには、optional関数以外にも方法があります。
 それがget系の関数です。 <br />
-これら全て、optionalがoptionalの値の場合はinnerValueを返すのですが、
-optionalがinnerValueを持たなかった場合の挙動が違います。 <br />
+これら全て、optionalがoptionalの値の場合はinner_valueを返すのですが、
+optionalがinner_valueを持たなかった場合の挙動が違います。 <br />
 get()は例外をthrowします。
 get_unsafe()は挙動が未定義です。
 僕は通常の場合、get_or()をおすすめします。
-get_or()はinnerValueがなかった場合、altValueを返します。 <br />
+get_or()はinner_valueがなかった場合、rawValue2を返します。 <br />
 ここまでが、余談でした。
 </aside>
 
@@ -980,18 +1006,20 @@ get_or()はinnerValueがなかった場合、altValueを返します。 <br />
 #### vital.vim
 
 ```vim
-let optinoalValue =
-    \ s:Optional.flat_map(maybeOptional, { innerValue ->
-        \ optinalValue1
+let optional_value =
+    \ s:Optional.flat_map(maybe_optional, { inner_value ->
+        \ optinal_value1
     \ })
+
+" Optional() → Optional(Optional()) → Optional()
 ```
 
 <aside class="notes">
-flat_map関数は、maybeOptionalにinnerValueがある場合にそれを使用し、optionalValue1を返します。
-この結果、戻り値optinoalValueはoptionalな値です。 <br />
-これはモナドという性質によって、担保された関数です。
+flat_map関数は、maybe_optionalにinner_valueがある場合にそれを使用し、optional_value1を返します。
+そしてflat_mapは、二重になったOptionalに包まれたOptionalの値を一重にして、値を返します。
+この結果、戻り値optinoal_valueは一重のoptionalな値になります。 <br />
+これはモナドという性質によって、担保された性質です。
 詳しくは説明しませんが、そう、Optionalはモナドなのです。 <br />
-ええ、ここでは忘れていいことです。忘れましょう。
 </aside>
 
 - - - - -
@@ -1073,8 +1101,8 @@ let _4 = s:Either.null_to_left(42, 'it is null')
 ```
 
 <aside class="notes">
-正しい結果をinnerValueに持つEitherの値を、rightの値と言います。
-逆に失敗した結果をinnerValueに持つEitherの値を、leftの値と言います。 <br />
+正しい結果をinner_valueに持つEitherの値を、rightの値と言います。
+逆に失敗した結果をinner_valueに持つEitherの値を、leftの値と言います。 <br />
 rightは英語で「正しい」、leftは英語で「間違った」という意味を持ちますので、
 英語の意味にそっているのがわかります。
 </aside>
@@ -1089,7 +1117,7 @@ Either is Optional with info.
 " Meaning right (correct) foo value, or below error message
 let result = s:Either.null_to_left(
     \ s:read_foo_file_if_exist(),
-    \ 'file foo is not existent.'
+    \ 'file foo does not exist'
 \ )
 ```
 
@@ -1107,16 +1135,17 @@ let result = s:Either.null_to_left(
 #### vital.vim
 
 ```vim
-let eitherValue =
-    \ s:Either.flat_map(maybeRight, { innerValue ->
-        \ eitherValue1
+let either_value =
+    \ s:Either.flat_map(maybe_right, { inner_value ->
+        \ either_value1
     \ })
+
+" Either(l, r) → Either(l, Either(r)) -> Either(l, r)
 ```
 
 <aside class="notes">
 そしてEitherもモナドなので、flat_mapができます。
-もちろんモナドについては、今回も忘れていいです。
-忘れましょう。
+Eitherのflat_mapは、Optionalのflat_mapと同様に、二重になったEitherを一重に戻して返します。
 </aside>
 
 - - - - -
@@ -1125,10 +1154,10 @@ let eitherValue =
 
 ```vim
 " Extracts from a left value, or returns the default value
-from_left(defaultValue, either)
+from_left(default_value, either)
 
 " Extracts from a right value, or returns the default value
-from_right(defaultValue, either)
+from_right(default_value, either)
 
 " Extracts from a left value, or throws error
 unsafe_from_left(either)
@@ -1229,6 +1258,52 @@ nice
 
 <aside class="notes">
 というところで、この発表は以上になります。
+</aside>
+
+- - - - -
+
+#### HIKKY, Inc.
+
+![](vketcloud.png)
+
+<aside class="notes">
+最後の宣伝をさせてください。
+このスライドは、株式会社HIKKYの業務時間の一部を使って書かれました。
+</aside>
+
+- - - - -
+
+#### HIKKY, Inc.
+
+A company which is holding **Vket** on VRChat.
+
+<aside class="notes">
+HIKKYは、VketというイベントをVRChat上で開催している会社です。
+</aside>
+
+- - - - -
+
+#### HIKKY, Inc.
+
+[Vket Cloud](https://cloud.vket.com/)
+
+[![](vketcloud.gif)](https://cloud.vket.com/)
+
+- A **metaverse** development platform
+- For PC, smartphones, tablet devices
+- **Free** (for persons)
+
+Try now: [My Vket](https://vket.com)
+
+<aside class="notes">
+事業としてVket Cloudというものを展開しています。
+これを使うと、いわゆるメタバース、アバターを使って人としゃべったり遊んだりする空間を、作れます。
+ブラウザがまともに動く環境なら、Vket Cloudは動きます。
+スマホでも動くメタバースプラットフォームが作れます。 <br />
+個人はフリーです。
+商用も比較的安いです。 <br />
+自由に試せるので、もしよかったら試してみてください。
+My Vketという、Vket Cloudを活用したサイトでVket Cloudを試せるので、こちらもよかったら試してみてください。
 </aside>
 
 - - - - -
